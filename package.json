@@ -1,0 +1,25 @@
+{
+  "name": "qin",
+  "version": "0.0.1",
+  "description": "A story engine written in JavaScript",
+  "main": "Qin.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TyrealGray/Qin.git"
+  },
+  "author": "TyrealGray",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/TyrealGray/Qin/issues"
+  },
+  "homepage": "https://github.com/TyrealGray/Qin#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0"
+  }
+}
