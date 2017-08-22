@@ -4,7 +4,9 @@
   "description": "A story engine written in JavaScript",
   "main": "Qin.js",
   "scripts": {
-    "test": "test"
+    "start": "node bin/dev",
+    "clean": "rm -rf dist",
+    "dist": "npm run clean && mkdir dist && babel ./src -s -d dist"
   },
   "repository": {
     "type": "git",

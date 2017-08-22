@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/Qin.js"],"names":["msg","console","log"],"mappings":";;;;;;kBAAe,UAACA,GAAD,EAAS;AACpBC,YAAQC,GAAR,CAAYF,GAAZ;AACH,C","file":"Qin.js","sourcesContent":["export default (msg) => {\n    console.log(msg);\n}"]}
