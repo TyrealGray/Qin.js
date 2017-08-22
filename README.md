@@ -1,2 +1,2 @@
 # Qin
-A story engine written in JavaScript
+A game execute database engine written in JavaScript
