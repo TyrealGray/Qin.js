@@ -1,2 +1,2 @@
 # Qin
-A game execute database engine written in JavaScript
+A gaming sandbox engine written in JavaScript
