@@ -2,7 +2,7 @@
   "name": "qin",
   "version": "0.0.1",
   "description": "A story engine written in JavaScript",
-  "main": "./bin/Qin.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha test/**/*.test.js --compilers js:babel-register && npm run lint && npm run build",
     "start": "node script/dev",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "pouchdb-node": "7.0.0",
-    "redux": "4.0.0"
+    "redux": "4.0.0",
+    "pixi.js": "4.8.1"
   }
 }

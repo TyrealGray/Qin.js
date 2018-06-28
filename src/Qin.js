@@ -12,3 +12,5 @@ class Qin {
     render(){
     }
 }
+
+export default Qin;
