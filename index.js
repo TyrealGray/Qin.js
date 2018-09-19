@@ -1,3 +1,3 @@
 import Qin from './src/Qin';
 
-Qin('working');
+new Qin({canvas: null});

@@ -4,8 +4,8 @@
   "description": "A story engine written in JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/**/*.test.js --compilers js:babel-register && npm run lint && npm run build",
-    "start": "node script/dev",
+    "test": "mocha test/**/*.test.js --require babel-core/register && npm run lint && npm run build && npm run flow check",
+    "start": "node script/dev.js --require babel-core/register",
     "build": "babel ./src -s -d bin",
     "flow": "flow",
     "lint": "eslint ./src",
@@ -32,11 +32,12 @@
     "eslint": "4.9.0",
     "expect.js": "0.3.1",
     "flow-bin": "0.75.0",
-    "mocha": "3.5.3"
+    "mocha": "5.1.1"
   },
   "dependencies": {
-    "pouchdb-node": "7.0.0",
-    "redux": "4.0.0",
-    "pixi.js": "4.8.1"
+    "big-json": "2.0.2",
+    "pixi.js": "4.8.1",
+    "pouchdb": "7.0.0",
+    "redux": "4.0.0"
   }
 }
