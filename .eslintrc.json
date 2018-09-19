@@ -23,17 +23,20 @@
     ],
     "no-unused-vars": [
       "error",
-      { "args": "none" }
+      {
+        "args": "none"
+      }
     ],
     "quotes": [
       "error",
       "single",
-      { "avoidEscape": true }
-    ],
-    "no-console": "off"
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ]
   },
   "globals": {
-    "PIXI": true,
-    "winGUI": true
+    "PIXI": true
   }
 }

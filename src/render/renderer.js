@@ -1,17 +1,14 @@
 //@flow
 
 type RendererProps = {
-	canvasElement: HTMLCanvasElement;
-}
+	canvasElement: HTMLCanvasElement,
+};
 export default class Renderer {
-
 	_canvas: HTMLCanvasElement;
 
-	constructor(props: RendererProps){
+	constructor(props: RendererProps) {
 		this._canvas = props.canvasElement;
 	}
 
-	render(){
-
-	};
+	render() {}
 }

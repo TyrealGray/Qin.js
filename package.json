@@ -8,6 +8,7 @@
     "start": "node script/dev.js --require babel-core/register",
     "build": "babel ./src -s -d bin",
     "flow": "flow",
+    "jsdoc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
     "lint": "eslint ./src",
     "lint-fix": "eslint ./src --fix"
   },
@@ -20,8 +21,18 @@
   "bugs": {
     "url": "https://github.com/TyrealGray/Qin/issues"
   },
+  "prettier": {
+    "useTabs": true,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "parser": "flow"
+  },
   "homepage": "https://github.com/TyrealGray/Qin#readme",
   "devDependencies": {
+    "@pixi/jsdoc-template": "2.4.0",
     "babel-cli": "6.26.0",
     "babel-eslint": "8.0.1",
     "babel-plugin-transform-class-properties": "6.24.1",
@@ -32,7 +43,10 @@
     "eslint": "4.9.0",
     "expect.js": "0.3.1",
     "flow-bin": "0.75.0",
-    "mocha": "5.1.1"
+    "jsdoc": "3.5.5",
+    "jsdoc-babel": "0.4.0",
+    "mocha": "5.1.1",
+    "prettier": "1.14.2"
   },
   "dependencies": {
     "big-json": "2.0.2",
