@@ -1,0 +1,1 @@
+export const STORE_INIT = 'STORE_INIT';

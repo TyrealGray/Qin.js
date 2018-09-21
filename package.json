@@ -1,8 +1,8 @@
 {
-  "name": "qin",
+  "name": "qin.js",
   "version": "0.0.1",
   "description": "A story engine written in JavaScript",
-  "main": "index.js",
+  "main": "bin/Qin.js",
   "scripts": {
     "test": "mocha test/**/*.test.js --require babel-core/register && npm run lint && npm run build && npm run flow check",
     "start": "node script/dev.js --require babel-core/register",
@@ -46,11 +46,12 @@
     "jsdoc": "3.5.5",
     "jsdoc-babel": "0.4.0",
     "mocha": "5.1.1",
-    "prettier": "1.14.2"
+    "prettier": "1.14.2",
+    "remote-redux-devtools": "^0.5.13"
   },
   "dependencies": {
     "big-json": "2.0.2",
-    "pixi.js": "4.8.1",
+    "pixi.js": "4.8.2",
     "pouchdb": "7.0.0",
     "redux": "4.0.0"
   }
