@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TyrealGray/Qin.git"
+    "url": "git+https://github.com/TyrealGray/Qin.js.git"
   },
   "author": "TyrealGray",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/TyrealGray/Qin/issues"
+    "url": "https://github.com/TyrealGray/Qin.js/issues"
   },
   "prettier": {
     "useTabs": true,
@@ -30,7 +30,7 @@
     "arrowParens": "always",
     "parser": "flow"
   },
-  "homepage": "https://github.com/TyrealGray/Qin#readme",
+  "homepage": "https://github.com/TyrealGray/Qin.js#readme",
   "devDependencies": {
     "@pixi/jsdoc-template": "2.4.0",
     "babel-cli": "6.26.0",
