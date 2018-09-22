@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.storeInit = storeInit;
 
-var _actionTypes = require('actionTypes');
+var _actionTypes = require('./actionTypes');
 
 function storeInit() {
 	return {

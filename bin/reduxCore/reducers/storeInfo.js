@@ -19,7 +19,7 @@ function storeInfo() {
 	var action = arguments[1];
 
 
-	switch (action) {
+	switch (action.type) {
 		case _actionTypes.STORE_INIT:
 			return _extends({}, state, {
 				isInit: true
