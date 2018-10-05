@@ -5,7 +5,8 @@ import { initStore } from './reduxCore/storeUtil';
 import { storeInit } from './reduxCore/actions/storeActions';
 
 type QinPropsType = {
-	canvas: HTMLCanvasElement,
+	canvas: HTMLCanvasElement;
+	debugRedux: boolean;
 };
 
 class Qin {
@@ -15,7 +16,7 @@ class Qin {
 	constructor(props: QinPropsType) {
 		this._renderer = new Renderer({canvasElement: props.canvas});
 
-		this._initRedux();
+		this._initRedux(props.debugRedux);
 
 		this._createNewWorld();
 	}
@@ -34,8 +35,8 @@ class Qin {
 		//db.replicate.to('qin');
 	}
 
-	_initRedux(){
-		this._store = initStore();
+	_initRedux(debugRedux){
+		this._store = initStore(debugRedux);
 		this._store.subscribe(() =>
 			console.log(this._store.getState())
 		);

@@ -37,6 +37,7 @@
     ]
   },
   "globals": {
-    "PIXI": true
+    "PIXI": true,
+    "ReduxStore": true
   }
 }

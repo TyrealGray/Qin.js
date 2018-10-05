@@ -1,3 +1,3 @@
 import Qin from './src/Qin';
 
-new Qin({canvas: null});
+new Qin({canvas: null, debugRedux: true});
