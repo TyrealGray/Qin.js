@@ -6,9 +6,9 @@
   "scripts": {
     "test": "mocha test/**/*.test.js --require babel-core/register && npm run lint && npm run build && npm run flow check",
     "start": "node script/dev.js --require babel-core/register",
-    "build": "babel ./src -s -d bin",
+    "build": "babel ./src -d bin",
     "flow": "flow",
-    "jsdoc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
+    "doc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
     "lint": "eslint ./src",
     "lint-fix": "eslint ./src --fix"
   },
@@ -47,12 +47,12 @@
     "jsdoc-babel": "0.4.0",
     "mocha": "5.1.1",
     "prettier": "1.14.2",
-    "remote-redux-devtools": "^0.5.13"
+    "remote-redux-devtools": "0.5.13"
   },
   "dependencies": {
-    "big-json": "2.0.2",
     "pixi.js": "4.8.2",
     "pouchdb": "7.0.0",
+    "pouchdb-find": "7.0.0",
     "redux": "4.0.0"
   }
 }

@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../src/reduxCore/reducers/index.js"],"names":["storeInfo"],"mappings":";;;;;;;AAAA;;QAGCA,S,GAAAA,oB","file":"index.js","sourcesContent":["import { storeInfo } from './storeInfo';\r\n\r\nexport {\r\n\tstoreInfo\r\n}"]}

@@ -8,4 +8,3 @@ exports.storeInfo = undefined;
 var _storeInfo = require('./storeInfo');
 
 exports.storeInfo = _storeInfo.storeInfo;
-//# sourceMappingURL=index.js.map

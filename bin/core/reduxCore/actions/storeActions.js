@@ -12,4 +12,3 @@ function storeInit() {
 		type: _actionTypes.STORE_INIT
 	};
 }
-//# sourceMappingURL=storeActions.js.map

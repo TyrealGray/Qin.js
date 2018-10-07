@@ -28,4 +28,3 @@ function storeInfo() {
 			return state;
 	}
 }
-//# sourceMappingURL=storeInfo.js.map

@@ -3,44 +3,75 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.QinScene = exports.QinRenderer = exports.QinSandBox = exports.QinCore = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _renderer = require('./render/renderer');
+var _QinCore = require('./core/QinCore');
 
-var _renderer2 = _interopRequireDefault(_renderer);
+var _QinCore2 = _interopRequireDefault(_QinCore);
+
+var _QinSandBox = require('./core/QinSandBox');
+
+var _QinSandBox2 = _interopRequireDefault(_QinSandBox);
+
+var _QinRenderer = require('./render/QinRenderer');
+
+var _QinRenderer2 = _interopRequireDefault(_QinRenderer);
 
 var _pouchdb = require('pouchdb');
 
 var _pouchdb2 = _interopRequireDefault(_pouchdb);
 
-var _storeUtil = require('./reduxCore/storeUtil');
+var _storeUtil = require('./core/reduxCore/storeUtil');
 
-var _storeActions = require('./reduxCore/actions/storeActions');
+var _storeActions = require('./core/reduxCore/actions/storeActions');
+
+var _QinScene = require('./render/QinScene');
+
+var _QinScene2 = _interopRequireDefault(_QinScene);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * class for creating Qin instance
+ */
 var Qin = function () {
+
+	/**
+  * create Qin instance
+  * @param props {Object} QinPropsType
+  * @param props.canvas {HTMLCanvasElement} canvas element to let Qin knows where to render
+  * @param props.debugRedux {boolean} start debug mode in redux, use remoteredux-standalone listens to port 9009
+  */
 	function Qin(props) {
 		_classCallCheck(this, Qin);
 
-		this._renderer = new _renderer2.default({ canvasElement: props.canvas });
+		this._renderer = new _QinRenderer2.default({ canvasElement: props.canvas });
 
-		this._initRedux();
+		this._initRedux(props.debugRedux);
 
 		this._createNewWorld();
 	}
 
 	_createClass(Qin, [{
+		key: 'loadSandBox',
+		value: function loadSandBox() {}
+	}, {
+		key: 'loadScene',
+		value: function loadScene() {}
+	}, {
 		key: '_createNewWorld',
 		value: function _createNewWorld() {
 			var db = new _pouchdb2.default('qindb');
-			//
-			// db.get('dave@gmail.com').then(function (doc) {
-			//     console.log(doc);
-			// });
+
+			db.get('ityrealGray@gmail.com').then(function (doc) {
+				console.log('doc', doc);
+			}).catch(function (e) {
+				console.error(e);
+			});
 			//
 			// db.changes().on('change', function() {
 			//     console.log('Changes');
@@ -50,10 +81,10 @@ var Qin = function () {
 		}
 	}, {
 		key: '_initRedux',
-		value: function _initRedux() {
+		value: function _initRedux(debugRedux) {
 			var _this = this;
 
-			this._store = (0, _storeUtil.initStore)();
+			this._store = (0, _storeUtil.initStore)(debugRedux);
 			this._store.subscribe(function () {
 				return console.log(_this._store.getState());
 			});
@@ -69,4 +100,7 @@ var Qin = function () {
 }();
 
 exports.default = Qin;
-//# sourceMappingURL=Qin.js.map
+exports.QinCore = _QinCore2.default;
+exports.QinSandBox = _QinSandBox2.default;
+exports.QinRenderer = _QinRenderer2.default;
+exports.QinScene = _QinScene2.default;

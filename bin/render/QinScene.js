@@ -8,20 +8,17 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Renderer = function () {
-	function Renderer(props) {
-		_classCallCheck(this, Renderer);
-
-		this._canvas = props.canvasElement;
+var QinScene = function () {
+	function QinScene(props) {
+		_classCallCheck(this, QinScene);
 	}
 
-	_createClass(Renderer, [{
-		key: "render",
-		value: function render() {}
+	_createClass(QinScene, [{
+		key: "onFinish",
+		value: function onFinish() {}
 	}]);
 
-	return Renderer;
+	return QinScene;
 }();
 
-exports.default = Renderer;
-//# sourceMappingURL=renderer.js.map
+exports.default = QinScene;
