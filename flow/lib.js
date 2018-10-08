@@ -2,6 +2,9 @@ declare module 'pouchdb' {
 	declare export default any;
 }
 
+declare module 'shuoRule.json' {
+	declare export default any;
+}
 
 declare type ReduxStore = {
 	dispatch: function;
@@ -12,6 +15,7 @@ declare type ReduxStore = {
 
 declare module 'redux' {
 	declare export function createStore(any, any): any;
+
 	declare export function combineReducers(any): any;
 }
 

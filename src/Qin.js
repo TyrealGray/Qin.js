@@ -4,11 +4,12 @@ import QinCore from './core/QinCore';
 import QinSandBox from './core/QinSandBox';
 
 import QinRenderer from './render/QinRenderer';
+import QinScene from './render/QinScene';
+
 import PouchDB from 'pouchdb';
 
 import { initStore } from './core/reduxCore/storeUtil';
 import { storeInit } from './core/reduxCore/actions/storeActions';
-import QinScene from './render/QinScene';
 
 type QinPropsType = {
 	canvas: HTMLCanvasElement,

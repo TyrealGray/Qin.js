@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha test/**/*.test.js --require babel-core/register && npm run lint && npm run build && npm run flow check",
     "start": "node script/dev.js --require babel-core/register",
-    "build": "babel ./src -d bin",
+    "build": "babel ./src -d bin --copy-files",
     "flow": "flow",
     "doc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
     "lint": "eslint ./src",

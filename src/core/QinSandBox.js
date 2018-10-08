@@ -5,15 +5,15 @@ export default class QinSandBox {
 
 	}
 
-	_init(){
+	_init() {
 
 	}
 
-	_load(){
+	_load() {
 
 	}
 
-	_loadExtra(){
+	_loadExtra() {
 
 	}
 
