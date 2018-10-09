@@ -12,7 +12,9 @@ import { initStore } from './core/reduxCore/storeUtil';
 import { storeInit } from './core/reduxCore/actions/storeActions';
 
 type QinPropsType = {
-	canvas: HTMLCanvasElement,
+	height: number;
+	width: number;
+	element: HTMLElement,
 	debugRedux: boolean,
 };
 
@@ -20,26 +22,32 @@ type QinPropsType = {
  * class for creating Qin instance
  */
 class Qin {
+	_core: QinCore;
 	_renderer: QinRenderer;
 	_store: ReduxStore;
 
 	/**
 	 * create Qin instance
 	 * @param props {Object} QinPropsType
-	 * @param props.canvas {HTMLCanvasElement} canvas element to let Qin knows where to render
+	 * @param props.element {HTMLElement} html element to let Qin knows where to add canvas
 	 * @param props.debugRedux {boolean} start debug mode in redux, use remoteredux-standalone listens to port 9009
 	 */
 	constructor(props: QinPropsType) {
-		this._renderer = new QinRenderer({ canvasElement: props.canvas });
+		this._core = new QinCore();
+		this._renderer = new QinRenderer({ core: this._core, element: props.element, width: props.width, height: props.height });
 
 		this._initRedux(props.debugRedux);
 
 		this._createNewWorld();
 	}
 
-	loadSandBox() {}
+	loadSandBox(sandBox: QinSandBox) {
+		this._core.setSandBox(sandBox);
+	}
 
-	loadScene() {}
+	loadScene(scene: QinScene) {
+
+	}
 
 	_createNewWorld() {
 		const db = new PouchDB('qindb');

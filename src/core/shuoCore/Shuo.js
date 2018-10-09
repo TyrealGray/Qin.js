@@ -3,14 +3,27 @@
 import * as shuo from './shuoRule.json';
 
 export default class Shuo {
-	_startPoint: null | { x: number, y: number };
+	_rule: null | { startingPoint: { x: number, y: number } };
 
 	constructor(props: any) {
-		this._startPoint = null;
-		this._init();
+		this._rule = null;
 	}
 
-	_init() {
-		this._startPoint = shuo.world.startingPoint;
+	init(): Promise<void> {
+		return new Promise((resolve) => {
+			this._rule = { startingPoint: shuo.world.startingPoint };
+			resolve();
+		});
+	}
+
+	loadExtra(extra: Object): void {
+		this._rule = {
+			...this._rule,
+			...extra,
+		};
+	}
+
+	reload(): Promise<void> {
+		return this.init();
 	}
 }
