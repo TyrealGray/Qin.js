@@ -4,11 +4,16 @@ example/*
 # repo docs
 docs/*
 
-# dev entry
-devEntry.js
+# dev
+devQin.js
+devCore.js
+config/*
+script/*
+index.html
 
 # source
 src/*
+qin.png
 
 # node.js
 #

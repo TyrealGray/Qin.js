@@ -2,7 +2,7 @@
 
 import * as shuo from './shuoRule.json';
 
-export default class Shuo {
+class Shuo {
 	_rule: null | { startingPoint: { x: number, y: number } };
 
 	constructor(props: any) {
@@ -27,3 +27,5 @@ export default class Shuo {
 		return this.init();
 	}
 }
+
+export default Shuo;

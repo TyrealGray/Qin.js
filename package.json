@@ -5,7 +5,8 @@
   "main": "bin/Qin.js",
   "scripts": {
     "test": "mocha test/**/*.test.js --require babel-core/register && npm run lint && npm run build && npm run flow check",
-    "start": "node script/dev.js --require babel-core/register",
+    "start-core": "node script/devForCore.js --require babel-core/register",
+    "start": "webpack-dev-server --open --config config/webpack.config.js",
     "build": "babel ./src -d bin --copy-files",
     "flow": "flow",
     "doc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
@@ -35,8 +36,10 @@
     "@pixi/jsdoc-template": "2.4.0",
     "babel-cli": "6.26.0",
     "babel-eslint": "8.0.1",
+    "babel-loader": "^7.1.5",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.6.0",
     "babel-preset-flow": "6.23.0",
     "babel-register": "6.26.0",
@@ -46,7 +49,10 @@
     "jsdoc": "3.5.5",
     "jsdoc-babel": "0.4.0",
     "mocha": "5.1.1",
-    "prettier": "1.14.2"
+    "prettier": "1.14.2",
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
     "pixi.js": "4.8.2",

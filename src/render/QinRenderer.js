@@ -32,7 +32,7 @@ type AnimationAssetType = {
 /**
  * class for renderer
  */
-export default class QinRenderer {
+class QinRenderer {
 	_core: QinCore;
 	_canvasContainer: HTMLElement;
 	_controller: null;
@@ -142,3 +142,5 @@ export default class QinRenderer {
 
 	render() {}
 }
+
+export default QinRenderer;

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Class: Qin</title>
+    <title>Class: QinRenderer</title>
     
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -85,7 +85,7 @@
     </ul>
 </div>
     <div class="main">
-        <h1 class="page-title" data-filename="Qin.html">Class: Qin</h1>
+        <h1 class="page-title" data-filename="QinRenderer.html">Class: QinRenderer</h1>
         
 
 
@@ -94,10 +94,10 @@
     
 <header>
     <div class="header content-size">
-        <h2>Qin
+        <h2>QinRenderer
         </h2>
         
-            <div class="class-description">class for creating Qin instance</div>
+            <div class="class-description">class for renderer</div>
         
     </div>
 </header>  
@@ -110,10 +110,10 @@
         
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="Qin">
-            <a class="share-icon" href="#Qin"><span class="glyphicon glyphicon-link"></span></a>
+        <h4 class="name" id="QinRenderer">
+            <a class="share-icon" href="#QinRenderer"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
-                new Qin
+                new QinRenderer
             </span>
             <span class="signature">(props)</span>
             
@@ -131,7 +131,7 @@
     
     
     <div class="description">
-        create Qin instance
+        init renderer for engine
     </div>
     
 
@@ -168,7 +168,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">RendererPropsType</span>
 
 
             
@@ -178,7 +178,7 @@
             
             <td class="description last">
                 
-                QinPropsType
+                
                 
 
 <table class="params">
@@ -201,7 +201,30 @@
 	
         <tr>
             
-                <td class="name"><code>element</code></td>
+                <td class="name"><code>_core</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">QinCore</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                engine core</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>_canvas</code></td>
             
             
             <td class="type">
@@ -217,30 +240,7 @@
             
             <td class="description last">
                 
-                html element to let Qin knows where to add canvas</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>isDebugRedux</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                turn on debugging for redux store</td>
+                HTMLElement instance which will contain your renderer</td>
         </tr>
 	
 	

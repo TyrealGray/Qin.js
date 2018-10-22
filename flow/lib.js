@@ -3,11 +3,11 @@ declare module 'pouchdb' {
 }
 
 declare module 'shuoRule.json' {
-	declare export default any;
+	declare export default {[any]:any};
 }
 
 declare module 'pixi.js' {
-	declare export function Application(number, number, any): {view: HTMLCanvasElement};
+	declare export function Application(...args:any): {view: HTMLCanvasElement};
 	declare export var loader: {
 		onProgress: any => any;
 		reset: void => void;
@@ -24,9 +24,9 @@ declare type ReduxStore = {
 };
 
 declare module 'redux' {
-	declare export function createStore(any, any): any;
+	declare export function createStore(...args:any): any;
 
-	declare export function combineReducers(any): any;
+	declare export function combineReducers(...args:any): any;
 }
 
 declare module 'remote-redux-devtools' {

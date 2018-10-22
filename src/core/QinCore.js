@@ -1,17 +1,26 @@
 //@flow
 
-import type QinSandBox from './QinSandBox';
+import QinSandbox from './QinSandbox';
 
-export default class QinCore {
+type QinCorePropsType = {
+	isDebugRedux?: boolean;
+}
 
-	_sandBox: QinSandBox | null;
+class QinCore {
 
-	constructor(props: any) {
-		this._sandBox = null;
+	_sandBox: QinSandbox;
+
+	constructor(props: QinCorePropsType) {
+		this._sandBox = new QinSandbox({isDebugRedux: props.isDebugRedux || false});
 	}
 
-	setSandBox(sandBox: QinSandBox){
+	setSandBox(sandBox: QinSandbox): void{
 		this._sandBox = sandBox;
 	}
 
+	async desertify(name: string): Promise<void> {
+		return await this._sandBox.init(name);
+	}
 }
+
+export default QinCore;
