@@ -11,7 +11,7 @@ type CustomPouchErrorType = {
 
 class DBError extends Error {
 	constructor(props:CustomPouchErrorType){
-		super(`{ docId: ${props.docId}, error: ${props.error},
+		super(`{ docId: ${props.docId}, error: ${props.error.toString()},
 		 message: ${props.message}, name: ${props.name}, 
 		 reason: ${props.reason}, status: ${props.status} }`);
 		this.name = this.constructor.name;

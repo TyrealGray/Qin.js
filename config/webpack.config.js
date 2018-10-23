@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-	entry: ['babel-polyfill','./script/devForQin.js'],
+	entry: './script/devForQin.js',
 	devtool: 'inline-source-map',
 	mode: 'development',
 	output: {
@@ -15,10 +15,18 @@ module.exports = {
 				exclude: /(node_modules)/,
 				loader: 'babel-loader',
 				options: {
-					presets: ['env'],
+					presets: [
+						[
+							'@babel/preset-env',
+							{
+								useBuiltIns: 'usage',
+							},
+						],
+						'@babel/preset-flow',
+					],
 					plugins: [
-						require('babel-plugin-transform-object-rest-spread'),
-						require('babel-plugin-transform-class-properties'),
+						require('@babel/plugin-proposal-class-properties'),
+						require('@babel/plugin-proposal-object-rest-spread'),
 					],
 				},
 			},
