@@ -60,5 +60,5 @@ class Qin {
 	render() {}
 }
 
-export default Qin;
-export { QinCore, QinSandbox, QinRenderer, QinScene };
+// export default Qin;
+export { Qin, QinCore, QinSandbox, QinRenderer, QinScene };

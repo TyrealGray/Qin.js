@@ -48,7 +48,7 @@ class QinSandbox {
 	async _initPouchDB(name: string): Promise<void> {
 		return new Promise((resolve, reject) => {
 			try {
-				this._dbCore = new DBClient({name});
+				this._dbCore = new DBClient({name: `QINJS_${name}_DB`});
 				resolve();
 			} catch (e) {
 				reject(e);

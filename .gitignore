@@ -3,3 +3,4 @@ node_modules/*
 /.idea
 bin/*
 devQin.js
+QINJS_*_DB

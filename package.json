@@ -1,6 +1,6 @@
 {
   "name": "qin.js",
-  "version": "0.1.3",
+  "version": "0.1.6",
   "description": "A story engine written in JavaScript",
   "main": "bin/Qin.js",
   "scripts": {

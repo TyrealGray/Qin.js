@@ -10,9 +10,14 @@ devCore.js
 config/*
 script/*
 index.html
+.babelrc
+.eslintrc.json
+.gitignore
+QINJS_*_DB
 
 # source
 src/*
+test/*
 qin.png
 
 # node.js
