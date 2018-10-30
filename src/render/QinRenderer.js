@@ -82,8 +82,6 @@ class QinRenderer {
 		this._renderer.view.addEventListener('contextmenu', (e) => {
 			e.preventDefault();
 		});
-
-		return this;
 	}
 
 	/**

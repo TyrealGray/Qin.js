@@ -5,8 +5,8 @@ example/*
 docs/*
 
 # dev
-devQin.js
-devCore.js
+qin.js
+core.js
 config/*
 script/*
 index.html

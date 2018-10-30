@@ -1,11 +1,11 @@
 const path = require('path');
 
 module.exports = {
-	entry: './script/devForQin.js',
+	entry: './script/devQin.js',
 	devtool: 'inline-source-map',
 	mode: 'development',
 	output: {
-		filename: 'devQin.js',
+		filename: 'qin.js',
 		path: path.resolve(__dirname, '../'),
 	},
 	module: {

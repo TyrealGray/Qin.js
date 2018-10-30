@@ -4,14 +4,14 @@
   "description": "A story engine written in JavaScript",
   "main": "bin/Qin.js",
   "scripts": {
-    "test": "mocha test/**/*.test.js --require @babel/register && npm run lint && npm run build && npm run flow check",
-    "start-core": "node script/devForCore.js",
-    "start": "webpack-dev-server --open --config config/webpack.config.js",
     "build": "babel ./src -d bin --copy-files",
-    "flow": "flow",
+    "dev": "webpack-dev-server --open --config config/webpack.config.js",
     "doc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
+    "flow": "flow",
     "lint": "eslint ./src",
-    "lint-fix": "eslint ./src --fix"
+    "lint-fix": "eslint ./src --fix",
+    "start": "node script/devCore.js",
+    "test": "mocha test/**/*.test.js --require @babel/register && npm run lint && npm run build && npm run flow check"
   },
   "repository": {
     "type": "git",
