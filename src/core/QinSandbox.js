@@ -3,30 +3,26 @@
 import { initStore } from './reduxCore/storeUtil';
 import { storeInit } from './reduxCore/actions/storeActions';
 
-import Shuo from './shuoCore/Shuo';
-import DBClient from './dbCore/DBClient';
+import Reactor from './reactorCore/Reactor';
 
 type QinSandBoxPropsType = {
 	isDebugRedux?: boolean;
 };
 
 class QinSandbox {
-	_shuo: Shuo;
 	_store: ReduxStore;
-	_dbCore: DBClient;
+	_reactor: Reactor;
 	_isDebugRedux: boolean;
 
 	constructor(props: QinSandBoxPropsType) {
 		this._isDebugRedux = props.isDebugRedux || false;
-		this._shuo = new Shuo();
 	}
 
 	async init(name: string): Promise<void> {
 		return new Promise(async (resolve, reject) => {
 			try {
 				this._initRedux(this._isDebugRedux);
-				await this._initShuo();
-				await this._initPouchDB(name);
+				this._initReactor(name);
 				resolve();
 			} catch (e) {
 				reject(e);
@@ -41,25 +37,13 @@ class QinSandbox {
 		this._store.dispatch(storeInit());
 	}
 
-	async _initShuo(): Promise<void> {
-		await this._shuo.init();
+	async _initReactor(name: string): Promise<void> {
+		this._reactor = new Reactor({ name: name });
+		await this._reactor.init();
 	}
 
-	async _initPouchDB(name: string): Promise<void> {
-		return new Promise((resolve, reject) => {
-			try {
-				this._dbCore = new DBClient({name: `QINJS_${name}_DB`});
-				resolve();
-			} catch (e) {
-				reject(e);
-			}
-		});
-	}
-
-	loadExtra(extra: Object | null) {
-		if (extra) {
-			this._shuo.loadExtra(extra);
-		}
+	loadExtra(extra: Object) {
+		this._reactor.loadExtra(extra);
 	}
 }
 

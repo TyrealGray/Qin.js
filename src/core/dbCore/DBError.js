@@ -15,6 +15,8 @@ class DBError extends Error {
 		 message: ${props.message}, name: ${props.name}, 
 		 reason: ${props.reason}, status: ${props.status} }`);
 		this.name = this.constructor.name;
+		this.message = props.message;
+		this.status = props.status;
 		Error.captureStackTrace(this);
 	}
 }

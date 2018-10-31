@@ -14,7 +14,7 @@ class QinCore {
 		this._sandBox = new QinSandbox({isDebugRedux: props.isDebugRedux || false});
 	}
 
-	setSandBox(sandBox: QinSandbox): void{
+	setSandBox(sandBox: QinSandbox): void {
 		this._sandBox = sandBox;
 	}
 

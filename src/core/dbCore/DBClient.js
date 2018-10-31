@@ -5,29 +5,26 @@ import PouchDB from 'pouchdb';
 import DBError from './DBError';
 
 type DBClientPropsType = {
-	name: string;
-}
+	name: string,
+};
 
 class DBClient {
-
 	_db: PouchDB;
+	_name: string;
 
-	constructor(props:DBClientPropsType){
+	constructor(props: DBClientPropsType) {
+		this._name = props.name;
 		this._db = new PouchDB(props.name);
+	}
 
-		this._db.get('ityrealGray@gmail.com')
-			.then((doc) => {
-				console.log('doc', doc);
-			})
-			.catch((e) => {
-				console.error(new DBError(e));
+	async get(name: string): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this._db.get(name).then((doc)=>{
+				return resolve(doc);
+			}).catch((e) => {
+				return reject(new DBError(e));
 			});
-		//
-		// db.changes().on('change', function() {
-		//     console.log('Changes');
-		// });
-		//
-		//db.replicate.to('qin');
+		});
 	}
 }
 
