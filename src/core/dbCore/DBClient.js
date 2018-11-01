@@ -1,6 +1,8 @@
 //@flow
 
 import PouchDB from 'pouchdb';
+import * as PouchDBFind from 'pouchdb-find';
+PouchDB.plugin(PouchDBFind);
 
 import DBError from './DBError';
 
