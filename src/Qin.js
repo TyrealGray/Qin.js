@@ -3,9 +3,6 @@
 import QinCore from './core/QinCore';
 import QinSandbox from './core/QinSandbox';
 
-import QinRenderer from './render/QinRenderer';
-import QinScene from './render/QinScene';
-
 type QinPropsType = {
 	height: number,
 	width: number,
@@ -18,7 +15,6 @@ type QinPropsType = {
  */
 class Qin {
 	_core: QinCore;
-	_renderer: QinRenderer;
 
 	/**
 	 * create Qin instance
@@ -28,19 +24,7 @@ class Qin {
 	 */
 	constructor(props: QinPropsType) {
 		this._core = new QinCore({ isDebugRedux: props.isDebugRedux });
-		this._renderer = new QinRenderer({
-			core: this._core,
-			element: props.element,
-			width: props.width,
-			height: props.height,
-		});
 	}
-
-	loadSandBox(sandBox: QinSandbox) {
-		this._core.setSandBox(sandBox);
-	}
-
-	loadScene(scene: QinScene) {}
 
 	async createSandbox(sandboxInfo: { name: string }): Promise<void> {
 		return new Promise(async (resolve, reject) => {
@@ -56,9 +40,7 @@ class Qin {
 	run(): void {
 		console.log('Qin is running!');
 	}
-
-	render() {}
 }
 
 // export default Qin;
-export { Qin, QinCore, QinSandbox, QinRenderer, QinScene };
+export { Qin, QinCore, QinSandbox };
