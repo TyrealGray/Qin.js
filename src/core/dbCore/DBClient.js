@@ -1,8 +1,7 @@
 //@flow
 
 import PouchDB from 'pouchdb';
-import * as PouchDBFind from 'pouchdb-find';
-PouchDB.plugin(PouchDBFind);
+import PouchDBFind from 'pouchdb-find';
 
 import DBError from './DBError';
 
@@ -16,7 +15,7 @@ class DBClient {
 
 	constructor(props: DBClientPropsType) {
 		this._name = props.name;
-		this._db = new PouchDB(props.name);
+		this._db = new (PouchDB.plugin(PouchDBFind))(props.name);
 	}
 
 	async get(name: string): Promise<any> {
