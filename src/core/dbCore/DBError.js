@@ -10,6 +10,7 @@ type CustomPouchErrorType = {
 }
 
 class DBError extends Error {
+	status: number;
 	constructor(props:CustomPouchErrorType){
 		super(`{ docId: ${props.docId}, error: ${props.error.toString()},
 		 message: ${props.message}, name: ${props.name}, 

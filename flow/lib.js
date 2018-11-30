@@ -2,6 +2,10 @@ declare module 'pouchdb' {
 	declare export default any;
 }
 
+declare module 'pouchdb-find' {
+	declare export default any;
+}
+
 declare module 'shuoRule.json' {
 	declare export default {[any]:any};
 }

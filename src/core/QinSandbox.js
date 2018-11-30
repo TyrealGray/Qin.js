@@ -1,7 +1,7 @@
 //@flow
 
 import { initStore } from './reduxCore/storeUtil';
-import { storeInit } from './reduxCore/actions/storeActions';
+import { storeInit, storeConnectReactor } from './reduxCore/actions/storeActions';
 
 import Reactor from './reactorCore/Reactor';
 
@@ -40,6 +40,7 @@ class QinSandbox {
 	async _initReactor(name: string): Promise<void> {
 		this._reactor = new Reactor({ name: name });
 		await this._reactor.init();
+		this._store.dispatch(storeConnectReactor(this._reactor));
 	}
 
 	loadExtra(extra: Object) {
