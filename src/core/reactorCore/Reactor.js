@@ -1,7 +1,9 @@
 //@flow
+import {version} from '../../../package.json';
 
 import Shuo from '../shuoCore/Shuo';
 import DBClient from '../dbCore/DBClient';
+
 
 class Reactor {
 	_name: string;
@@ -36,6 +38,22 @@ class Reactor {
 
 	_initPouchDB(): void {
 		this._dbCore = new DBClient({ name: `QINJS_${this._name}_DB` });
+	}
+
+	async _isSameVersion() :Promise<boolean> {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const versionDoc = await this._dbCore.get('QINJS_Version');
+
+				return resolve(versionDoc.number === version);
+			} catch (e) {
+				if (e.name === 'DBError' && e.status === 404) {
+					return resolve(false);
+				}
+
+				return reject(e);
+			}
+		});
 	}
 
 	async _isDBEmpty(): Promise<boolean> {
