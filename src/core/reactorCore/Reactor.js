@@ -1,9 +1,10 @@
 //@flow
-import {version} from '../../../package.json';
+import { version } from '../../../package.json';
 
 import Shuo from '../shuoCore/Shuo';
 import DBClient from '../dbCore/DBClient';
 
+const QINJS_Version = 'QINJS_Version';
 
 class Reactor {
 	_name: string;
@@ -20,7 +21,7 @@ class Reactor {
 			await this._initShuo();
 			this._initPouchDB();
 
-			if (await this._isDBEmpty()) {
+			if ((await this._isDBEmpty()) && !(await this._isSameVersion())) {
 				this._initReactorChain();
 			}
 		} catch (e) {
@@ -28,8 +29,8 @@ class Reactor {
 		}
 	}
 
-	_initReactorChain(): void {
-		console.log('init reactor chain');
+	async _initReactorChain(): Promise<void> {
+		this._dbCore.update(QINJS_Version, {number:0});
 	}
 
 	async _initShuo(): Promise<void> {
@@ -40,41 +41,31 @@ class Reactor {
 		this._dbCore = new DBClient({ name: `QINJS_${this._name}_DB` });
 	}
 
-	async _isSameVersion() :Promise<boolean> {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const versionDoc = await this._dbCore.get('QINJS_Version');
-
+	async _isSameVersion(): Promise<boolean> {
+		return new Promise(async (resolve) => {
+			const versionDoc = await this._dbCore.found(QINJS_Version);
+			if (versionDoc) {
+				console.log('version',versionDoc);
 				return resolve(versionDoc.number === version);
-			} catch (e) {
-				if (e.name === 'DBError' && e.status === 404) {
-					return resolve(false);
-				}
-
-				return reject(e);
 			}
+
+			return resolve(false);
 		});
 	}
 
 	async _isDBEmpty(): Promise<boolean> {
-		return new Promise(async (resolve, reject) => {
-			try {
-				await this._dbCore.get('QINJS');
+		return new Promise(async (resolve) => {
+			if (await this._dbCore.found('QINJS')) {
 				return resolve(false);
-			} catch (e) {
-				if (e.name === 'DBError' && e.status === 404) {
-					return resolve(true);
-				}
-
-				return reject(e);
 			}
+			console.log('ise');
+			return resolve(true);
 		});
 	}
 
 	loadExtra(extra: Object) {
 		this._shuo.loadExtra(extra);
 	}
-
 }
 
 export default Reactor;
