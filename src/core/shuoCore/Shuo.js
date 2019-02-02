@@ -3,24 +3,28 @@
 import * as shuo from './shuoRule.json';
 
 class Shuo {
-	_rule: null | { startingPoint: { x: number, y: number } };
+	_content: any;
 
 	constructor(props: any) {
-		this._rule = null;
+		this._content = null;
 	}
 
 	init(): Promise<void> {
 		return new Promise((resolve) => {
-			this._rule = { startingPoint: shuo.world.startingPoint };
+			this._content = { Characters: shuo.Characters };
 			resolve();
 		});
 	}
 
 	loadExtra(extra: Object): void {
-		this._rule = {
-			...this._rule,
+		this._content = {
+			...this._content,
 			...extra,
 		};
+	}
+
+	getContent(): any {
+		return this._content;
 	}
 
 	reload(): Promise<void> {

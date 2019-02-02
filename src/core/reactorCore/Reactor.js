@@ -21,7 +21,7 @@ class Reactor {
 			await this._initShuo();
 			this._initPouchDB();
 
-			if ((await this._isDBEmpty()) && !(await this._isSameVersion())) {
+			if (!(await this._isSameVersion())) {
 				this._initReactorChain();
 			}
 		} catch (e) {
@@ -29,8 +29,13 @@ class Reactor {
 		}
 	}
 
+	async getData(): Promise<Object> {
+		return { Characters: await this._dbCore.found('Characters') };
+	}
+
 	async _initReactorChain(): Promise<void> {
-		this._dbCore.update(QINJS_Version, {number:0});
+		this._dbCore.update(QINJS_Version, { number: 0 });
+		this._dbCore.update('Characters', this._shuo.getContent().Characters);
 	}
 
 	async _initShuo(): Promise<void> {
@@ -45,21 +50,10 @@ class Reactor {
 		return new Promise(async (resolve) => {
 			const versionDoc = await this._dbCore.found(QINJS_Version);
 			if (versionDoc) {
-				console.log('version',versionDoc);
 				return resolve(versionDoc.number === version);
 			}
 
 			return resolve(false);
-		});
-	}
-
-	async _isDBEmpty(): Promise<boolean> {
-		return new Promise(async (resolve) => {
-			if (await this._dbCore.found('QINJS')) {
-				return resolve(false);
-			}
-			console.log('ise');
-			return resolve(true);
 		});
 	}
 
