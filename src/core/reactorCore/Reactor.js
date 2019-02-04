@@ -22,7 +22,7 @@ class Reactor {
 			this._initPouchDB();
 
 			if (!(await this._isSameVersion())) {
-				this._initReactorChain();
+				await this._initReactorChain();
 			}
 		} catch (e) {
 			console.error(e);
@@ -34,8 +34,8 @@ class Reactor {
 	}
 
 	async _initReactorChain(): Promise<void> {
-		this._dbCore.update(QINJS_Version, { number: 0 });
-		this._dbCore.update('Characters', this._shuo.getContent().Characters);
+		await this._dbCore.update(QINJS_Version, { number: 0 });
+		await this._dbCore.update('Characters', this._shuo.getContent().Characters);
 	}
 
 	async _initShuo(): Promise<void> {

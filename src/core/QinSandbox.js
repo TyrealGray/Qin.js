@@ -40,7 +40,7 @@ class QinSandbox {
 	async _initReactor(name: string): Promise<void> {
 		this._reactor = new Reactor({ name: name });
 		await this._reactor.init();
-		this._store.dispatch(storeConnectReactor(await this._reactor.getData()));
+		await this._store.dispatch(storeConnectReactor(await this._reactor.getData()));
 	}
 
 	loadExtra(extra: Object) {

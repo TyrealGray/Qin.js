@@ -15,7 +15,9 @@ class DBClient {
 
 	constructor(props: DBClientPropsType) {
 		this._name = props.name;
-		this._db = new (PouchDB.plugin(PouchDBFind))(props.name);
+		this._db = new (PouchDB.plugin(PouchDBFind))(props.name, {
+			revs_limit: 1,
+		});
 	}
 
 	async _get(name: string): Promise<any> {

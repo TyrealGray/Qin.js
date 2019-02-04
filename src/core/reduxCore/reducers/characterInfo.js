@@ -1,7 +1,7 @@
 import { STORE_CONNECT_REACTOR } from '../actions/actionTypes';
 
 const initialState = {
-	characters: [],
+	characters: {},
 };
 
 export function characterInfo(state = initialState, action) {
