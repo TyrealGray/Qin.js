@@ -11,7 +11,7 @@ class Shuo {
 
 	init(): Promise<void> {
 		return new Promise((resolve) => {
-			this._content = { Characters: shuo.Characters };
+			this._content = { ...shuo };
 			resolve();
 		});
 	}

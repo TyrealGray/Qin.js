@@ -30,12 +30,12 @@ class Reactor {
 	}
 
 	async getData(): Promise<Object> {
-		return { Characters: await this._dbCore.found('Characters') };
+		return { content: await this._dbCore.found('content') };
 	}
 
 	async _initReactorChain(): Promise<void> {
 		await this._dbCore.update(QINJS_Version, { number: 0 });
-		await this._dbCore.update('Characters', this._shuo.getContent().Characters);
+		await this._dbCore.update('content', this._shuo.getContent());
 	}
 
 	async _initShuo(): Promise<void> {
