@@ -37,8 +37,9 @@ class Qin {
 		});
 	}
 
-	run(): void {
+	run(): number {
 		console.log('Qin is running!');
+		return 0;
 	}
 }
 
