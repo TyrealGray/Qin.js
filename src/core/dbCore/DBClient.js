@@ -34,36 +34,29 @@ class DBClient {
 	}
 
 	async found(value): Promise<any> {
-		return new Promise(async (resolve, reject) => {
-			try {
-				const response = await this._get(value);
-				return resolve(response);
-			} catch (e) {
-				if (e.name === 'DBError' && e.status === 404) {
-					return resolve(null);
-				}
-
-				return reject(e);
+		try {
+			return await this._get(value);
+		} catch (e) {
+			if (e.name === 'DBError' && e.status === 404) {
+				return;
 			}
-		});
+
+			console.log(e);
+		}
 	}
 
 	async update(value, content): Promise<any> {
-		return new Promise(async (resolve) => {
-			let doc = await this.found(value);
-			const updateContent = doc
-				? {
-						_rev: doc._rev,
-						...content,
-				  }
-				: content;
+		let doc = await this.found(value);
+		const updateContent = doc
+			? {
+					_rev: doc._rev,
+					...content,
+			  }
+			: content;
 
-			const response = await this._db.put({
-				_id: value,
-				...updateContent,
-			});
-
-			return resolve(response);
+		return await this._db.put({
+			_id: value,
+			...updateContent,
 		});
 	}
 }

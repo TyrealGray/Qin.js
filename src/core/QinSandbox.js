@@ -1,12 +1,15 @@
 //@flow
 
 import { initStore } from './reduxCore/storeUtil';
-import { storeInit, storeConnectReactor } from './reduxCore/actions/storeActions';
+import {
+	storeInit,
+	storeConnectReactor,
+} from './reduxCore/actions/storeActions';
 
 import Reactor from './reactorCore/Reactor';
 
 type QinSandBoxPropsType = {
-	isDebugRedux?: boolean;
+	isDebugRedux?: boolean,
 };
 
 class QinSandbox {
@@ -19,15 +22,12 @@ class QinSandbox {
 	}
 
 	async init(name: string): Promise<void> {
-		return new Promise(async (resolve, reject) => {
-			try {
-				this._initRedux(this._isDebugRedux);
-				this._initReactor(name);
-				resolve();
-			} catch (e) {
-				reject(e);
-			}
-		});
+		try {
+			this._initRedux(this._isDebugRedux);
+			await this._initReactor(name);
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	_initRedux(isDebugRedux: boolean): void {
@@ -40,7 +40,9 @@ class QinSandbox {
 	async _initReactor(name: string): Promise<void> {
 		this._reactor = new Reactor({ name: name });
 		await this._reactor.init();
-		await this._store.dispatch(storeConnectReactor(await this._reactor.getData()));
+		await this._store.dispatch(
+			storeConnectReactor(await this._reactor.getData()),
+		);
 	}
 
 	loadExtra(extra: Object) {

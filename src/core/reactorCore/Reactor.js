@@ -47,14 +47,16 @@ class Reactor {
 	}
 
 	async _isSameVersion(): Promise<boolean> {
-		return new Promise(async (resolve) => {
+		try {
 			const versionDoc = await this._dbCore.found(QINJS_Version);
 			if (versionDoc) {
-				return resolve(versionDoc.number === version);
+				return versionDoc.number === version;
 			}
 
-			return resolve(false);
-		});
+			return false;
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	loadExtra(extra: Object) {
