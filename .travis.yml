@@ -4,7 +4,6 @@ node_js:
 - "10"
 install:
 - npm install
-- npm run build-prod
 
 before_script:
 - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-0.4.5-darwin-amd64 > ./cc-test-reporter
