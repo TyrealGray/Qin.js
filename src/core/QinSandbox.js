@@ -32,8 +32,6 @@ class QinSandbox {
 
 	_initRedux(isDebugRedux: boolean): void {
 		this._store = initStore(isDebugRedux);
-		this._store.subscribe(() => console.log(this._store.getState()));
-
 		this._store.dispatch(storeInit());
 	}
 

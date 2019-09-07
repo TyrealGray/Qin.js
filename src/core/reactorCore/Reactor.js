@@ -5,6 +5,7 @@ import Shuo from '../shuoCore/Shuo';
 import DBClient from '../dbCore/DBClient';
 
 const QINJS_Version = 'QINJS_Version';
+const REACTOR_CONTENT = 'REACTOR_CONTENT';
 
 class Reactor {
 	_name: string;
@@ -24,17 +25,25 @@ class Reactor {
 			if (!(await this._isSameVersion())) {
 				await this._initReactorChain();
 			}
+
+			if(!(await this._hasContent())){
+				await this._initReactorContent();
+			}
 		} catch (e) {
 			console.error(e);
 		}
 	}
 
 	async getData(): Promise<Object> {
-		return { content: await this._dbCore.found('content') };
+		return { content: await this._dbCore.query('content') };
 	}
 
 	async _initReactorChain(): Promise<void> {
 		await this._dbCore.update(QINJS_Version, { number: 0 });
+		await this._dbCore.update('rule', this._shuo.getRule());
+	}
+
+	async _initReactorContent(): Promise<void> {
 		await this._dbCore.update('content', this._shuo.getContent());
 	}
 
@@ -48,12 +57,21 @@ class Reactor {
 
 	async _isSameVersion(): Promise<boolean> {
 		try {
-			const versionDoc = await this._dbCore.found(QINJS_Version);
+			const versionDoc = await this._dbCore.query(QINJS_Version);
 			if (versionDoc) {
 				return versionDoc.number === version;
 			}
 
 			return false;
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	async _hasContent(): Promise<boolean> {
+		try {
+			const hasContent = await this._dbCore.query(REACTOR_CONTENT);
+			return !!hasContent;
 		} catch (e) {
 			console.error(e);
 		}

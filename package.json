@@ -5,7 +5,8 @@
   "main": "bin/Qin.js",
   "scripts": {
     "build": "babel ./src -d bin --copy-files",
-    "dev": "node script/devCore.js",
+    "dev": "webpack-dev-server --open --config config/webpack.config.js",
+    "dev-core": "node script/devCore.js",
     "doc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
     "flow": "flow",
     "lint": "eslint ./src",
@@ -54,6 +55,7 @@
     "flow-bin": "0.104.0",
     "jsdoc": "^3.6.3",
     "jsdoc-babel": "0.5.0",
+    "json-loader": "0.5.4",
     "mocha": "6.2.0",
     "prettier": "1.18.2",
     "webpack": "4.39.2",
