@@ -21,6 +21,14 @@ class QinCore {
 	async desertify(name: string): Promise<void> {
 		return await this._sandBox.init(name);
 	}
+
+	async start(): Promise<void> {
+		await this._sandBox.start();
+	}
+
+	async stop(): Promise<void> {
+		await this._sandBox.stop();
+	}
 }
 
 export default QinCore;

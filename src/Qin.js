@@ -34,9 +34,20 @@ class Qin {
 		}
 	}
 
-	run(): number {
-		console.log('Qin is running!');
-		return 0;
+	async start(): Promise<void> {
+		try {
+			await this._core.start();
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	async stop(): Promise<void> {
+		try {
+			await this._core.stop();
+		} catch (e) {
+			console.error(e);
+		}
 	}
 }
 

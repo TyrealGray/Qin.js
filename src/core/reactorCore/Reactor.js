@@ -8,6 +8,7 @@ import { storeConnectReactor, storeInit } from './reduxCore/actions/storeActions
 
 const QINJS_Version = 'QINJS_Version';
 const REACTOR_CONTENT = 'REACTOR_CONTENT';
+const SHUO_RULE = 'SHUO_RULE';
 
 type ReactorPropsType = {
 	name: string,
@@ -20,6 +21,7 @@ class Reactor {
 	_shuo: Shuo;
 	_store: ReduxStore;
 	_dbCore: DBClient;
+	_intervalId: IntervalID;
 
 	constructor(props: ReactorPropsType) {
 		this._name = props.name;
@@ -40,10 +42,26 @@ class Reactor {
 			if(!(await this._hasContent())){
 				await this._initReactorContent();
 			}
+		} catch (e) {
+			console.error(e);
+		}
+	}
 
+	async start():Promise<void> {
+		try {
 			await this._store.dispatch(
 				storeConnectReactor(await this.getData()),
 			);
+
+			//this._intervalId = setInterval(()=>{},50);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	async stop(): Promise<void> {
+		try {
+			clearInterval(this._intervalId);
 		} catch (e) {
 			console.error(e);
 		}
@@ -60,11 +78,11 @@ class Reactor {
 
 	async _initReactorChain(): Promise<void> {
 		await this._dbCore.update(QINJS_Version, { number: 0 });
-		await this._dbCore.update('rule', this._shuo.getRule());
+		await this._dbCore.update(SHUO_RULE, this._shuo.getRule());
 	}
 
 	async _initReactorContent(): Promise<void> {
-		await this._dbCore.update('content', this._shuo.getContent());
+		await this._dbCore.update(REACTOR_CONTENT, this._shuo.getContent());
 	}
 
 	async _initShuo(): Promise<void> {
@@ -85,6 +103,7 @@ class Reactor {
 			return false;
 		} catch (e) {
 			console.error(e);
+			throw e;
 		}
 	}
 
@@ -94,6 +113,7 @@ class Reactor {
 			return !!hasContent;
 		} catch (e) {
 			console.error(e);
+			throw e;
 		}
 	}
 

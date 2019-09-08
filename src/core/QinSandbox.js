@@ -3,7 +3,7 @@
 import Reactor from './reactorCore/Reactor';
 
 type QinSandBoxPropsType = {
-	debuging?: boolean,
+	debugging?: boolean,
 };
 
 class QinSandbox {
@@ -17,6 +17,22 @@ class QinSandbox {
 	async init(name: string): Promise<void> {
 		try {
 			await this._initReactor(name);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	async start(): Promise<void> {
+		try {
+			await this._reactor.start();
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	async stop(): Promise<void> {
+		try {
+			await this._reactor.stop();
 		} catch (e) {
 			console.error(e);
 		}

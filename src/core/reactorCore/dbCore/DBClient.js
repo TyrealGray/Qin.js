@@ -33,7 +33,7 @@ class DBClient {
 		});
 	}
 
-	async query(value): Promise<any> {
+	async query(value: string): Promise<Object> {
 		try {
 			return await this._get(value);
 		} catch (e) {
@@ -45,7 +45,7 @@ class DBClient {
 		}
 	}
 
-	async update(value, content): Promise<any> {
+	async update(value: string, content: Object): Promise<any> {
 		let doc = await this.query(value);
 		const updateContent = doc
 			? {
