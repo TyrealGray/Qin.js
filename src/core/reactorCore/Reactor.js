@@ -1,19 +1,29 @@
 //@flow
 import { version } from '../../../package.json';
 
-import Shuo from '../shuoCore/Shuo';
-import DBClient from '../dbCore/DBClient';
+import Shuo from './shuoCore/Shuo';
+import DBClient from './dbCore/DBClient';
+import { initStore } from './reduxCore/storeUtil';
+import { storeConnectReactor, storeInit } from './reduxCore/actions/storeActions';
 
 const QINJS_Version = 'QINJS_Version';
 const REACTOR_CONTENT = 'REACTOR_CONTENT';
 
+type ReactorPropsType = {
+	name: string,
+	debugging?: boolean,
+};
+
 class Reactor {
 	_name: string;
+	_debugging: boolean;
 	_shuo: Shuo;
+	_store: ReduxStore;
 	_dbCore: DBClient;
 
-	constructor(props: { name: string }) {
+	constructor(props: ReactorPropsType) {
 		this._name = props.name;
+		this._debugging = props.debugging || false;
 		this._shuo = new Shuo();
 	}
 
@@ -21,6 +31,7 @@ class Reactor {
 		try {
 			await this._initShuo();
 			this._initPouchDB();
+			this._initRedux(this._debugging);
 
 			if (!(await this._isSameVersion())) {
 				await this._initReactorChain();
@@ -29,9 +40,18 @@ class Reactor {
 			if(!(await this._hasContent())){
 				await this._initReactorContent();
 			}
+
+			await this._store.dispatch(
+				storeConnectReactor(await this.getData()),
+			);
 		} catch (e) {
 			console.error(e);
 		}
+	}
+
+	_initRedux(debugging: boolean): void {
+		this._store = initStore(debugging);
+		this._store.dispatch(storeInit());
 	}
 
 	async getData(): Promise<Object> {

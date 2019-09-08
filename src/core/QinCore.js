@@ -3,7 +3,7 @@
 import QinSandbox from './QinSandbox';
 
 type QinCorePropsType = {
-	isDebugRedux?: boolean;
+	debugging?: boolean;
 }
 
 class QinCore {
@@ -11,7 +11,7 @@ class QinCore {
 	_sandBox: QinSandbox;
 
 	constructor(props: QinCorePropsType) {
-		this._sandBox = new QinSandbox({isDebugRedux: props.isDebugRedux || false});
+		this._sandBox = new QinSandbox({debugging: props.debugging || false});
 	}
 
 	setSandBox(sandBox: QinSandbox): void {

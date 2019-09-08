@@ -7,7 +7,7 @@ type QinPropsType = {
 	height: number,
 	width: number,
 	element: HTMLElement,
-	isDebugRedux: boolean,
+	debugging: boolean,
 };
 
 /**
@@ -20,10 +20,10 @@ class Qin {
 	 * create Qin instance
 	 * @param props {Object} QinPropsType
 	 * @param props.element {HTMLElement} html element to let Qin knows where to add canvas
-	 * @param props.isDebugRedux {boolean} turn on debugging for redux store
+	 * @param props.debugging {boolean} turn on debugging
 	 */
 	constructor(props: QinPropsType) {
-		this._core = new QinCore({ isDebugRedux: props.isDebugRedux });
+		this._core = new QinCore({ debugging: props.debugging });
 	}
 
 	async createSandbox(sandboxInfo: { name: string }): Promise<void> {
