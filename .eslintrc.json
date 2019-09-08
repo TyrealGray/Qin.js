@@ -39,6 +39,7 @@
     ]
   },
   "globals": {
+    "IntervalID": true,
     "ReduxStore": true
   }
 }
