@@ -49,14 +49,14 @@ class DBClient {
 		let doc = await this.query(value);
 		const updateContent = doc
 			? {
-					_rev: doc._rev,
 					...content,
+					_rev: doc._rev,
 			  }
 			: content;
 
 		return await this._db.put({
-			_id: value,
 			...updateContent,
+			_id: value,
 		});
 	}
 }

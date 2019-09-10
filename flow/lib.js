@@ -6,6 +6,11 @@ declare module 'pouchdb-find' {
 	declare export default any;
 }
 
+declare module 'perf_hooks' {
+	declare export default any;
+	declare export var performance:any;
+}
+
 declare module 'shuoRule.json' {
 	declare export default {[any]:any};
 }

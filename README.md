@@ -5,7 +5,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1821d05332d3649f6a02/test_coverage)](https://codeclimate.com/github/TyrealGray/Qin.js/test_coverage)
 [![Build Status](https://travis-ci.com/TyrealGray/Qin.js.svg?branch=master)](https://travis-ci.com/TyrealGray/Qin.js) [![Greenkeeper badge](https://badges.greenkeeper.io/TyrealGray/Qin.js.svg)](https://greenkeeper.io/)
 
-A gaming sandbox engine written in JavaScript
+A gaming sandbox engine written in Redux
 
 ### Using remoteredux-standalone to debug
 Because Qin.js is based on redux framework, so every event could be debugging on [remoteredux-standalone](https://github.com/TyrealGray/remoteredux-standalone)

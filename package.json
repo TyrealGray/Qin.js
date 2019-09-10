@@ -11,7 +11,7 @@
     "flow": "flow",
     "lint": "eslint ./src",
     "lint-fix": "eslint ./src --fix",
-    "test": "mocha test/**/*.test.js --require @babel/register && npm run lint && npm run build && npm run flow check",
+    "test": "mocha test/**/*.test.js --require @babel/register && npm run lint && npm run flow check && npm run build",
     "unit-testing": "mocha test/**/*.test.js --require @babel/register"
   },
   "repository": {

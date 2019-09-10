@@ -22,11 +22,14 @@ class Reactor {
 	_store: ReduxStore;
 	_dbCore: DBClient;
 	_intervalId: IntervalID;
+	_dbLock: boolean;
+	_newStore: any;
 
 	constructor(props: ReactorPropsType) {
 		this._name = props.name;
 		this._debugging = props.debugging || false;
 		this._shuo = new Shuo();
+		this._dbLock = false;
 	}
 
 	async init(): Promise<void> {
@@ -39,7 +42,7 @@ class Reactor {
 				await this._initReactorChain();
 			}
 
-			if(!(await this._hasContent())){
+			if (!(await this._hasContent())) {
 				await this._initReactorContent();
 			}
 		} catch (e) {
@@ -47,13 +50,52 @@ class Reactor {
 		}
 	}
 
-	async start():Promise<void> {
+	syncStoreToDBCore(): void {
+		this._newStore = null;
+		this._store.subscribe(() => this._newStore = this._store.getState());
+	}
+
+	setUpdateLocked(isLocked: boolean): void {
+		this._dbLock = isLocked;
+	}
+
+	async update(delta: number): Promise<void> {
+		if (!this._newStore || this._dbLock){
+			return;
+		}
+
+		console.log(delta);
+
+		this.setUpdateLocked(true);
+		await this._dbCore.update(REACTOR_CONTENT, this._newStore.storeInfo.content);
+		this.setUpdateLocked(false);
+	}
+
+	async start(): Promise<void> {
 		try {
+			this.syncStoreToDBCore();
+
+			let now = 0,
+				tick = 0;
+
+			let performanceTicker: any = null;
+
+			if(typeof performance !== 'undefined'){
+				performanceTicker = performance;
+			} else {
+				performanceTicker = require('perf_hooks').performance;
+			}
+
+			this._intervalId = setInterval(()=>{
+				now = performanceTicker.now();
+				this.update(now - tick);
+				tick = now;
+			},50);
+
 			await this._store.dispatch(
 				storeConnectReactor(await this.getData()),
 			);
 
-			//this._intervalId = setInterval(()=>{},50);
 		} catch (e) {
 			console.error(e);
 		}
@@ -73,7 +115,7 @@ class Reactor {
 	}
 
 	async getData(): Promise<Object> {
-		return { content: await this._dbCore.query('content') };
+		return { content: await this._dbCore.query(REACTOR_CONTENT) };
 	}
 
 	async _initReactorChain(): Promise<void> {
