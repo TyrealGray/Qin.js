@@ -1,19 +1,14 @@
+import produce from 'immer';
 import { STORE_CONNECT_REACTOR } from '../actions/actionTypes';
 
 const initialState = {
-	characters: {},
-	characterIDs: {},
+	characters: [],
 };
 
-export function characterInfo(state = initialState, action) {
-	switch (action.type) {
-		case STORE_CONNECT_REACTOR:
-			return {
-				...state,
-				characterIDs: action.payload.content.characterIDs,
-				characters: action.payload.content.characters,
-			};
-		default:
-			return state;
-	}
-}
+export const characterInfo = (state = initialState, action) =>
+	produce(state, draft => {
+		switch (action.type) {
+			case STORE_CONNECT_REACTOR:
+				return action.payload.content.characterInfo;
+		}
+	});

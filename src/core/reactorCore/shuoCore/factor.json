@@ -1,9 +1,6 @@
 {
-  "characterIDs": [
-    "houyi"
-  ],
-  "characters": {
-    "houyi": {
+  "characters": [{
+    "displayName": "houyi",
       "renderSet": {
         "IS_CONTAIN_ANIMATION": true,
         "DATA": {
@@ -48,6 +45,5 @@
         "x": 1,
         "y": 1
       }
-    }
-  }
+  }]
 }

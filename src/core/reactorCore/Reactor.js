@@ -4,7 +4,10 @@ import { version } from '../../../package.json';
 import Shuo from './shuoCore/Shuo';
 import DBClient from './dbCore/DBClient';
 import { initStore } from './reduxCore/storeUtil';
-import { storeConnectReactor, storeInit } from './reduxCore/actions/storeActions';
+import {
+	storeConnectReactor,
+	storeInit,
+} from './reduxCore/actions/storeActions';
 
 const QINJS_Version = 'QINJS_Version';
 const REACTOR_CONTENT = 'REACTOR_CONTENT';
@@ -23,7 +26,7 @@ class Reactor {
 	_dbCore: DBClient;
 	_intervalId: IntervalID;
 	_dbLock: boolean;
-	_newStore: any;
+	_storeData: Object;
 
 	constructor(props: ReactorPropsType) {
 		this._name = props.name;
@@ -51,8 +54,13 @@ class Reactor {
 	}
 
 	syncStoreToDBCore(): void {
-		this._newStore = null;
-		this._store.subscribe(() => this._newStore = this._store.getState());
+		this._store.subscribe(() => {
+			this._storeData = this._store.getState();
+		});
+	}
+
+	isUpdateLocked(): boolean {
+		return this._dbLock;
 	}
 
 	setUpdateLocked(isLocked: boolean): void {
@@ -60,42 +68,33 @@ class Reactor {
 	}
 
 	async update(delta: number): Promise<void> {
-		if (!this._newStore || this._dbLock){
-			return;
-		}
-
-		console.log(delta);
-
-		this.setUpdateLocked(true);
-		await this._dbCore.update(REACTOR_CONTENT, this._newStore.storeInfo.content);
-		this.setUpdateLocked(false);
+		await this.setUpdateLocked(true);
+		const { characterInfo } = this._storeData;
+		await this._dbCore.update(REACTOR_CONTENT, { characterInfo });
+		await this.setUpdateLocked(false);
 	}
 
 	async start(): Promise<void> {
 		try {
+			this._storeData = await this.getData();
 			this.syncStoreToDBCore();
-
-			let now = 0,
-				tick = 0;
 
 			let performanceTicker: any = null;
 
-			if(typeof performance !== 'undefined'){
+			if (typeof performance !== 'undefined') {
 				performanceTicker = performance;
 			} else {
 				performanceTicker = require('perf_hooks').performance;
 			}
 
-			this._intervalId = setInterval(()=>{
-				now = performanceTicker.now();
-				this.update(now - tick);
-				tick = now;
-			},50);
+			this._intervalId = setInterval(() => {
+				if (this.isUpdateLocked()) {
+					return;
+				}
+				this.update(performanceTicker.now());
+			}, 50);
 
-			await this._store.dispatch(
-				storeConnectReactor(await this.getData()),
-			);
-
+			await this._store.dispatch(storeConnectReactor(this._storeData));
 		} catch (e) {
 			console.error(e);
 		}

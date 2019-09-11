@@ -1,24 +1,15 @@
-import { STORE_CONNECT_REACTOR, STORE_INIT } from '../actions/actionTypes';
+import produce from 'immer';
+import { STORE_INIT } from '../actions/actionTypes';
 
 const initialState = {
 	isInit: false,
-	content: null,
 };
 
-export function storeInfo(state = initialState, action) {
-
-	switch (action.type) {
-		case STORE_INIT:
-			return {
-				...state,
-				isInit: true,
-			};
-		case STORE_CONNECT_REACTOR:
-			return {
-				...state,
-				content: action.payload.content,
-			};
-		default:
-			return state;
-	}
-}
+export const storeInfo = (state = initialState, action) =>
+	produce(state, draft => {
+		switch (action.type) {
+			case STORE_INIT:
+				draft.isInit = true;
+				break;
+		}
+	});

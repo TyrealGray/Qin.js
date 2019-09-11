@@ -1,5 +1,5 @@
 const initialState = {
-	civilians: [],
+	npcs: [],
 };
 
 export function npcInfo(state = initialState, action) {

@@ -3,19 +3,28 @@
 import * as factor from './factor.json';
 
 class Shuo {
-	_content: any;
-	_rule: any;
+	_content: Object;
+	_rule: Object;
 
 	constructor(props: any) {
-		this._content = null;
+		this._content = {
+			characterInfo: {
+				characters: [],
+			},
+		};
 		this._rule = null;
 	}
 
 	init(): Promise<void> {
 		return new Promise((resolve) => {
 			//TODO decode factor object to content
-			this._content = { ...factor };
 			this._rule = { ...factor };
+			this._rule.characters.forEach((c) => {
+				this._content.characterInfo.characters.push({
+					name: c.displayName,
+					coordinates: c.coordinates,
+				});
+			});
 			resolve();
 		});
 	}
