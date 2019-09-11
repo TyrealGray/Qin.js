@@ -8,6 +8,7 @@ module.exports = {
 		filename: 'qin.js',
 		path: path.resolve(__dirname, '../'),
 	},
+	externals: ['perf_hooks'],
 	module: {
 		rules: [
 			{
@@ -28,7 +29,6 @@ module.exports = {
 					plugins: [
 						'@babel/plugin-proposal-class-properties',
 						'@babel/plugin-proposal-object-rest-spread',
-						'@babel/plugin-syntax-dynamic-import',
 					],
 				},
 			},
