@@ -24,15 +24,20 @@ class Reactor {
 	_shuo: Shuo;
 	_store: ReduxStore;
 	_dbCore: DBClient;
-	_intervalId: IntervalID;
+	_timerId: TimeoutID;
 	_dbLock: boolean;
 	_storeData: Object;
+	_performanceTicker: PerfHooks | Performance;
 
 	constructor(props: ReactorPropsType) {
 		this._name = props.name;
 		this._debugging = props.debugging || false;
 		this._shuo = new Shuo();
 		this._dbLock = false;
+		this._performanceTicker =
+			typeof performance !== 'undefined'
+				? performance
+				: require('perf_hooks').performance;
 	}
 
 	async init(): Promise<void> {
@@ -68,10 +73,11 @@ class Reactor {
 	}
 
 	async update(delta: number): Promise<void> {
-		await this.setUpdateLocked(true);
 		const { characterInfo } = this._storeData;
 		await this._dbCore.update(REACTOR_CONTENT, { characterInfo });
-		await this.setUpdateLocked(false);
+		this._timerId = setTimeout(async () => {
+			await this.update(this._performanceTicker.now());
+		}, 50);
 	}
 
 	async start(): Promise<void> {
@@ -79,19 +85,8 @@ class Reactor {
 			this._storeData = await this.getData();
 			this.syncStoreToDBCore();
 
-			let performanceTicker: any = null;
-
-			if (typeof performance !== 'undefined') {
-				performanceTicker = performance;
-			} else {
-				performanceTicker = require('perf_hooks').performance;
-			}
-
-			this._intervalId = setInterval(() => {
-				if (this.isUpdateLocked()) {
-					return;
-				}
-				this.update(performanceTicker.now());
+			this._timerId = setTimeout(async () => {
+				await this.update(this._performanceTicker.now());
 			}, 50);
 
 			await this._store.dispatch(storeConnectReactor(this._storeData));
@@ -102,7 +97,7 @@ class Reactor {
 
 	async stop(): Promise<void> {
 		try {
-			clearInterval(this._intervalId);
+			clearTimeout(this._timerId);
 		} catch (e) {
 			console.error(e);
 		}

@@ -39,7 +39,8 @@
     ]
   },
   "globals": {
-    "IntervalID": true,
+    "PerfHooks": true,
+    "TimeoutID": true,
     "ReduxStore": true
   }
 }

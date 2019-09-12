@@ -8,11 +8,15 @@ declare module 'pouchdb-find' {
 
 declare module 'perf_hooks' {
 	declare export default any;
-	declare export var performance:any;
+	declare export var performance: PerfHooks;
 }
 
 declare module 'shuoRule.json' {
 	declare export default {[any]:any};
+}
+
+declare type PerfHooks = {
+	now: function;
 }
 
 declare type ReduxStore = {
