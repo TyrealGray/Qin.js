@@ -25,15 +25,13 @@ class Reactor {
 	_store: ReduxStore;
 	_dbCore: DBClient;
 	_timerId: TimeoutID;
-	_dbLock: boolean;
 	_storeData: Object;
 	_performanceTicker: PerfHooks | Performance;
 
 	constructor(props: ReactorPropsType) {
+		this._shuo = new Shuo();
 		this._name = props.name;
 		this._debugging = props.debugging || false;
-		this._shuo = new Shuo();
-		this._dbLock = false;
 		this._performanceTicker =
 			typeof performance !== 'undefined'
 				? performance
@@ -64,19 +62,12 @@ class Reactor {
 		});
 	}
 
-	isUpdateLocked(): boolean {
-		return this._dbLock;
-	}
-
-	setUpdateLocked(isLocked: boolean): void {
-		this._dbLock = isLocked;
-	}
-
-	async update(delta: number): Promise<void> {
+	async update(delta: number, tick: number): Promise<void> {
+		console.log(delta);
 		const { characterInfo } = this._storeData;
 		await this._dbCore.update(REACTOR_CONTENT, { characterInfo });
 		this._timerId = setTimeout(async () => {
-			await this.update(this._performanceTicker.now());
+			await this.update(this._performanceTicker.now() - tick, this._performanceTicker.now());
 		}, 50);
 	}
 
@@ -86,7 +77,7 @@ class Reactor {
 			this.syncStoreToDBCore();
 
 			this._timerId = setTimeout(async () => {
-				await this.update(this._performanceTicker.now());
+				await this.update(0, 0);
 			}, 50);
 
 			await this._store.dispatch(storeConnectReactor(this._storeData));
