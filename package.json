@@ -63,7 +63,7 @@
     "webpack-dev-server": "3.7.2"
   },
   "dependencies": {
-    "immer": "^3.3.0",
+    "immer": "^4.0.1",
     "pouchdb": "7.1.1",
     "pouchdb-find": "7.1.1",
     "redux": "4.0.4",
