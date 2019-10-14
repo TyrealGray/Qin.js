@@ -1,6 +1,6 @@
 //@flow
 
-import * as factor from './factor.json';
+import factor from './factor';
 
 class Shuo {
 	_content: Object;
