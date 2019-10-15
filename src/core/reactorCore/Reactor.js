@@ -63,9 +63,25 @@ class Reactor {
 	}
 
 	async update(delta: number, tick: number): Promise<void> {
-		console.log(delta);
-		const { characterInfo } = this._storeData;
-		await this._dbCore.update(REACTOR_CONTENT, { characterInfo });
+		// console.log(delta);
+		const { terrainInfo } = this._storeData;
+		//await this._dbCore.update(REACTOR_CONTENT, { characterInfo, terrainInfo });
+		const rules = await this.getRules();
+
+		for(const rule of rules.terrains){
+			if(terrainInfo.terrains[0].type === rule.attribute.type){
+
+				for (const trigger of rule.eventTriggers){
+					if(trigger.condition.moreThan[0].size.height < terrainInfo.terrains[0].size.height){
+						const rate = Math.random();
+						if(rate > trigger.rate){
+							await this._store.dispatch({type: trigger.name});
+						}
+					}
+				}
+			}
+		}
+
 		this._timerId = setTimeout(async () => {
 			await this.update(this._performanceTicker.now() - tick, this._performanceTicker.now());
 		}, 50);
@@ -100,7 +116,11 @@ class Reactor {
 	}
 
 	async getData(): Promise<Object> {
-		return { content: await this._dbCore.query(REACTOR_CONTENT) };
+		return await this._dbCore.query(REACTOR_CONTENT);
+	}
+
+	async getRules(): Promise<Object> {
+		return await this._dbCore.query(SHUO_RULE);
 	}
 
 	async _initReactorChain(): Promise<void> {

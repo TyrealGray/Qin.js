@@ -11,6 +11,9 @@ class Shuo {
 			characterInfo: {
 				characters: [],
 			},
+			terrainInfo:{
+				terrains: [],
+			},
 		};
 		this._rule = null;
 	}
@@ -24,6 +27,11 @@ class Shuo {
 					name: c.displayName,
 					coordinates: c.coordinates,
 				});
+
+			});
+
+			this._rule.terrains.forEach((t) => {
+				this._content.terrainInfo.terrains.push(t.attribute);
 			});
 			resolve();
 		});
