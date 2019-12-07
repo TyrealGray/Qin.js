@@ -64,8 +64,7 @@
   },
   "dependencies": {
     "immer": "^5.0.0",
-    "pouchdb": "7.1.1",
-    "pouchdb-find": "7.1.1",
+    "nedb": "^1.8.0",
     "redux": "4.0.4",
     "remote-redux-devtools": "0.5.16"
   }

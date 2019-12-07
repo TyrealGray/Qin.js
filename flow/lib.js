@@ -1,8 +1,4 @@
-declare module 'pouchdb' {
-	declare export default any;
-}
-
-declare module 'pouchdb-find' {
+declare module 'nedb' {
 	declare export default any;
 }
 

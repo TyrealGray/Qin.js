@@ -1,63 +1,65 @@
 //@flow
-
-import PouchDB from 'pouchdb';
-import PouchDBFind from 'pouchdb-find';
-
-import DBError from './DBError';
+import Datastore from 'nedb';
 
 type DBClientPropsType = {
 	name: string,
 };
 
 class DBClient {
-	_db: PouchDB;
+	_db: Datastore;
 	_name: string;
 
 	constructor(props: DBClientPropsType) {
 		this._name = props.name;
-		this._db = new (PouchDB.plugin(PouchDBFind))(props.name, {
-			revs_limit: 1,
-		});
+		this._db = new Datastore({ filename: `./${this._name}`, autoload: true });
 	}
 
-	async _get(name: string): Promise<any> {
+	async _get(query: Object): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this._db
-				.get(name)
-				.then((doc) => {
-					return resolve(doc);
-				})
-				.catch((e) => {
-					return reject(new DBError(e));
-				});
+			this._db.find(query, (err, docs)=> {
+				if(err){
+					return reject(err);
+				}
+
+				return resolve(docs);
+			});
 		});
 	}
 
-	async query(value: string): Promise<Object> {
-		try {
-			return await this._get(value);
-		} catch (e) {
-			if (e.name === 'DBError' && e.status === 404) {
-				return;
-			}
+	async _getOne(query: Object): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this._db.findOne(query, (err, docs)=> {
+				if(err){
+					return reject(err);
+				}
 
-			console.log(e);
-		}
+				return resolve(docs);
+			});
+		});
 	}
 
-	async update(value: string, content: Object): Promise<any> {
-		let doc = await this.query(value);
-		const updateContent = doc
-			? {
-					...content,
-					_rev: doc._rev,
-			  }
-			: content;
+	async _upsert(query: Object, content: Object): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this._db.update(query, { $set: content}, { upsert: true }, function (err, numReplaced, affectedDocuments) {
+				if(err){
+					return reject(err);
+				}
 
-		return await this._db.put({
-			...updateContent,
-			_id: value,
+				return resolve(affectedDocuments);
+			});
 		});
+	}
+
+	async query(query: Object): Promise<Object> {
+		return await this._get(query);
+	}
+
+	async queryOne(query: Object): Promise<Object> {
+		return await this._getOne(query);
+	}
+
+	async update(query: Object, content: Object): Promise<any> {
+		return await this._upsert(query, content);
 	}
 }
 

@@ -9,9 +9,9 @@ import {
 	storeInit,
 } from './reduxCore/actions/storeActions';
 
-const QINJS_Version = 'QINJS_Version';
-const REACTOR_CONTENT = 'REACTOR_CONTENT';
-const SHUO_RULE = 'SHUO_RULE';
+const QINJS_Version = {system:'QINJS_Version'};
+const REACTOR_CONTENT = {system:'REACTOR_CONTENT'};
+const SHUO_RULE = {system:'SHUO_RULE'};
 
 type ReactorPropsType = {
 	name: string,
@@ -116,20 +116,24 @@ class Reactor {
 	}
 
 	async getData(): Promise<Object> {
-		return await this._dbCore.query(REACTOR_CONTENT);
+		const data = await this._dbCore.queryOne(REACTOR_CONTENT);
+		console.log('data',data);
+		return data.value;
 	}
 
 	async getRules(): Promise<Object> {
-		return await this._dbCore.query(SHUO_RULE);
+		const rules = await this._dbCore.queryOne(SHUO_RULE);
+		console.log('rules',rules);
+		return rules.value;
 	}
 
 	async _initReactorChain(): Promise<void> {
-		await this._dbCore.update(QINJS_Version, { number: 0 });
-		await this._dbCore.update(SHUO_RULE, this._shuo.getRule());
+		await this._dbCore.update(QINJS_Version, { ...QINJS_Version, value: 0 });
+		await this._dbCore.update(SHUO_RULE, {...SHUO_RULE, value: this._shuo.getRule()});
 	}
 
 	async _initReactorContent(): Promise<void> {
-		await this._dbCore.update(REACTOR_CONTENT, this._shuo.getContent());
+		await this._dbCore.update(REACTOR_CONTENT, {...REACTOR_CONTENT, value: this._shuo.getContent()});
 	}
 
 	async _initShuo(): Promise<void> {
@@ -142,9 +146,9 @@ class Reactor {
 
 	async _isSameVersion(): Promise<boolean> {
 		try {
-			const versionDoc = await this._dbCore.query(QINJS_Version);
+			const versionDoc = await this._dbCore.queryOne(QINJS_Version);
 			if (versionDoc) {
-				return versionDoc.number === version;
+				return versionDoc.value === version;
 			}
 
 			return false;
@@ -157,7 +161,7 @@ class Reactor {
 	async _hasContent(): Promise<boolean> {
 		try {
 			const hasContent = await this._dbCore.query(REACTOR_CONTENT);
-			return !!hasContent;
+			return !!hasContent.length;
 		} catch (e) {
 			console.error(e);
 			throw e;
