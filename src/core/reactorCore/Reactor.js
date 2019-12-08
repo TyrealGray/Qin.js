@@ -9,9 +9,9 @@ import {
 	storeInit,
 } from './reduxCore/actions/storeActions';
 
-const QINJS_Version = {system:'QINJS_Version'};
-const REACTOR_CONTENT = {system:'REACTOR_CONTENT'};
-const SHUO_RULE = {system:'SHUO_RULE'};
+const QINJS_Version = { system: 'QINJS_Version' };
+const REACTOR_CONTENT = { system: 'REACTOR_CONTENT' };
+const SHUO_RULE = { system: 'SHUO_RULE' };
 
 type ReactorPropsType = {
 	name: string,
@@ -26,11 +26,13 @@ class Reactor {
 	_dbCore: DBClient;
 	_timerId: TimeoutID;
 	_storeData: Object;
+	_eventTimeoutQueue: Object;
 	_performanceTicker: PerfHooks | Performance;
 
 	constructor(props: ReactorPropsType) {
 		this._shuo = new Shuo();
 		this._name = props.name;
+		this._eventTimeoutQueue = {};
 		this._debugging = props.debugging || false;
 		this._performanceTicker =
 			typeof performance !== 'undefined'
@@ -68,14 +70,37 @@ class Reactor {
 		//await this._dbCore.update(REACTOR_CONTENT, { characterInfo, terrainInfo });
 		const rules = await this.getRules();
 
-		for(const rule of rules.terrains){
-			if(terrainInfo.terrains[0].type === rule.attribute.type){
-
-				for (const trigger of rule.eventTriggers){
-					if(trigger.condition.moreThan[0].size.height < terrainInfo.terrains[0].size.height){
+		for (const rule of rules.terrains) {
+			if (terrainInfo.terrains[0].type === rule.attribute.type) {
+				for (const trigger of rule.eventTriggers) {
+					if (
+						trigger.condition.moreThan[0].size.height <
+						terrainInfo.terrains[0].size.height
+					) {
 						const rate = Math.random();
-						if(rate > trigger.rate){
-							await this._store.dispatch({type: trigger.name});
+						if (rate > trigger.rate) {
+							if (
+								trigger.timeOut &&
+								!this._eventTimeoutQueue[trigger.name]
+							) {
+								this._eventTimeoutQueue[trigger.name] = 0;
+							}
+
+							if (
+								this._eventTimeoutQueue[trigger.name] !==
+									undefined &&
+								tick > this._eventTimeoutQueue[trigger.name]
+							) {
+								this._eventTimeoutQueue[trigger.name] =
+									tick + trigger.timeOut;
+								await this._store.dispatch({
+									type: trigger.name,
+								});
+							} else if (!trigger.timeOut) {
+								await this._store.dispatch({
+									type: trigger.name,
+								});
+							}
 						}
 					}
 				}
@@ -83,7 +108,10 @@ class Reactor {
 		}
 
 		this._timerId = setTimeout(async () => {
-			await this.update(this._performanceTicker.now() - tick, this._performanceTicker.now());
+			await this.update(
+				this._performanceTicker.now() - tick,
+				this._performanceTicker.now(),
+			);
 		}, 50);
 	}
 
@@ -117,23 +145,30 @@ class Reactor {
 
 	async getData(): Promise<Object> {
 		const data = await this._dbCore.queryOne(REACTOR_CONTENT);
-		console.log('data',data);
 		return data.value;
 	}
 
 	async getRules(): Promise<Object> {
 		const rules = await this._dbCore.queryOne(SHUO_RULE);
-		console.log('rules',rules);
 		return rules.value;
 	}
 
 	async _initReactorChain(): Promise<void> {
-		await this._dbCore.update(QINJS_Version, { ...QINJS_Version, value: 0 });
-		await this._dbCore.update(SHUO_RULE, {...SHUO_RULE, value: this._shuo.getRule()});
+		await this._dbCore.update(QINJS_Version, {
+			...QINJS_Version,
+			value: 0,
+		});
+		await this._dbCore.update(SHUO_RULE, {
+			...SHUO_RULE,
+			value: this._shuo.getRule(),
+		});
 	}
 
 	async _initReactorContent(): Promise<void> {
-		await this._dbCore.update(REACTOR_CONTENT, {...REACTOR_CONTENT, value: this._shuo.getContent()});
+		await this._dbCore.update(REACTOR_CONTENT, {
+			...REACTOR_CONTENT,
+			value: this._shuo.getContent(),
+		});
 	}
 
 	async _initShuo(): Promise<void> {

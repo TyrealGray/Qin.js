@@ -69,6 +69,7 @@ export default {
 						moreThan: [{ size: { height: 4 } }],
 					},
 					rate: 0.9,
+					timeOut: 5000,
 				},
 			],
 		},
