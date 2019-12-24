@@ -21,8 +21,8 @@ class Shuo {
 	init(): Promise<void> {
 		return new Promise((resolve) => {
 			//TODO decode factor object to content
-			this._rule = { ...factor };
-			this._rule.characters.forEach((c) => {
+			this._rule = factor.rules ;
+			factor.characters.forEach((c) => {
 				this._content.characterInfo.characters.push({
 					name: c.displayName,
 					coordinates: c.coordinates,
@@ -30,7 +30,7 @@ class Shuo {
 
 			});
 
-			this._rule.terrains.forEach((t) => {
+			factor.terrains.forEach((t) => {
 				this._content.terrainInfo.terrains.push(t.attribute);
 			});
 			resolve();
@@ -38,6 +38,7 @@ class Shuo {
 	}
 
 	loadExtra(extra: Object): void {
+		// TODO: defined override process
 		this._rule = {
 			...this._rule,
 			...extra,

@@ -94,7 +94,7 @@ class Reactor {
 
 		const rules = await this.getRules();
 
-		for (const rule of rules.terrains) {
+		for (const rule of rules) {
 			for (const terrain of terrainInfo.terrains) {
 				if (terrain.type === rule.attribute.type) {
 					for (const trigger of rule.eventTriggers) {

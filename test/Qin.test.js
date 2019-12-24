@@ -2,11 +2,8 @@ import expect from 'expect.js';
 import { Qin } from '../src/Qin';
 
 describe('Test begin', () => {
-	it('should be running', () => {
+	it('should core init', () => {
 		const qin = new Qin({debugging:false});
-		qin.start().then(()=>{
-			qin.stop();
-			expect(qin._core).to.not.equal(undefined);
-		});
+		expect(qin._core).to.not.equal(undefined);
 	});
 });

@@ -63,18 +63,23 @@ export default {
 				width: 8,
 				heightRange: { max: 99, min: 3 },
 			},
-			eventTriggers: [
-				{
-					name: 'RAIN_BIG',
-					type: 'weather',
-					condition: {
-						moreThan: [{ height: 4 }],
-					},
-					discardOthers: true,
-					rate: 0.9,
-					timeOut: 5000,
-				},
-			],
 		},
 	],
+	rules:[{
+		attribute: {
+			type: 'terrain',
+		},
+		eventTriggers: [
+			{
+				name: 'RAIN_BIG',
+				type: 'weather',
+				condition: {
+					moreThan: [{ height: 4 }],
+				},
+				discardOthers: true,
+				rate: 0.9,
+				timeOut: 5000,
+			},
+		],
+	},]
 };
