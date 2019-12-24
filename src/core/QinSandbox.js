@@ -30,9 +30,9 @@ class QinSandbox {
 		}
 	}
 
-	async stop(): Promise<void> {
+	stop(): void {
 		try {
-			await this._reactor.stop();
+			this._reactor.stop();
 		} catch (e) {
 			console.error(e);
 		}

@@ -34,19 +34,18 @@ class Qin {
 		}
 	}
 
-	async start(): Promise<number> {
+	async start(): Promise<void> {
 		try {
 			await this._core.start();
-			return 0;
 		} catch (e) {
 			console.error(e);
 			throw e;
 		}
 	}
 
-	async stop(): Promise<void> {
+	stop(): void {
 		try {
-			await this._core.stop();
+			this._core.stop();
 		} catch (e) {
 			console.error(e);
 		}

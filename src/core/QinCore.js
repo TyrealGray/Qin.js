@@ -26,8 +26,8 @@ class QinCore {
 		await this._sandBox.start();
 	}
 
-	async stop(): Promise<void> {
-		await this._sandBox.stop();
+	stop(): void {
+		this._sandBox.stop();
 	}
 }
 

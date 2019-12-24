@@ -43,14 +43,16 @@ class Reactor {
 	async init(): Promise<void> {
 		try {
 			await this._initShuo();
-			this._initPouchDB();
+			this._initDB();
 			this._initRedux(this._debugging);
 
 			if (!(await this._isSameVersion())) {
+				console.log('Core version is not the same, init new reactor');
 				await this._initReactorChain();
 			}
 
 			if (!(await this._hasContent())) {
+				console.log('No reactor content found, init reactor content');
 				await this._initReactorContent();
 			}
 		} catch (e) {
@@ -64,42 +66,63 @@ class Reactor {
 		});
 	}
 
+	static checkCondition(status: Object, conditions: Object): boolean {
+		for (const condition in conditions) {
+			switch (condition) {
+				case 'moreThan':
+					for (const props of conditions['moreThan']) {
+						let matched = 0;
+						for (const prop in props) {
+							if (props[prop] < status[prop]) {
+								matched++;
+							}
+
+							if (matched === Object.entries(props).length) {
+								return true;
+							}
+						}
+					}
+			}
+		}
+
+		return false;
+	}
+
 	async update(delta: number, tick: number): Promise<void> {
 		// console.log(delta);
 		const { terrainInfo } = this._storeData;
-		//await this._dbCore.update(REACTOR_CONTENT, { characterInfo, terrainInfo });
+
 		const rules = await this.getRules();
 
 		for (const rule of rules.terrains) {
-			if (terrainInfo.terrains[0].type === rule.attribute.type) {
-				for (const trigger of rule.eventTriggers) {
-					if (
-						trigger.condition.moreThan[0].size.height <
-						terrainInfo.terrains[0].size.height
-					) {
-						const rate = Math.random();
-						if (rate > trigger.rate) {
-							if (
-								trigger.timeOut &&
-								!this._eventTimeoutQueue[trigger.name]
-							) {
-								this._eventTimeoutQueue[trigger.name] = 0;
-							}
+			for (const terrain of terrainInfo.terrains) {
+				if (terrain.type === rule.attribute.type) {
+					for (const trigger of rule.eventTriggers) {
+						if (Reactor.checkCondition(terrain, trigger.condition)) {
+							const rate = Math.random();
+							if (rate > trigger.rate) {
+								if (
+									trigger.timeOut &&
+									!this._eventTimeoutQueue[trigger.name]
+								) {
+									this._eventTimeoutQueue[trigger.name] = 0;
+								}
 
-							if (
-								this._eventTimeoutQueue[trigger.name] !==
-									undefined &&
-								tick > this._eventTimeoutQueue[trigger.name]
-							) {
-								this._eventTimeoutQueue[trigger.name] =
-									tick + trigger.timeOut;
-								await this._store.dispatch({
-									type: trigger.name,
-								});
-							} else if (!trigger.timeOut) {
-								await this._store.dispatch({
-									type: trigger.name,
-								});
+								if (
+									this._eventTimeoutQueue[trigger.name] !==
+										undefined &&
+									tick > this._eventTimeoutQueue[trigger.name]
+								) {
+									this._eventTimeoutQueue[trigger.name] =
+										tick + trigger.timeOut;
+									await this._store.dispatch({
+										type: trigger.name,
+									});
+								} else if (!trigger.timeOut) {
+									await this._store.dispatch({
+										type: trigger.name,
+									});
+								}
 							}
 						}
 					}
@@ -130,7 +153,7 @@ class Reactor {
 		}
 	}
 
-	async stop(): Promise<void> {
+	stop(): void {
 		try {
 			clearTimeout(this._timerId);
 		} catch (e) {
@@ -175,7 +198,7 @@ class Reactor {
 		await this._shuo.init();
 	}
 
-	_initPouchDB(): void {
+	_initDB(): void {
 		this._dbCore = new DBClient({ name: `QINJS_${this._name}_DB` });
 	}
 
