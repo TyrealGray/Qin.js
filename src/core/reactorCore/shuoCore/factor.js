@@ -81,5 +81,5 @@ export default {
 				timeOut: 5000,
 			},
 		],
-	},]
+	}],
 };

@@ -94,41 +94,44 @@ class Reactor {
 
 		const rules = await this.getRules();
 
-		for (const rule of rules) {
-			for (const terrain of terrainInfo.terrains) {
-				if (terrain.type === rule.attribute.type) {
-					for (const trigger of rule.eventTriggers) {
-						if (Reactor.checkCondition(terrain, trigger.condition)) {
-							const rate = Math.random();
-							if (rate > trigger.rate) {
-								if (
-									trigger.timeOut &&
-									!this._eventTimeoutQueue[trigger.name]
-								) {
-									this._eventTimeoutQueue[trigger.name] = 0;
-								}
+		[terrainInfo].forEach(async (statusInfo) => {
+			for (const data of statusInfo.dataSet){
+				for (const rule of rules) {
+					if (data.type === rule.attribute.type) {
+						for (const trigger of rule.eventTriggers) {
+							if (Reactor.checkCondition(data, trigger.condition)) {
+								const rate = Math.random();
+								if (rate > trigger.rate) {
+									if (
+										trigger.timeOut &&
+										!this._eventTimeoutQueue[trigger.name]
+									) {
+										this._eventTimeoutQueue[trigger.name] = 0;
+									}
 
-								if (
-									this._eventTimeoutQueue[trigger.name] !==
+									if (
+										this._eventTimeoutQueue[trigger.name] !==
 										undefined &&
-									tick > this._eventTimeoutQueue[trigger.name]
-								) {
-									this._eventTimeoutQueue[trigger.name] =
-										tick + trigger.timeOut;
-									await this._store.dispatch({
-										type: trigger.name,
-									});
-								} else if (!trigger.timeOut) {
-									await this._store.dispatch({
-										type: trigger.name,
-									});
+										tick > this._eventTimeoutQueue[trigger.name]
+									) {
+										this._eventTimeoutQueue[trigger.name] =
+											tick + trigger.timeOut;
+										await this._store.dispatch({
+											type: trigger.name,
+										});
+									} else if (!trigger.timeOut) {
+										await this._store.dispatch({
+											type: trigger.name,
+										});
+									}
 								}
 							}
 						}
 					}
 				}
+
 			}
-		}
+		});
 
 		this._timerId = setTimeout(async () => {
 			await this.update(

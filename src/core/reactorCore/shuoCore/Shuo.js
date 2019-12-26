@@ -9,10 +9,10 @@ class Shuo {
 	constructor(props: any) {
 		this._content = {
 			characterInfo: {
-				characters: [],
+				dataSet: [],
 			},
 			terrainInfo:{
-				terrains: [],
+				dataSet: [],
 			},
 		};
 		this._rule = null;
@@ -23,15 +23,14 @@ class Shuo {
 			//TODO decode factor object to content
 			this._rule = factor.rules ;
 			factor.characters.forEach((c) => {
-				this._content.characterInfo.characters.push({
+				this._content.characterInfo.dataSet.push({
 					name: c.displayName,
 					coordinates: c.coordinates,
 				});
-
 			});
 
 			factor.terrains.forEach((t) => {
-				this._content.terrainInfo.terrains.push(t.attribute);
+				this._content.terrainInfo.dataSet.push(t.attribute);
 			});
 			resolve();
 		});

@@ -2,7 +2,7 @@ import produce from 'immer';
 import { STORE_CONNECT_REACTOR } from '../actions/actionTypes';
 
 const initialState = {
-	terrains: [],
+	dataSet: [],
 };
 
 export const terrainInfo = (state = initialState, action) =>
