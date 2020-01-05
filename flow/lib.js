@@ -2,6 +2,11 @@ declare module 'nedb' {
 	declare export default any;
 }
 
+declare module 'ulid' {
+	declare export default any;
+	declare export var monotonicFactory: any;
+}
+
 declare module 'perf_hooks' {
 	declare export default any;
 	declare export var performance: PerfHooks;

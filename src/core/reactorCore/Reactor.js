@@ -42,7 +42,7 @@ class Reactor {
 
 	async init(): Promise<void> {
 		try {
-			await this._initShuo();
+			this._initShuo();
 			this._initDB();
 			this._initRedux(this._debugging);
 
@@ -70,14 +70,16 @@ class Reactor {
 		for (const condition in conditions) {
 			switch (condition) {
 				case 'moreThan':
-					for (const props of conditions['moreThan']) {
+					for (const moreThanProps of conditions['moreThan']) {
 						let matched = 0;
-						for (const prop in props) {
-							if (props[prop] < status[prop]) {
+						for (const prop in moreThanProps) {
+							if (moreThanProps[prop] < status[prop]) {
 								matched++;
 							}
 
-							if (matched === Object.entries(props).length) {
+							if (
+								matched === Object.entries(moreThanProps).length
+							) {
 								return true;
 							}
 						}
@@ -95,41 +97,48 @@ class Reactor {
 		const rules = await this.getRules();
 
 		[terrainInfo].forEach(async (statusInfo) => {
-			for (const data of statusInfo.dataSet){
+			for (const data of statusInfo.dataSet) {
 				for (const rule of rules) {
 					if (data.type === rule.attribute.type) {
 						for (const trigger of rule.eventTriggers) {
-							if (Reactor.checkCondition(data, trigger.condition)) {
+							if (
+								Reactor.checkCondition(data, trigger.condition)
+							) {
+								const dispatchData = {
+									type: trigger.name,
+									playload: { triggerBy: data },
+								};
 								const rate = Math.random();
 								if (rate > trigger.rate) {
 									if (
 										trigger.timeOut &&
 										!this._eventTimeoutQueue[trigger.name]
 									) {
-										this._eventTimeoutQueue[trigger.name] = 0;
+										this._eventTimeoutQueue[
+											trigger.name
+										] = 0;
 									}
 
 									if (
-										this._eventTimeoutQueue[trigger.name] !==
-										undefined &&
-										tick > this._eventTimeoutQueue[trigger.name]
+										this._eventTimeoutQueue[
+											trigger.name
+										] !== undefined &&
+										tick >
+											this._eventTimeoutQueue[
+												trigger.name
+											]
 									) {
 										this._eventTimeoutQueue[trigger.name] =
 											tick + trigger.timeOut;
-										await this._store.dispatch({
-											type: trigger.name,
-										});
+										await this._store.dispatch(dispatchData);
 									} else if (!trigger.timeOut) {
-										await this._store.dispatch({
-											type: trigger.name,
-										});
+										await this._store.dispatch(dispatchData);
 									}
 								}
 							}
 						}
 					}
 				}
-
 			}
 		});
 
@@ -197,8 +206,8 @@ class Reactor {
 		});
 	}
 
-	async _initShuo(): Promise<void> {
-		await this._shuo.init();
+	_initShuo(): void {
+		this._shuo.init();
 	}
 
 	_initDB(): void {
