@@ -45,7 +45,7 @@
     "@babel/polyfill": "7.8.0",
     "@babel/preset-env": "7.8.0",
     "@babel/preset-flow": "7.8.0",
-    "@babel/register": "7.7.4",
+    "@babel/register": "7.8.0",
     "@pixi/jsdoc-template": "2.5.1",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
