@@ -84,6 +84,41 @@ class Reactor {
 							}
 						}
 					}
+					break;
+				case 'equal':
+					for (const equalProps of conditions['equal']) {
+						let matched = 0;
+						for (const prop in equalProps) {
+							if (equalProps[prop] === status[prop]) {
+								matched++;
+							}
+
+							if (
+								matched === Object.entries(equalProps).length
+							) {
+								return true;
+							}
+						}
+					}
+					break;
+				case 'include':
+					for (const includeProps of conditions['include']) {
+						let matched = 0;
+						for (const prop in includeProps) {
+							if (status[prop]) {
+								matched++;
+							}
+
+							if (
+								matched === Object.entries(includeProps).length
+							) {
+								return true;
+							}
+						}
+					}
+					break;
+				default:
+					break;
 			}
 		}
 
