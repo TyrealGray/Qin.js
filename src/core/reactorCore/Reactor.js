@@ -8,6 +8,7 @@ import {
 	storeConnectReactor,
 	storeInit,
 } from './reduxCore/actions/storeActions';
+import { CONDITION } from './shuoCore/conditionType';
 
 const QINJS_Version = { system: 'QINJS_Version' };
 const REACTOR_CONTENT = { system: 'REACTOR_CONTENT' };
@@ -66,11 +67,11 @@ class Reactor {
 		});
 	}
 
-	static checkCondition(status: Object, conditions: Object): boolean {
+	static checkConditions(status: Object, conditions: Object): boolean {
 		for (const condition in conditions) {
 			switch (condition) {
-				case 'moreThan':
-					for (const moreThanProps of conditions['moreThan']) {
+				case CONDITION.MORE_THAN:
+					for (const moreThanProps of conditions[CONDITION.MORE_THAN]) {
 						let matched = 0;
 						for (const prop in moreThanProps) {
 							if (moreThanProps[prop] < status[prop]) {
@@ -85,8 +86,8 @@ class Reactor {
 						}
 					}
 					break;
-				case 'equal':
-					for (const equalProps of conditions['equal']) {
+				case CONDITION.EQUAL:
+					for (const equalProps of conditions[CONDITION.EQUAL]) {
 						let matched = 0;
 						for (const prop in equalProps) {
 							if (equalProps[prop] === status[prop]) {
@@ -101,8 +102,8 @@ class Reactor {
 						}
 					}
 					break;
-				case 'include':
-					for (const includeProps of conditions['include']) {
+				case CONDITION.INCLUDE:
+					for (const includeProps of conditions[CONDITION.INCLUDE]) {
 						let matched = 0;
 						for (const prop in includeProps) {
 							if (status[prop]) {
@@ -137,7 +138,7 @@ class Reactor {
 					if (data.type === rule.attribute.type) {
 						for (const trigger of rule.eventTriggers) {
 							if (
-								Reactor.checkCondition(data, trigger.condition)
+								Reactor.checkConditions(data, trigger.conditions)
 							) {
 								const dispatchData = {
 									type: trigger.name,

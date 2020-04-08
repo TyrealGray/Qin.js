@@ -39,7 +39,6 @@ class Qin {
 			await this._core.start();
 		} catch (e) {
 			console.error(e);
-			throw e;
 		}
 	}
 

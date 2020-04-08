@@ -1,3 +1,5 @@
+import { CONDITION } from './conditionType';
+
 export default {
 	characters: [
 		{
@@ -73,8 +75,9 @@ export default {
 			{
 				name: 'RAIN_BIG',
 				type: 'weather',
-				condition: {
-					moreThan: [{ height: 4 }],
+				conditions: {
+					[CONDITION.MORE_THAN]:[{ height: 4 }],
+					//moreThan:
 				},
 				discardOthers: true,
 				rate: 0.9,
