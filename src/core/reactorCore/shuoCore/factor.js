@@ -77,7 +77,6 @@ export default {
 				type: 'weather',
 				conditions: {
 					[CONDITION.MORE_THAN]:[{ height: 4 }],
-					//moreThan:
 				},
 				discardOthers: true,
 				rate: 0.9,

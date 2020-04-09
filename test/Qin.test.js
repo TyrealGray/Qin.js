@@ -1,8 +1,16 @@
 import { Qin } from '../src/Qin';
 
-describe('Test begin', () => {
-	test('should core init', () => {
+describe('Qin.js', () => {
+	test('should able to start core', () => {
 		const qin = new Qin({debugging:false});
-		expect(qin._core).toBeDefined();
+
+		qin.createSandbox({name:'test'}).then(() => {
+			qin.start().then(() => {
+				qin.stop();
+				expect(qin._core.start).toHaveBeenCalled();
+				expect(qin._core).toBeDefined();
+
+			});
+		});
 	});
 });

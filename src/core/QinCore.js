@@ -19,7 +19,7 @@ class QinCore {
 	}
 
 	async desertify(name: string): Promise<void> {
-		return await this._sandBox.init(name);
+		await this._sandBox.init(name);
 	}
 
 	async start(): Promise<void> {

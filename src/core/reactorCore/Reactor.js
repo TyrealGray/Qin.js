@@ -38,7 +38,7 @@ class Reactor {
 		this._performanceTicker =
 			typeof performance !== 'undefined'
 				? performance
-				: require('perf_hooks').performance;
+				: eval(`require('perf_hooks').performance;`);
 	}
 
 	async init(): Promise<void> {
@@ -48,12 +48,20 @@ class Reactor {
 			this._initRedux(this._debugging);
 
 			if (!(await this._isSameVersion())) {
-				console.log('Core version is not the same, init new reactor');
+				if (this._debugging) {
+					console.log(
+						'Core version is not the same, init new reactor',
+					);
+				}
 				await this._initReactorChain();
 			}
 
 			if (!(await this._hasContent())) {
-				console.log('No reactor content found, init reactor content');
+				if (this._debugging) {
+					console.log(
+						'No reactor content found, init reactor content',
+					);
+				}
 				await this._initReactorContent();
 			}
 		} catch (e) {
@@ -71,7 +79,9 @@ class Reactor {
 		for (const condition in conditions) {
 			switch (condition) {
 				case CONDITION.MORE_THAN:
-					for (const moreThanProps of conditions[CONDITION.MORE_THAN]) {
+					for (const moreThanProps of conditions[
+						CONDITION.MORE_THAN
+					]) {
 						let matched = 0;
 						for (const prop in moreThanProps) {
 							if (moreThanProps[prop] < status[prop]) {
@@ -94,11 +104,37 @@ class Reactor {
 								matched++;
 							}
 
-							if (
-								matched === Object.entries(equalProps).length
-							) {
+							if (matched === Object.entries(equalProps).length) {
 								return true;
 							}
+						}
+					}
+					break;
+				case CONDITION.LESS_THAN:
+					for (const lessThanProps of conditions[CONDITION.LESS_THAN]) {
+						let matched = 0;
+						for (const prop in lessThanProps) {
+							if (lessThanProps[prop] > status[prop]) {
+								matched++;
+							}
+
+							if (matched === Object.entries(lessThanProps).length) {
+								return true;
+							}
+						}
+					}
+					break;
+				case CONDITION.EXCLUDE:
+					for (const excludeProps of conditions[CONDITION.EXCLUDE]){
+						let matched = 0;
+						for(const prop in excludeProps){
+							if(status[prop]){
+								matched ++;
+							}
+						}
+
+						if(matched === 0){
+							return true;
 						}
 					}
 					break;
@@ -138,7 +174,10 @@ class Reactor {
 					if (data.type === rule.attribute.type) {
 						for (const trigger of rule.eventTriggers) {
 							if (
-								Reactor.checkConditions(data, trigger.conditions)
+								Reactor.checkConditions(
+									data,
+									trigger.conditions,
+								)
 							) {
 								const dispatchData = {
 									type: trigger.name,
@@ -166,9 +205,13 @@ class Reactor {
 									) {
 										this._eventTimeoutQueue[trigger.name] =
 											tick + trigger.timeOut;
-										await this._store.dispatch(dispatchData);
+										await this._store.dispatch(
+											dispatchData,
+										);
 									} else if (!trigger.timeOut) {
-										await this._store.dispatch(dispatchData);
+										await this._store.dispatch(
+											dispatchData,
+										);
 									}
 								}
 							}

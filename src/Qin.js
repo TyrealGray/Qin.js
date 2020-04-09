@@ -28,7 +28,7 @@ class Qin {
 
 	async createSandbox(sandboxInfo: { name: string }): Promise<void> {
 		try {
-			return await this._core.desertify(sandboxInfo.name);
+			await this._core.desertify(sandboxInfo.name);
 		} catch (e) {
 			console.error(e);
 		}
