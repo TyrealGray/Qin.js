@@ -63,6 +63,7 @@
     "webpack-dev-server": "3.10.3"
   },
   "dependencies": {
+    "analysis.js": "1.1.0",
     "immer": "^6.0.3",
     "nedb": "^1.8.0",
     "redux": "4.0.5",

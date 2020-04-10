@@ -7,18 +7,17 @@ declare module 'ulid' {
 	declare export var monotonicFactory: any;
 }
 
-declare module 'perf_hooks' {
-	declare export default any;
-	declare export var performance: PerfHooks;
+declare module 'analysis.js' {
+	declare export var Analysis: AnalysisJS;
 }
 
 declare module 'shuoRule.json' {
 	declare export default {[any]:any};
 }
 
-declare type PerfHooks = {
-	now: function;
-}
+declare type AnalysisJS = {
+	getPerformance: (...args:any) => Performance;
+};
 
 declare type ReduxStore = {
 	dispatch: function;

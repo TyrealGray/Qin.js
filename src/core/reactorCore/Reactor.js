@@ -1,5 +1,6 @@
 //@flow
 import { version } from '../../../package.json';
+import { Analysis } from 'analysis.js';
 
 import Shuo from './shuoCore/Shuo';
 import DBClient from './dbCore/DBClient';
@@ -8,7 +9,7 @@ import {
 	storeConnectReactor,
 	storeInit,
 } from './reduxCore/actions/storeActions';
-import { CONDITION } from './shuoCore/conditionType';
+import {checkConditions} from './conditionCheck';
 
 const QINJS_Version = { system: 'QINJS_Version' };
 const REACTOR_CONTENT = { system: 'REACTOR_CONTENT' };
@@ -28,17 +29,14 @@ class Reactor {
 	_timerId: TimeoutID;
 	_storeData: Object;
 	_eventTimeoutQueue: Object;
-	_performanceTicker: PerfHooks | Performance;
+	_performanceTicker: Performance;
 
 	constructor(props: ReactorPropsType) {
 		this._shuo = new Shuo();
 		this._name = props.name;
 		this._eventTimeoutQueue = {};
 		this._debugging = props.debugging || false;
-		this._performanceTicker =
-			typeof performance !== 'undefined'
-				? performance
-				: eval(`require('perf_hooks').performance;`);
+		this._performanceTicker = Analysis.getPerformance();
 	}
 
 	async init(): Promise<void> {
@@ -56,14 +54,16 @@ class Reactor {
 				await this._initReactorChain();
 			}
 
-			if (!(await this._hasContent())) {
-				if (this._debugging) {
-					console.log(
-						'No reactor content found, init reactor content',
-					);
-				}
-				await this._initReactorContent();
-			}
+			await this._initReactorContent();
+
+			// if (!(await this._hasContent())) {
+			// 	if (this._debugging) {
+			// 		console.log(
+			// 			'No reactor content found, init reactor content',
+			// 		);
+			// 	}
+			// 	await this._initReactorContent();
+			// }
 		} catch (e) {
 			console.error(e);
 		}
@@ -75,95 +75,8 @@ class Reactor {
 		});
 	}
 
-	static checkConditions(status: Object, conditions: Object): boolean {
-		for (const condition in conditions) {
-			switch (condition) {
-				case CONDITION.MORE_THAN:
-					for (const moreThanProps of conditions[
-						CONDITION.MORE_THAN
-					]) {
-						let matched = 0;
-						for (const prop in moreThanProps) {
-							if (moreThanProps[prop] < status[prop]) {
-								matched++;
-							}
-
-							if (
-								matched === Object.entries(moreThanProps).length
-							) {
-								return true;
-							}
-						}
-					}
-					break;
-				case CONDITION.EQUAL:
-					for (const equalProps of conditions[CONDITION.EQUAL]) {
-						let matched = 0;
-						for (const prop in equalProps) {
-							if (equalProps[prop] === status[prop]) {
-								matched++;
-							}
-
-							if (matched === Object.entries(equalProps).length) {
-								return true;
-							}
-						}
-					}
-					break;
-				case CONDITION.LESS_THAN:
-					for (const lessThanProps of conditions[CONDITION.LESS_THAN]) {
-						let matched = 0;
-						for (const prop in lessThanProps) {
-							if (lessThanProps[prop] > status[prop]) {
-								matched++;
-							}
-
-							if (matched === Object.entries(lessThanProps).length) {
-								return true;
-							}
-						}
-					}
-					break;
-				case CONDITION.EXCLUDE:
-					for (const excludeProps of conditions[CONDITION.EXCLUDE]){
-						let matched = 0;
-						for(const prop in excludeProps){
-							if(status[prop]){
-								matched ++;
-							}
-						}
-
-						if(matched === 0){
-							return true;
-						}
-					}
-					break;
-				case CONDITION.INCLUDE:
-					for (const includeProps of conditions[CONDITION.INCLUDE]) {
-						let matched = 0;
-						for (const prop in includeProps) {
-							if (status[prop]) {
-								matched++;
-							}
-
-							if (
-								matched === Object.entries(includeProps).length
-							) {
-								return true;
-							}
-						}
-					}
-					break;
-				default:
-					break;
-			}
-		}
-
-		return false;
-	}
-
 	async update(delta: number, tick: number): Promise<void> {
-		// console.log(delta);
+
 		const { terrainInfo } = this._storeData;
 
 		const rules = await this.getRules();
@@ -174,10 +87,7 @@ class Reactor {
 					if (data.type === rule.attribute.type) {
 						for (const trigger of rule.eventTriggers) {
 							if (
-								Reactor.checkConditions(
-									data,
-									trigger.conditions,
-								)
+								checkConditions(data, trigger.conditions)
 							) {
 								const dispatchData = {
 									type: trigger.name,

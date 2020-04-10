@@ -35,6 +35,7 @@ class Shuo {
 		factor.terrains.forEach((t) => {
 			this._content.terrainInfo.dataSet.push({
 				...t.attribute,
+				eventMap: t.eventMap,
 				qinId: t.attribute.qinId || ulid(),
 			});
 		});

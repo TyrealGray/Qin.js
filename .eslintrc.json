@@ -39,7 +39,8 @@
     ]
   },
   "globals": {
-    "PerfHooks": true,
+    "AnalysisJS": true,
+    "function": true,
     "TimeoutID": true,
     "ReduxStore": true
   }
