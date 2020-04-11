@@ -1,6 +1,6 @@
 {
   "name": "qin-renderer.js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A sandbox game engine renderer for qin.js",
   "main": "bin/qin-renderer.js",
   "scripts": {
@@ -67,6 +67,6 @@
   "dependencies": {
     "download": "6.2.5",
     "pixi.js": "5.2.1",
-    "qin.js": "^0.1.11"
+    "qin.js": "^0.1.12"
   }
 }
