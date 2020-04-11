@@ -23,3 +23,5 @@ script:
 cache:
   directories:
   - "./node_modules"
+  - "./packages/qin.js/node_modules"
+  - "./packages/qin-renderer.js/node_modules"
