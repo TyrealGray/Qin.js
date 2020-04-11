@@ -1,16 +1,1 @@
-{
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "useBuiltIns": "usage",
-        "corejs": "3"
-      }
-    ],
-    "@babel/preset-flow"
-  ],
-  "plugins": [
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread"
-  ]
-}
+{ "extends": "../../.babelrc" }

@@ -1,12 +1,51 @@
 {
   "name": "root",
   "private": true,
+  "prettier": {
+    "useTabs": true,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "parser": "flow"
+  },
   "scripts": {
+    "build": "lerna exec -- npm run build",
+    "doc": "jsdoc ./ -c ./jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R ./README.md -r -d docs",
+    "flow": "flow",
+    "jsdoc": "jsdoc",
+    "linkall": "lerna exec -- npm i && lerna link",
+    "lint": "lerna exec -- npm run lint",
     "qin": "cd packages/qin.js && npm run dev-core",
     "renderer": "cd packages/qin-renderer.js && npm run dev",
+    "test": "lerna exec -- npm run test",
+    "unit-testing": "lerna exec -- npm run unit-testing",
     "webqin": "cd packages/qin.js && npm run dev"
   },
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "@babel/cli": "7.8.4",
+    "@babel/core": "7.8.7",
+    "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "7.8.3",
+    "@babel/polyfill": "7.8.7",
+    "@babel/preset-env": "7.8.7",
+    "@babel/preset-flow": "7.8.3",
+    "@babel/register": "7.8.6",
+    "@pixi/jsdoc-template": "2.5.1",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.0.6",
+    "core-js": "3.6.0",
+    "eslint": "5.16.0",
+    "flow-bin": "^0.122.0",
+    "jest": "^25.3.0",
+    "jsdoc": "^3.6.3",
+    "jsdoc-babel": "^0.5.0",
+    "lerna": "^3.20.2",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.4",
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11",
+    "webpack-dev-server": "3.10.3"
   }
 }

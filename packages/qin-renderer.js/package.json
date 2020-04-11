@@ -6,7 +6,6 @@
   "scripts": {
     "build": "babel ./src -d bin --copy-files",
     "dev": "webpack-dev-server --open --config config/webpack.config.js",
-    "doc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
     "download-assets": "node script/downloadAssets.js",
     "flow": "flow",
     "lint": "eslint ./src",
@@ -28,42 +27,11 @@
   "bugs": {
     "url": "https://github.com/TyrealGray/Qin.js/issues"
   },
-  "prettier": {
-    "useTabs": true,
-    "tabWidth": 4,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": true,
-    "arrowParens": "always",
-    "parser": "flow"
-  },
   "engines": {
     "node": ">=10.0.0",
     "npm": ">=6.0.0"
   },
   "homepage": "https://github.com/TyrealGray/Qin.js/packages/qin-renderer.js#readme",
-  "devDependencies": {
-    "@babel/cli": "7.8.4",
-    "@babel/core": "7.8.7",
-    "@babel/plugin-proposal-class-properties": "7.8.3",
-    "@babel/plugin-proposal-object-rest-spread": "7.8.3",
-    "@babel/polyfill": "7.8.7",
-    "@babel/preset-env": "7.8.7",
-    "@babel/preset-flow": "7.8.3",
-    "@pixi/jsdoc-template": "2.5.1",
-    "babel-eslint": "^10.0.3",
-    "babel-loader": "8.0.4",
-    "core-js": "3.6.0",
-    "eslint": "5.16.0",
-    "flow-bin": "^0.120.0",
-    "jest": "^25.3.0",
-    "jsdoc": "3.6.4",
-    "jsdoc-babel": "0.5.0",
-    "prettier": "1.18.2",
-    "webpack": "4.42.1",
-    "webpack-cli": "3.3.11",
-    "webpack-dev-server": "3.10.3"
-  },
   "dependencies": {
     "download": "6.2.5",
     "pixi.js": "5.2.1",

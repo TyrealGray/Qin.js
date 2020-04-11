@@ -1,5 +1,8 @@
 {
   "plugins": ["node_modules/jsdoc-babel"],
+  "source": {
+    "excludePattern": "(node_modules|docs|bin|flow|test)"
+  },
   "babel": {
     "babelrc": false,
     "presets": [
@@ -9,5 +12,11 @@
   },
   "templates": {
     "applicationName": "Qin"
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["packages/*/src"]
+    }
   }
 }
