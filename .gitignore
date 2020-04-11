@@ -1,5 +1,5 @@
 #node.js
 node_modules/*
 /.idea
-bin/*
+bin
 QINJS_*_DB

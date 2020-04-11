@@ -1,0 +1,13 @@
+{
+  "plugins": ["node_modules/jsdoc-babel"],
+  "babel": {
+    "babelrc": false,
+    "presets": [
+      "@babel/preset-flow"
+    ],
+    "plugins": ["@babel/plugin-proposal-class-properties", "@babel/plugin-proposal-object-rest-spread"]
+  },
+  "templates": {
+    "applicationName": "QinRenderer"
+  }
+}

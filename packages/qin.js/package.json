@@ -1,0 +1,73 @@
+{
+  "name": "qin.js",
+  "version": "0.1.11",
+  "description": "A gaming sandbox engine written in JavaScript",
+  "main": "bin/Qin.js",
+  "scripts": {
+    "build": "babel ./src -d bin --copy-files",
+    "dev": "webpack-dev-server --open --config config/webpack.config.js",
+    "dev-core": "nodemon script/devCore.js",
+    "doc": "./node_modules/.bin/jsdoc src -c ./docs/jsdoc.json -t ./node_modules/@pixi/jsdoc-template -R README.md -r -d docs",
+    "flow": "flow",
+    "lint": "eslint ./src",
+    "lint-fix": "eslint ./src --fix",
+    "prepublishOnly": "npm run build",
+    "test": "npm run unit-testing && npm run lint && npm run flow check && npm run build",
+    "unit-testing": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TyrealGray/Qin.js.git"
+  },
+  "author": "TyrealGray",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/TyrealGray/Qin.js/issues"
+  },
+  "prettier": {
+    "useTabs": true,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "parser": "flow"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
+  "homepage": "https://github.com/TyrealGray/Qin.js#readme",
+  "devDependencies": {
+    "@babel/cli": "7.8.4",
+    "@babel/core": "7.8.7",
+    "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "7.8.3",
+    "@babel/polyfill": "7.8.7",
+    "@babel/preset-env": "7.8.7",
+    "@babel/preset-flow": "7.8.3",
+    "@babel/register": "7.8.6",
+    "@pixi/jsdoc-template": "2.5.1",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "core-js": "3.6.0",
+    "eslint": "5.16.0",
+    "flow-bin": "^0.120.0",
+    "jest": "^25.3.0",
+    "jsdoc": "^3.6.3",
+    "jsdoc-babel": "^0.5.0",
+    "nodemon": "^2.0.0",
+    "prettier": "1.18.2",
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11",
+    "webpack-dev-server": "3.10.3"
+  },
+  "dependencies": {
+    "analysis.js": "1.1.0",
+    "immer": "^6.0.3",
+    "nedb": "^1.8.0",
+    "redux": "4.0.5",
+    "remote-redux-devtools": "0.5.16",
+    "ulid": "^2.3.0"
+  }
+}
