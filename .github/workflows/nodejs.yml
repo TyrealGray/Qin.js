@@ -25,8 +25,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci && npm i lerna -g
-    - run: lerna exec -- npm test
+    - run: npm ci && npm i lerna -g && lerna exec -- npm ci
+    - run: lerna exec --scope ${{ matrix.packages-name }} -- npm test
     - name: Test & publish code coverage
       uses: paambaati/codeclimate-action@v2.5.6
       env:
