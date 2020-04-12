@@ -17,7 +17,6 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
-        packages-name: ['qin.js', 'qin-renderer.js']
 
     steps:
     - uses: actions/checkout@v2
@@ -25,11 +24,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci && npm i lerna -g && lerna exec -- npm ci
+    - run: npm ci && lerna exec -- npm ci
     - name: Test & publish code coverage
       uses: paambaati/codeclimate-action@v2.5.6
       env:
         CC_TEST_REPORTER_ID: a042520e622d465494e99073b0fa5fffe183440e3f6739880b9e687fd418aef8
       with:
-        coverageCommand: lerna exec --scope ${{ matrix.packages-name }} -- npm test
-        coverageLocations: "${{github.workspace}}/packages/${{ matrix.packages-name }}/coverage/clover.xml:clover"
+        coverageCommand: npm test
+        coverageLocations: "${{github.workspace}}/coverage/lcov.info:lcov"
