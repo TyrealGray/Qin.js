@@ -26,8 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: cd ./packages/qin.js && npm ci && npm tet
-    - run: cd ./packages/qin-renderer.js && npm ci && npm test
+    - run: cd ./packages/${{ matrix.packages-name }} && npm ci && npm test
       env:
         CI: true
     - name: Test & publish code coverage
