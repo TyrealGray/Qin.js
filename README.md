@@ -1,10 +1,9 @@
 <p align="center"><img height="100px" width="100px" src="https://raw.githubusercontent.com/TyrealGray/Qin.js/master/qin.png"></p>
 
 # Qin.js
+![Node.js CI](https://github.com/TyrealGray/Qin.js/workflows/Node.js%20CI/badge.svg?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1821d05332d3649f6a02/maintainability)](https://codeclimate.com/github/TyrealGray/Qin.js/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1821d05332d3649f6a02/test_coverage)](https://codeclimate.com/github/TyrealGray/Qin.js/test_coverage)
-[![Build Status](https://travis-ci.com/TyrealGray/Qin.js.svg?branch=master)](https://travis-ci.com/TyrealGray/Qin.js) 
-
 A gaming sandbox engine written in Redux
 
 ### Using remoteredux-standalone to debug

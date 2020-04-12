@@ -16,7 +16,6 @@
     "flow": "flow",
     "istanbul": "istanbul",
     "jsdoc": "jsdoc",
-    "lerna": "lerna",
     "linkall": "lerna exec -- npm i && lerna link",
     "lint": "lerna exec -- npm run lint",
     "qin": "cd packages/qin.js && npm run dev-core",
