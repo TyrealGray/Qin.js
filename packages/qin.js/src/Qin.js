@@ -7,11 +7,15 @@ type QinPropsType = {
 	height: number,
 	width: number,
 	element: HTMLElement,
-	debugging: boolean,
+	debugging?: boolean,
+};
+
+type SandboxInfoType = {
+	name: string,
 };
 
 /**
- * class for creating Qin instance
+ * a class for creating Qin instance
  */
 class Qin {
 	_core: QinCore;
@@ -19,14 +23,19 @@ class Qin {
 	/**
 	 * create Qin instance
 	 * @param props {Object} QinPropsType
-	 * @param props.element {HTMLElement} html element to let Qin knows where to add canvas
 	 * @param props.debugging {boolean} turn on debugging
 	 */
 	constructor(props: QinPropsType) {
-		this._core = new QinCore({ debugging: props.debugging });
+		this._core = new QinCore({ debugging: props?.debugging ?? false });
 	}
 
-	async createSandbox(sandboxInfo: { name: string }): Promise<void> {
+	/**
+	 * create/load sandbox from local or browser's indexDB
+	 * @param sandboxInfo {Object} SandboxInfoType
+	 * @param sandboxInfo.name {string} name of sandbox you want to create
+	 * @returns {Promise<void>}
+	 */
+	async createSandbox(sandboxInfo: SandboxInfoType): Promise<void> {
 		try {
 			await this._core.desertify(sandboxInfo.name);
 		} catch (e) {
@@ -34,6 +43,10 @@ class Qin {
 		}
 	}
 
+	/**
+	 * start sandbox engine, remember to call function createSandbox first
+	 * @returns {Promise<void>}
+	 */
 	async start(): Promise<void> {
 		try {
 			await this._core.start();
@@ -42,6 +55,9 @@ class Qin {
 		}
 	}
 
+	/**
+	 * stop sandbox engine
+	 */
 	stop(): void {
 		try {
 			this._core.stop();

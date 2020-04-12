@@ -6,12 +6,20 @@ type QinSandBoxPropsType = {
 	debugging?: boolean,
 };
 
+/**
+ * a class for handle process rules and data qin.js engine
+ */
 class QinSandbox {
 	_reactor: Reactor;
 	_debugging: boolean;
 
+	/**
+	 * create QinSandbox instance
+	 * @param props {Object} QinSandBoxPropsType
+	 * @param props.debugging {boolean} set sandbox running as debug mode if it's true
+	 */
 	constructor(props: QinSandBoxPropsType) {
-		this._debugging = props.debugging || false;
+		this._debugging = props?.debugging ?? false;
 	}
 
 	async init(name: string): Promise<void> {
@@ -40,9 +48,13 @@ class QinSandbox {
 
 	async _initReactor(name: string): Promise<void> {
 		this._reactor = new Reactor({ name: name, debugging: this._debugging });
-		await this._reactor.init();
+		await this._reactor._init();
 	}
 
+	/**
+	 * loading extra rule in sandbox
+	 * @param extra {Object} shuo rules json object
+	 */
 	loadExtra(extra: Object) {
 		this._reactor.loadExtra(extra);
 	}

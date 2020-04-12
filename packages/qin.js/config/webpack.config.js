@@ -8,7 +8,6 @@ module.exports = {
 		filename: 'qin.js',
 		path: path.resolve(__dirname, '../'),
 	},
-	externals: ['perf_hooks'],
 	module: {
 		rules: [
 			{
@@ -27,8 +26,6 @@ module.exports = {
 						'@babel/preset-flow',
 					],
 					plugins: [
-						'@babel/plugin-proposal-class-properties',
-						'@babel/plugin-proposal-object-rest-spread',
 					],
 				},
 			},

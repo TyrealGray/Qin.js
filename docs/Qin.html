@@ -62,6 +62,14 @@
             
             <ul class="methods itemMembers">
             
+            <span class="subtitle">Methods</span>
+            
+                <li class="parent  " data-name="Qin#createSandbox"><a href="Qin.html#createSandbox">createSandbox</a></li>
+            
+                <li class="parent  " data-name="Qin#start"><a href="Qin.html#start">start</a></li>
+            
+                <li class="parent  " data-name="Qin#stop"><a href="Qin.html#stop">stop</a></li>
+            
             </ul>
             
             <ul class="events itemMembers">
@@ -138,6 +146,46 @@
             
         </li>
     
+        <li class="item" data-name="QinCore">
+            <span class="title  ">
+                
+                
+                    <a href="QinCore.html">QinCore</a>
+                
+            </span>
+            
+            <ul class="members itemMembers">
+            
+            </ul>
+            
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li class="parent  " data-name="QinCore#desertify"><a href="QinCore.html#desertify">desertify</a></li>
+            
+                <li class="parent  " data-name="QinCore#setSandBox"><a href="QinCore.html#setSandBox">setSandBox</a></li>
+            
+                <li class="parent  " data-name="QinCore#start"><a href="QinCore.html#start">start</a></li>
+            
+                <li class="parent  " data-name="QinCore#stop"><a href="QinCore.html#stop">stop</a></li>
+            
+            </ul>
+            
+            <ul class="events itemMembers">
+            
+            </ul>
+            
+        </li>
+    
         <li class="item" data-name="QinPawn">
             <span class="title  ">
                 
@@ -202,6 +250,40 @@
             
         </li>
     
+        <li class="item" data-name="QinSandbox">
+            <span class="title  ">
+                
+                
+                    <a href="QinSandbox.html">QinSandbox</a>
+                
+            </span>
+            
+            <ul class="members itemMembers">
+            
+            </ul>
+            
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li class="parent  " data-name="QinSandbox#loadExtra"><a href="QinSandbox.html#loadExtra">loadExtra</a></li>
+            
+            </ul>
+            
+            <ul class="events itemMembers">
+            
+            </ul>
+            
+        </li>
+    
         <li class="item" data-name="QinStageAgent">
             <span class="title  ">
                 
@@ -246,6 +328,50 @@
             
         </li>
     
+        <li class="item" data-name="Reactor">
+            <span class="title  ">
+                
+                
+                    <a href="Reactor.html">Reactor</a>
+                
+            </span>
+            
+            <ul class="members itemMembers">
+            
+            </ul>
+            
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li class="parent  " data-name="Reactor#getData"><a href="Reactor.html#getData">getData</a></li>
+            
+                <li class="parent  " data-name="Reactor#getRules"><a href="Reactor.html#getRules">getRules</a></li>
+            
+                <li class="parent  " data-name="Reactor#loadExtra"><a href="Reactor.html#loadExtra">loadExtra</a></li>
+            
+                <li class="parent  " data-name="Reactor#start"><a href="Reactor.html#start">start</a></li>
+            
+                <li class="parent  " data-name="Reactor#stop"><a href="Reactor.html#stop">stop</a></li>
+            
+                <li class="parent  " data-name="Reactor#syncStoreToDBCore"><a href="Reactor.html#syncStoreToDBCore">syncStoreToDBCore</a></li>
+            
+            </ul>
+            
+            <ul class="events itemMembers">
+            
+            </ul>
+            
+        </li>
+    
     </ul>
 </div>
 
@@ -262,7 +388,7 @@
         <h2>Qin
         </h2>
         
-            <div class="class-description">class for creating Qin instance</div>
+            <div class="class-description">a class for creating Qin instance</div>
         
     </div>
 </header>  
@@ -367,29 +493,6 @@
 	
         <tr>
             
-                <td class="name"><code>element</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">HTMLElement</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                html element to let Qin knows where to add canvas</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
                 <td class="name"><code>debugging</code></td>
             
             
@@ -476,6 +579,374 @@
     
     
     
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl class="list-methods">
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="createSandbox">
+            <a class="share-icon" href="#createSandbox"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                createSandbox
+            </span>
+            <span class="signature">(sandboxInfo)</span><span class="type-signature">Promise.&lt;void></span>
+            
+            <span class="access-signature">async</span>
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        create/load sandbox from local or browser's indexDB
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>sandboxInfo</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                SandboxInfoType
+                
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                name of sandbox you want to create</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+            </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Promise.&lt;void>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="start">
+            <a class="share-icon" href="#start"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                start
+            </span>
+            <span class="signature">()</span><span class="type-signature">Promise.&lt;void></span>
+            
+            <span class="access-signature">async</span>
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        start sandbox engine, remember to call function createSandbox first
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Promise.&lt;void>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="stop">
+            <a class="share-icon" href="#stop"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                stop
+            </span>
+            <span class="signature">()</span>
+            
+            
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        stop sandbox engine
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
     
     
     
@@ -494,7 +965,7 @@
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Sun Apr 12 2020 00:30:47 GMT+0100 (British Summer Time)
+                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Sun Apr 12 2020 17:41:19 GMT+0100 (British Summer Time)
             </div>
         </footer>
     </div>

@@ -1,6 +1,6 @@
-import QinCore from './src/core/QinCore';
+import { Qin } from './src/Qin';
 
-const core = new QinCore({debugging:true});
-core.desertify('qindb').then(async ()=>{
-	await core.start();
+const qin = new Qin();
+qin.createSandbox({ name: 'qindb' }).then(async () => {
+	await qin.start();
 });

@@ -17,9 +17,12 @@ const SHUO_RULE = { system: 'SHUO_RULE' };
 
 type ReactorPropsType = {
 	name: string,
-	debugging?: boolean,
+	debugging: boolean,
 };
 
+/**
+ * a class for reacting all events with shou rules when they trigger in update function
+ */
 class Reactor {
 	_name: string;
 	_debugging: boolean;
@@ -31,19 +34,25 @@ class Reactor {
 	_eventTimeoutQueue: Object;
 	_performanceTicker: Performance;
 
+	/**
+	 * class Reactor constructor function
+	 * @param props {Object} ReactorPropsType
+	 * @param props.name {string} name of the reactor
+	 * @param props.debugging {boolean} set to be debugging mode when it's true
+	 */
 	constructor(props: ReactorPropsType) {
 		this._shuo = new Shuo();
 		this._name = props.name;
 		this._eventTimeoutQueue = {};
-		this._debugging = props.debugging || false;
+		this._debugging = props.debugging;
 		this._performanceTicker = Analysis.getPerformance();
 	}
 
-	async init(): Promise<void> {
+	async _init(): Promise<void> {
 		try {
 			this._initShuo();
 			this._initDB();
-			this._initRedux(this._debugging);
+			this._initRedux();
 
 			if (!(await this._isSameVersion())) {
 				if (this._debugging) {
@@ -69,13 +78,16 @@ class Reactor {
 		}
 	}
 
+	/**
+	 * synchronize redux data to DB
+	 */
 	syncStoreToDBCore(): void {
 		this._store.subscribe(() => {
 			this._storeData = this._store.getState();
 		});
 	}
 
-	async update(delta: number, tick: number): Promise<void> {
+	async _update(delta: number, tick: number): Promise<void> {
 
 		const { terrainInfo } = this._storeData;
 
@@ -132,28 +144,35 @@ class Reactor {
 		});
 
 		this._timerId = setTimeout(async () => {
-			await this.update(
+			await this._update(
 				this._performanceTicker.now() - tick,
 				this._performanceTicker.now(),
 			);
 		}, 50);
 	}
 
+	/**
+	 * start reactor update
+	 * @returns {Promise<void>}
+	 */
 	async start(): Promise<void> {
 		try {
 			this._storeData = await this.getData();
+			await this._store.dispatch(storeConnectReactor(this._storeData));
+
 			this.syncStoreToDBCore();
 
 			this._timerId = setTimeout(async () => {
-				await this.update(0, 0);
+				await this._update(0, 0);
 			}, 50);
-
-			await this._store.dispatch(storeConnectReactor(this._storeData));
 		} catch (e) {
 			console.error(e);
 		}
 	}
 
+	/**
+	 * stop reactor
+	 */
 	stop(): void {
 		try {
 			clearTimeout(this._timerId);
@@ -162,16 +181,24 @@ class Reactor {
 		}
 	}
 
-	_initRedux(debugging: boolean): void {
-		this._store = initStore(debugging);
+	_initRedux(): void {
+		this._store = initStore(this._debugging);
 		this._store.dispatch(storeInit());
 	}
 
+	/**
+	 * return all the redux data in reactor content
+	 * @returns {Promise<Object>}
+	 */
 	async getData(): Promise<Object> {
 		const data = await this._dbCore.queryOne(REACTOR_CONTENT);
 		return data.value;
 	}
 
+	/**
+	 * get all the shou rules
+	 * @returns {Promise<Object>}
+	 */
 	async getRules(): Promise<Object> {
 		const rules = await this._dbCore.queryOne(SHUO_RULE);
 		return rules.value;
@@ -227,6 +254,10 @@ class Reactor {
 		}
 	}
 
+	/**
+	 * load extra shou rules
+	 * @param extra {Object}
+	 */
 	loadExtra(extra: Object) {
 		this._shuo.loadExtra(extra);
 	}

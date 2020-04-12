@@ -17,12 +17,12 @@ class QinStageAgent {
 		this._controller = props.controller;
 		this._terrain = null;
 		this._layerAgent = null;
-	}
 
-	TERRAIN_LAYER_INDEX = 0;
-	ACTOR_LAYER_INDEX = 1;
-	UI_LAYER_INDEX = 2;
-	MOUSE_LAYER_INDEX = 3;
+		this.TERRAIN_LAYER_INDEX = 0;
+		this.ACTOR_LAYER_INDEX = 1;
+		this.UI_LAYER_INDEX = 2;
+		this.MOUSE_LAYER_INDEX = 3;
+	}
 
 	/**
 	 * init stage
