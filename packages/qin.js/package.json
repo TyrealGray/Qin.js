@@ -32,6 +32,7 @@
     "analysis.js": "1.1.0",
     "immer": "^6.0.3",
     "nedb": "^1.8.0",
+    "perlin.js": "^1.0.0",
     "redux": "4.0.5",
     "remote-redux-devtools": "0.5.16",
     "ulid": "^2.3.0"
