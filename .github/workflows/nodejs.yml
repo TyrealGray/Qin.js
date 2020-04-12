@@ -32,4 +32,4 @@ jobs:
         CC_TEST_REPORTER_ID: a042520e622d465494e99073b0fa5fffe183440e3f6739880b9e687fd418aef8
       with:
         coverageCommand: lerna exec --scope ${{ matrix.packages-name }} -- npm test
-        coverageLocations: "${{github.workspace}}/packages/${{ matrix.packages-name }}/coverage/clover.xml"
+        coverageLocations: "${{github.workspace}}/packages/${{ matrix.packages-name }}/coverage/clover.xml:clover"
