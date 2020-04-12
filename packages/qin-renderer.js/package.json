@@ -13,7 +13,7 @@
     "postinstall": "npm run download-assets",
     "prepublishOnly": "npm run build",
     "test": "npm run unit-testing && npm run lint && npm run build",
-    "unit-testing": "jest"
+    "unit-testing": "jest --collectCoverage"
   },
   "repository": {
     "type": "git",
