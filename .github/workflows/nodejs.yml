@@ -1,0 +1,39 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+        packages-name: ['qin.js', 'qin-renderer.js']
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: lerna exec -- npm i
+    - run: lerna exec -- npm test
+      env:
+        CI: true
+    - name: Test & publish code coverage
+      uses: paambaati/codeclimate-action@v2.5.6
+      env:
+        CC_TEST_REPORTER_ID: a042520e622d465494e99073b0fa5fffe183440e3f6739880b9e687fd418aef8
+      with:
+        coverageCommand: npm run coverage
+        coverageLocations: "${{github.workspace}}/packages/${{ matrix.packages-name }}/coverage/clover.xml"
