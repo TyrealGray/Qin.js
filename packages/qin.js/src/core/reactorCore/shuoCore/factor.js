@@ -66,7 +66,7 @@ export default {
 		{
 			attribute: {
 				type: 'terrain',
-				height: 8,
+				height: 0,
 				width: 8,
 				altitudeMax: 99,
 				altitudeMin: 3,
@@ -96,7 +96,7 @@ export default {
 					name: 'RAIN_BIG',
 					type: 'weather',
 					conditions: {
-						[CONDITION.MORE_THAN]: [{height: 4}],
+						[CONDITION.EXCLUDE]: [{height: true, re:true}],
 					},
 					discardOthers: true,
 					rate: 0.9,

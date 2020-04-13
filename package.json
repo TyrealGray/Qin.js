@@ -22,7 +22,7 @@
     "renderer": "cd packages/qin-renderer.js && npm run dev",
     "test": "lerna exec -- npm run test",
     "test-ci": "lerna exec -- npm run test && istanbul report",
-    "unit-testing": "lerna exec -- npm run unit-testing",
+    "ut": "lerna exec -- npm run unit-testing",
     "webqin": "cd packages/qin.js && npm run dev"
   },
   "devDependencies": {

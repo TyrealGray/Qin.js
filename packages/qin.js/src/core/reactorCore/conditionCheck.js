@@ -1,92 +1,60 @@
-import {CONDITION} from './shuoCore/conditionType';
+//@flow
+import { CONDITION } from './shuoCore/conditionType';
+import { CONDITION_CHECK } from './shuoCore/conditionCheckType';
+
+export const checkCondition = (status: Object, conditions: Object, condition: string, checkCallback: (Object, Object) => boolean): boolean => {
+	for (const expectConditionProps of conditions[
+		condition
+		]) {
+		let matched = 0;
+		for (const prop in expectConditionProps) {
+			if (checkCallback(expectConditionProps[prop], status[prop])) {
+				matched++;
+			}
+
+			if (
+				matched === Object.entries(expectConditionProps).length
+			) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+};
 
 export const checkConditions = (status: Object, conditions: Object): boolean => {
-    for (const condition in conditions) {
-        switch (condition) {
-            case CONDITION.MORE_THAN:
-                for (const moreThanProps of conditions[
-                    CONDITION.MORE_THAN
-                    ]) {
-                    let matched = 0;
-                    for (const prop in moreThanProps) {
-                        if (moreThanProps[prop] < status[prop]) {
-                            matched++;
-                        }
+	for (const condition in conditions) {
+		switch (condition) {
+			case CONDITION.MORE_THAN:
+				if(checkCondition(status, conditions, CONDITION.MORE_THAN, CONDITION_CHECK.MORE_THAN)){
+					return true;
+				}
+				break;
+			case CONDITION.EQUAL:
+				if(checkCondition(status, conditions, CONDITION.EQUAL, CONDITION_CHECK.EQUAL)){
+					return true;
+				}
+				break;
+			case CONDITION.LESS_THAN:
+				 if(checkCondition(status, conditions, CONDITION.LESS_THAN, CONDITION_CHECK.LESS_THAN)){
+				 	return true;
+				 }
+				 break;
+			case CONDITION.EXCLUDE:
+				if(checkCondition(status, conditions, CONDITION.EXCLUDE, CONDITION_CHECK.EXCLUDE)){
+					return true;
+				}
+				break;
+			case CONDITION.INCLUDE:
+				if(checkCondition(status, conditions, CONDITION.INCLUDE, CONDITION_CHECK.INCLUDE)){
+					return true;
+				}
+				break;
+			default:
+				break;
+		}
+	}
 
-                        if (
-                            matched === Object.entries(moreThanProps).length
-                        ) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case CONDITION.EQUAL:
-                for (const equalProps of conditions[CONDITION.EQUAL]) {
-                    let matched = 0;
-                    for (const prop in equalProps) {
-                        if (equalProps[prop] === status[prop]) {
-                            matched++;
-                        }
-
-                        if (matched === Object.entries(equalProps).length) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case CONDITION.LESS_THAN:
-                for (const lessThanProps of conditions[
-                    CONDITION.LESS_THAN
-                    ]) {
-                    let matched = 0;
-                    for (const prop in lessThanProps) {
-                        if (lessThanProps[prop] > status[prop]) {
-                            matched++;
-                        }
-
-                        if (
-                            matched === Object.entries(lessThanProps).length
-                        ) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case CONDITION.EXCLUDE:
-                for (const excludeProps of conditions[CONDITION.EXCLUDE]) {
-                    let matched = 0;
-                    for (const prop in excludeProps) {
-                        if (status[prop]) {
-                            matched++;
-                        }
-                    }
-
-                    if (matched === 0) {
-                        return true;
-                    }
-                }
-                break;
-            case CONDITION.INCLUDE:
-                for (const includeProps of conditions[CONDITION.INCLUDE]) {
-                    let matched = 0;
-                    for (const prop in includeProps) {
-                        if (status[prop]) {
-                            matched++;
-                        }
-
-                        if (
-                            matched === Object.entries(includeProps).length
-                        ) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    return false;
+	return false;
 };
