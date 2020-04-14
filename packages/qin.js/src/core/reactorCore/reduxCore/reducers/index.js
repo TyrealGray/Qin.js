@@ -1,9 +1,18 @@
 import { storeInfo } from './storeInfo';
 import { characterInfo } from './characterInfo';
-import { terrainInfo } from './terrainInfo';
+import { terrainInfo, terrainInfoContent } from './terrainInfo';
+import { gameInfo, gameInfoContent } from './gameInfo';
 
-export {
+const reducers = {
+	gameInfo,
 	characterInfo,
 	storeInfo,
 	terrainInfo,
 };
+
+const shouContent = {
+	...terrainInfoContent,
+	...gameInfoContent,
+};
+
+export { reducers, shouContent };

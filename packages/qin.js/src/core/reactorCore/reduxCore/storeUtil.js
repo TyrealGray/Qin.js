@@ -1,8 +1,8 @@
 //@flow
 import { createStore, combineReducers } from 'redux';
 import devToolsEnhancer from 'remote-redux-devtools';
-import * as reducers from './reducers/index';
+import { reducers } from './reducers';
 
 export function initStore(isDebugRedux: boolean): ReduxStore {
-	return createStore(combineReducers(reducers), devToolsEnhancer({realtime: isDebugRedux, port:1029}));
+	return createStore(combineReducers(reducers), devToolsEnhancer({ realtime: isDebugRedux, port: 1029 }));
 }

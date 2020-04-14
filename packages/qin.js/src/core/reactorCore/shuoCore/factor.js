@@ -96,7 +96,7 @@ export default {
 					name: 'RAIN_BIG',
 					type: 'weather',
 					conditions: {
-						[CONDITION.EXCLUDE]: [{height: true, re:true}],
+						[CONDITION.EXCLUDE]: [{none:true}],
 					},
 					discardOthers: true,
 					rate: 0.9,

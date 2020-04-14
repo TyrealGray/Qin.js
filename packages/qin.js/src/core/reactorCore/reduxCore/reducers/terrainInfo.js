@@ -1,6 +1,6 @@
 import produce from 'immer';
-import {STORE_CONNECT_REACTOR} from '../actions/actionTypes';
-import {REACTION} from '../../shuoCore/reactionType';
+import { STORE_CONNECT_REACTOR } from '../actions/actionTypes';
+import { REACTION } from '../../shuoCore/reactionType';
 
 const initialState = {
 	dataSet: [],
@@ -23,6 +23,8 @@ const processReaction = (reactions, data) => {
 	return data;
 };
 
+export const terrainInfoContent = { terrainInfo: initialState };
+
 export const terrainInfo = (state = initialState, action) =>
 	produce(state, draft => {
 		switch (action.type) {
@@ -30,10 +32,10 @@ export const terrainInfo = (state = initialState, action) =>
 				return action.payload.terrainInfo;
 		}
 
-		const {type, triggerBy, triggerTo} = action;
+		const { type, triggerBy, triggerTo } = action;
 		draft.dataSet.forEach((data, index) => {
 			if (data.eventMap[type]) {
-				const {onlyDirect, isAny, types, triggers, blockers} = data.eventMap[type];
+				const { onlyDirect, isAny, types, triggers, blockers } = data.eventMap[type];
 				if (
 					(onlyDirect && triggerTo?.qinId !== data.qinId)
 					|| blockers.includes(triggerBy?.qinId)

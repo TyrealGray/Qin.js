@@ -1,5 +1,7 @@
 //@flow
+import { shouContent } from '../reduxCore/reducers';
 import { monotonicFactory } from 'ulid';
+import randomSeed from './randomSeed';
 
 import factor from './factor';
 
@@ -8,14 +10,7 @@ class Shuo {
 	_rule: Object;
 
 	constructor(props: any) {
-		this._content = {
-			characterInfo: {
-				dataSet: [],
-			},
-			terrainInfo: {
-				dataSet: [],
-			},
-		};
+		this._content = shouContent;
 		this._rule = null;
 	}
 
@@ -23,14 +18,17 @@ class Shuo {
 		const ulid = monotonicFactory();
 		//TODO decode factor object to content
 		this._rule = factor.rules;
-		factor.characters.forEach((c) => {
-			this._content.characterInfo.dataSet.push({
-				qinId: ulid(),
-				type:'character',
-				name: c.displayName,
-				coordinates: c.coordinates,
-			});
-		});
+
+		this._content.gameInfo.seed = randomSeed.getSeed();
+
+		// factor.characters.forEach((c) => {
+		// 	this._content.characterInfo.dataSet.push({
+		// 		qinId: ulid(),
+		// 		type: 'character',
+		// 		name: c.displayName,
+		// 		coordinates: c.coordinates,
+		// 	});
+		// });
 
 		factor.terrains.forEach((t) => {
 			this._content.terrainInfo.dataSet.push({

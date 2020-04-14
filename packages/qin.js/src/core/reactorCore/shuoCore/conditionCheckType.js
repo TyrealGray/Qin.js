@@ -9,9 +9,9 @@ export const CONDITION_CHECK = {
 		return expectCondition > actualData;
 	},
 	INCLUDE: (expectCondition: Object, actualData: Object) => {
-		return typeof actualData !== 'undefined';
+		return typeof actualData !== 'undefined' && actualData !== null;
 	},
 	EXCLUDE: (expectCondition: Object, actualData: Object) => {
-		return typeof actualData === 'undefined';
+		return typeof actualData === 'undefined' || actualData === null;
 	},
 };
