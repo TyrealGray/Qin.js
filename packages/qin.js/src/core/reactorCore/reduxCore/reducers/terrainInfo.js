@@ -1,26 +1,9 @@
 import produce from 'immer';
 import { STORE_CONNECT_REACTOR } from '../actions/actionTypes';
-import { REACTION } from '../../shuoCore/reactionType';
+import { processReaction } from '../../processReaction';
 
 const initialState = {
 	dataSet: [],
-};
-
-const processReaction = (reactions, data) => {
-	for (const reaction of reactions) {
-		switch (reaction.type) {
-			case REACTION.ADD:
-				data[reaction.attribute] += reaction.value;
-				break;
-			// case REACTION.MAYBE_ADD:
-			// 	if(randomCheck(seed)){
-			// 		data[reaction.props] += reaction.value;
-			// 	}
-			// 	break;
-			//...
-		}
-	}
-	return data;
 };
 
 export const terrainInfoContent = { terrainInfo: initialState };
@@ -32,7 +15,7 @@ export const terrainInfo = (state = initialState, action) =>
 				return action.payload.terrainInfo;
 		}
 
-		const { type, triggerBy, triggerTo } = action;
+		const { type, triggerBy, triggerTo, stamp } = action;
 		draft.dataSet.forEach((data, index) => {
 			if (data.eventMap[type]) {
 				const { onlyDirect, isAny, types, triggers, blockers } = data.eventMap[type];
@@ -45,11 +28,11 @@ export const terrainInfo = (state = initialState, action) =>
 				}
 				/* reaction -> e.g: [
 					{type:ADD, attribute:'hp', value: 100 },
-					{type:MAYBE_ADD, attribute:'mp', rate: 0.9 , value: 0 },
+					{type:MAYBE_ADD, attribute:'mp', rate: [0.8, 0.9] , value: 0 },
 				] */
 				const reactions = data.eventMap[type].reactions;
 				// processReaction is a function in common util
-				draft.dataSet[index] = processReaction(reactions, data);
+				draft.dataSet[index] = processReaction(stamp, reactions, data);
 			}
 		});
 	});

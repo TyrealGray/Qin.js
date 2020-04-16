@@ -81,6 +81,4 @@ class RandomSeed {
 
 const instance = new RandomSeed();
 
-Object.freeze(instance);
-
 export default instance;

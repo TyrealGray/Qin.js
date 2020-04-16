@@ -89,7 +89,7 @@ class Reactor {
 
 	async _update(delta: number, tick: number): Promise<void> {
 
-		const { terrainInfo } = this._storeData;
+		const { terrainInfo, gameInfo } = this._storeData;
 
 		const rules = await this.getRules();
 
@@ -104,6 +104,7 @@ class Reactor {
 								const dispatchData = {
 									type: trigger.name,
 									playload: { triggerBy: data },
+									stamp: {time: tick, seed: gameInfo.seed},
 								};
 								const rate = Math.random();
 								if (rate > trigger.rate) {

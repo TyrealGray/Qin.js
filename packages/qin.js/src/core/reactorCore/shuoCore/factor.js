@@ -81,6 +81,11 @@ export default {
 					reactions: [{
 						type: REACTION.ADD, attribute: 'temperature',
 						value: -1,
+					},{
+						type: REACTION.MAYBE_ADD,
+						attribute: 'temperature',
+						value: +0.5,
+						rate: [0.8,0.9],
 					}],
 				},
 			},
