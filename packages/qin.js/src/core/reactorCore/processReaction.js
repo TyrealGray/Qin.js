@@ -3,14 +3,17 @@ import Perlin from 'perlin.js';
 import { REACTION } from './shuoCore/reactionType';
 import randomSeed from './shuoCore/randomSeed';
 
-const checkChanceByStamp = (stamp, reaction):boolean => {
+const checkChanceByStamp = (data, stamp, reaction):boolean => {
 	randomSeed.setSeed(stamp.seed);
 	const seedNumber = randomSeed.getSeedNumber();
-	Perlin.seed(seedNumber);
-	const noise = Perlin.simplex2(reaction.rate[0] * stamp.time, reaction.rate[1] * stamp.time);
-	console.log('seedNumber',seedNumber,'noise', noise, 'tick', stamp.time);
+	randomSeed.setSeed(data.qinId);
+	const randomNumber = randomSeed.random();
+	Perlin.seed(randomNumber);
+	const noise = Perlin.perlin3(seedNumber, randomNumber, stamp.time.toFixed(2));
 
-	return (noise > reaction.rate[0] && noise < reaction.rate[1]);
+	const chance = (noise + 1.0).toFixed(2);
+
+	return (chance <= reaction.rate);
 };
 
 export const processReaction = (stamp: {seed: string, time: number}, reactions:Object, data: Object):Object => {
@@ -21,8 +24,8 @@ export const processReaction = (stamp: {seed: string, time: number}, reactions:O
 				data[reaction.attribute] += reaction.value;
 				break;
 			case REACTION.MAYBE_ADD:
-				if(checkChanceByStamp(stamp, reaction)){
-					data[reaction.props] += reaction.value;
+				if(checkChanceByStamp(data, stamp, reaction)){
+					data[reaction.attribute] += reaction.value;
 				}
 				break;
 		}

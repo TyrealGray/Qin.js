@@ -62,7 +62,7 @@ class RandomSeed {
 	 * @param max {number} maximum of the random will return
 	 * @returns {number}
 	 */
-	random(min: number, max: number): number{
+	random(min?: number, max?: number): number{
 		let _max = max ?? 1;
 		let _min = min ?? 0;
 

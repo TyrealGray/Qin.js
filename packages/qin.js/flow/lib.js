@@ -10,6 +10,8 @@ declare module 'ulid' {
 declare module 'perlin.js' {
 	declare export default any;
 	declare export var simplex2: any;
+	declare export var perlin2: any;
+	declare export var perlin3: any;
 }
 
 declare module 'analysis.js' {

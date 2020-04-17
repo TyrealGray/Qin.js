@@ -31,7 +31,7 @@ class Reactor {
 	_dbCore: DBClient;
 	_timerId: TimeoutID;
 	_storeData: Object;
-	_eventTimeoutQueue: Object;
+	_eventTriggerLimitQueue: Object;
 	_performanceTicker: Performance;
 
 	/**
@@ -43,7 +43,7 @@ class Reactor {
 	constructor(props: ReactorPropsType) {
 		this._shuo = new Shuo();
 		this._name = props.name;
-		this._eventTimeoutQueue = {};
+		this._eventTriggerLimitQueue = {};
 		this._debugging = props.debugging;
 		this._performanceTicker = Analysis.getPerformance();
 	}
@@ -98,40 +98,42 @@ class Reactor {
 				for (const rule of rules) {
 					if (data.type === rule.attribute.type) {
 						for (const trigger of rule.eventTriggers) {
+							const conditionInfo = checkConditions(data, trigger.conditions);
 							if (
-								checkConditions(data, trigger.conditions)
+								conditionInfo
 							) {
 								const dispatchData = {
 									type: trigger.name,
 									playload: { triggerBy: data },
 									stamp: {time: tick, seed: gameInfo.seed},
+									conditionInfo,
 								};
 								const rate = Math.random();
 								if (rate > trigger.rate) {
 									if (
-										trigger.timeOut &&
-										!this._eventTimeoutQueue[trigger.name]
+										trigger.triggerLimit &&
+										!this._eventTriggerLimitQueue[trigger.name]
 									) {
-										this._eventTimeoutQueue[
+										this._eventTriggerLimitQueue[
 											trigger.name
 										] = 0;
 									}
 
 									if (
-										this._eventTimeoutQueue[
+										this._eventTriggerLimitQueue[
 											trigger.name
 										] !== undefined &&
 										tick >
-											this._eventTimeoutQueue[
+											this._eventTriggerLimitQueue[
 												trigger.name
 											]
 									) {
-										this._eventTimeoutQueue[trigger.name] =
-											tick + trigger.timeOut;
+										this._eventTriggerLimitQueue[trigger.name] =
+											tick + trigger.triggerLimit;
 										await this._store.dispatch(
 											dispatchData,
 										);
-									} else if (!trigger.timeOut) {
+									} else if (!trigger.triggerLimit) {
 										await this._store.dispatch(
 											dispatchData,
 										);
