@@ -7,7 +7,7 @@ declare module 'ulid' {
 	declare export var monotonicFactory: any;
 }
 
-declare module 'Perlin.js' {
+declare module 'perlin.js' {
 	declare export default any;
 	declare export var simplex2: any;
 }

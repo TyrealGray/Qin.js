@@ -1,5 +1,5 @@
 //@flow
-import Perlin from 'Perlin.js';
+import Perlin from 'perlin.js';
 import { REACTION } from './shuoCore/reactionType';
 import randomSeed from './shuoCore/randomSeed';
 
