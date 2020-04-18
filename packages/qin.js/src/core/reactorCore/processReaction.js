@@ -5,13 +5,13 @@ import randomSeed from './shuoCore/randomSeed';
 
 const checkChanceByStamp = (data, stamp, reaction):boolean => {
 	randomSeed.setSeed(stamp.seed);
-	const seedNumber = randomSeed.getSeedNumber();
+	const randomBySeed = randomSeed.random();
 	randomSeed.setSeed(data.qinId);
 	const randomNumber = randomSeed.random();
 	Perlin.seed(randomNumber);
-	const noise = Perlin.perlin3(seedNumber, randomNumber, stamp.time.toFixed(2));
+	const noise = Perlin.perlin3(randomBySeed, randomNumber, stamp.time.toFixed(2));
 
-	const chance = (noise + 1.0).toFixed(2);
+	const chance = ((noise + 1.0) / 2.0).toFixed(2);
 
 	return (chance <= reaction.rate);
 };

@@ -1,15 +1,17 @@
 //@flow
 import { version } from '../../../package.json';
 import { Analysis } from 'analysis.js';
+import Perlin from 'perlin.js';
 
 import Shuo from './shuoCore/Shuo';
+import randomSeed from './shuoCore/randomSeed';
 import DBClient from './dbCore/DBClient';
 import { initStore } from './reduxCore/storeUtil';
 import {
 	storeConnectReactor,
 	storeInit,
 } from './reduxCore/actions/storeActions';
-import {checkConditions} from './conditionCheck';
+import { checkConditions } from './conditionCheck';
 
 const QINJS_Version = { system: 'QINJS_Version' };
 const REACTOR_CONTENT = { system: 'REACTOR_CONTENT' };
@@ -88,7 +90,6 @@ class Reactor {
 	}
 
 	async _update(delta: number, tick: number): Promise<void> {
-
 		const { terrainInfo, gameInfo } = this._storeData;
 
 		const rules = await this.getRules();
@@ -98,48 +99,53 @@ class Reactor {
 				for (const rule of rules) {
 					if (data.type === rule.attribute.type) {
 						for (const trigger of rule.eventTriggers) {
-							const conditionInfo = checkConditions(data, trigger.conditions);
 							if (
-								conditionInfo
+								trigger.triggerLimit &&
+								!this._eventTriggerLimitQueue[trigger.name]
 							) {
-								const dispatchData = {
-									type: trigger.name,
-									playload: { triggerBy: data },
-									stamp: {time: tick, seed: gameInfo.seed},
-									conditionInfo,
-								};
-								const rate = Math.random();
-								if (rate > trigger.rate) {
-									if (
-										trigger.triggerLimit &&
-										!this._eventTriggerLimitQueue[trigger.name]
-									) {
-										this._eventTriggerLimitQueue[
-											trigger.name
-										] = 0;
-									}
-
-									if (
-										this._eventTriggerLimitQueue[
-											trigger.name
-										] !== undefined &&
-										tick >
-											this._eventTriggerLimitQueue[
-												trigger.name
-											]
-									) {
-										this._eventTriggerLimitQueue[trigger.name] =
-											tick + trigger.triggerLimit;
-										await this._store.dispatch(
-											dispatchData,
-										);
-									} else if (!trigger.triggerLimit) {
-										await this._store.dispatch(
-											dispatchData,
-										);
-									}
-								}
+								this._eventTriggerLimitQueue[trigger.name] = 0;
 							}
+
+							if (
+								this._eventTriggerLimitQueue[trigger.name] !== undefined &&
+								tick <
+								this._eventTriggerLimitQueue[trigger.name]
+							) {
+								continue;
+							}
+
+							randomSeed.setSeed(gameInfo.seed);
+							const seedNumber = randomSeed.getSeedNumber();
+							const randomBySeed = randomSeed.random();
+							const noise = Perlin.perlin3(randomBySeed, seedNumber, tick);
+							const chance = ((noise + 1.0) / 2.0).toFixed(2);
+
+							if (trigger.triggerLimit) {
+								this._eventTriggerLimitQueue[trigger.name] =
+									tick + trigger.triggerLimit;
+							}
+
+							if (trigger.rate < chance) {
+								continue;
+							}
+
+							const conditionInfo = checkConditions(
+								data,
+								trigger.conditions,
+							);
+
+							if (!conditionInfo) {
+								continue;
+							}
+
+							const dispatchData = {
+								type: trigger.name,
+								triggerBy: data,
+								stamp: { time: tick, seed: gameInfo.seed },
+								conditionInfo,
+							};
+
+							await this._store.dispatch(dispatchData);
 						}
 					}
 				}

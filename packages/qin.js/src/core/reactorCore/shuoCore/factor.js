@@ -79,13 +79,10 @@ export default {
 					triggers: [],
 					blockers: [],
 					reactions: [{
-						type: REACTION.ADD, attribute: 'temperature',
-						value: -1,
-					},{
 						type: REACTION.MAYBE_ADD,
 						attribute: 'temperature',
-						value: 0.5,
-						rate: 0.8,
+						value: -0.5,
+						rate: 0.6,
 					}],
 				},
 			},
@@ -103,8 +100,9 @@ export default {
 					conditions: {
 						[CONDITION.EXCLUDE]: [{none:true}],
 					},
+					duration: 5000,
 					discardOthers: true,
-					rate: 0.9,
+					rate: 0.5,
 					triggerLimit: 5000,
 				},
 			],

@@ -21,8 +21,8 @@ export const terrainInfo = (state = initialState, action) =>
 				const { onlyDirect, isAny, types, triggers, blockers } = data.eventMap[type];
 				if (
 					(onlyDirect && triggerTo?.qinId !== data.qinId)
-					|| blockers.includes(triggerBy?.qinId)
-					|| (!isAny && !types.includes(triggerBy?.type) && !triggers.includes(triggerBy?.qinId))
+					|| blockers.includes(triggerBy.qinId)
+					|| (!isAny && !types.includes(triggerBy.type) && !triggers.includes(triggerBy.qinId))
 				) {
 					return;
 				}
@@ -31,7 +31,6 @@ export const terrainInfo = (state = initialState, action) =>
 					{type:MAYBE_ADD, attribute:'mp', rate: [0.8, 0.9] , value: 0 },
 				] */
 				const reactions = data.eventMap[type].reactions;
-				// processReaction is a function in common util
 				draft.dataSet[index] = processReaction(stamp, reactions, data);
 			}
 		});
