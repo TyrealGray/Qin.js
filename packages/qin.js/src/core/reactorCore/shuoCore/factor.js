@@ -1,5 +1,5 @@
-import {CONDITION} from './conditionType';
-import {REACTION} from './reactionType';
+import { CONDITION } from './conditionType';
+import { REACTION } from './reactionType';
 
 export default {
 	characters: [
@@ -72,23 +72,40 @@ export default {
 				altitudeMin: 3,
 				temperature: 0,
 			},
-			eventMap:{
+			eventMap: {
 				RAIN_BIG: {
-					onlyDirect: false, isAny: true,
+					onlyDirect: false,
+					isAny: true,
 					types: [],
 					triggers: [],
 					blockers: [],
-					reactions: [{
-						type: REACTION.MAYBE_ADD,
-						attribute: 'temperature',
-						value: -0.5,
-						rate: 0.6,
-					}],
+					reactions: [
+						{
+							type: REACTION.MAYBE_ADD,
+							attribute: 'temperature',
+							value: -0.5,
+							rate: 0.6,
+						},
+					],
 				},
 			},
 		},
 	],
 	rules: [
+		{
+			attribute: {
+				type: 'npc',
+			},
+			eventTriggers: [
+				{
+					name: 'LOCATION',
+					type: 'information',
+					conditions: {
+						[CONDITION.INCLUDE]: [{ position: true }],
+					},
+				},
+			],
+		},
 		{
 			attribute: {
 				type: 'terrain',
@@ -98,7 +115,7 @@ export default {
 					name: 'RAIN_BIG',
 					type: 'weather',
 					conditions: {
-						[CONDITION.EXCLUDE]: [{none:true}],
+						[CONDITION.EXCLUDE]: [{ none: true }],
 					},
 					duration: 5000,
 					discardOthers: true,

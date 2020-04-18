@@ -3,7 +3,7 @@ import Perlin from 'perlin.js';
 import { REACTION } from './shuoCore/reactionType';
 import randomSeed from './shuoCore/randomSeed';
 
-const checkChanceByStamp = (data, stamp, reaction):boolean => {
+const checkChance = (data, stamp, reaction):boolean => {
 	randomSeed.setSeed(stamp.seed);
 	const randomBySeed = randomSeed.random();
 	randomSeed.setSeed(data.qinId);
@@ -24,8 +24,16 @@ export const processReaction = (stamp: {seed: string, time: number}, reactions:O
 				data[reaction.attribute] += reaction.value;
 				break;
 			case REACTION.MAYBE_ADD:
-				if(checkChanceByStamp(data, stamp, reaction)){
+				if(checkChance(data, stamp, reaction)){
 					data[reaction.attribute] += reaction.value;
+				}
+				break;
+			case REACTION.SET:
+				data[reaction.attribute] = reaction.value;
+				break;
+			case REACTION.MAYBE_SET:
+				if(checkChance(data, stamp, reaction)){
+					data[reaction.attribute] = reaction.value;
 				}
 				break;
 		}
