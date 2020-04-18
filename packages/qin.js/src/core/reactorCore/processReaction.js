@@ -3,7 +3,7 @@ import Perlin from 'perlin.js';
 import { REACTION } from './shuoCore/reactionType';
 import randomSeed from './shuoCore/randomSeed';
 
-const checkChance = (data, stamp, reaction):boolean => {
+export const checkChance = (data, stamp, reaction):boolean => {
 	randomSeed.setSeed(stamp.seed);
 	const randomBySeed = randomSeed.random();
 	randomSeed.setSeed(data.qinId);
