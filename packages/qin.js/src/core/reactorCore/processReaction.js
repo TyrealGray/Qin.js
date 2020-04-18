@@ -3,13 +3,14 @@ import Perlin from 'perlin.js';
 import { REACTION } from './shuoCore/reactionType';
 import randomSeed from './shuoCore/randomSeed';
 
-export const checkChance = (data, stamp, reaction):boolean => {
+export const checkChance = (data: Object, stamp: Object, reaction: Object):boolean => {
 	randomSeed.setSeed(stamp.seed);
 	const randomBySeed = randomSeed.random();
+	const randomByDate = randomSeed.randomByDate();
 	randomSeed.setSeed(data.qinId);
-	const randomNumber = randomSeed.random();
-	Perlin.seed(randomNumber);
-	const noise = Perlin.perlin3(randomBySeed, randomNumber, stamp.time.toFixed(2));
+	const randomByData = randomSeed.random();
+	Perlin.seed(randomByData);
+	const noise = Perlin.perlin3(randomBySeed, randomByDate, stamp.time.toFixed(2));
 
 	const chance = ((noise + 1.0) / 2.0).toFixed(2);
 

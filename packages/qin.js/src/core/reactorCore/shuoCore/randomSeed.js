@@ -77,6 +77,15 @@ class RandomSeed {
 
 		return _min + rnd * (_max - _min);
 	}
+
+	randomByDate(): number {
+		const seed = this._seed;
+		const date = Date.now().toString();
+		this.setSeed(date);
+		const random = this.random();
+		this.setSeed(seed);
+		return random;
+	}
 }
 
 const instance = new RandomSeed();

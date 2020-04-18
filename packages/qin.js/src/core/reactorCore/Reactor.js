@@ -12,6 +12,7 @@ import {
 	storeInit,
 } from './reduxCore/actions/storeActions';
 import { checkConditions } from './conditionCheck';
+import { REACTOR_START, RECORD_EVENT_TIME } from './reduxCore/actions/actionTypes';
 
 const QINJS_Version = { system: 'QINJS_Version' };
 const REACTOR_CONTENT = { system: 'REACTOR_CONTENT' };
@@ -90,7 +91,7 @@ class Reactor {
 	}
 
 	async _update(delta: number, tick: number): Promise<void> {
-		const { terrainInfo, gameInfo } = this._storeData;
+		const { terrainInfo, gameInfo, eventTimeInfo } = this._storeData;
 
 		const rules = await this.getRules();
 
@@ -101,28 +102,37 @@ class Reactor {
 						for (const trigger of rule.eventTriggers) {
 							if (
 								trigger.triggerLimit &&
-								!this._eventTriggerLimitQueue[trigger.name]
+								!eventTimeInfo.dataSet[trigger.name]
 							) {
-								this._eventTriggerLimitQueue[trigger.name] = 0;
+								await this._store.dispatch({
+									type: RECORD_EVENT_TIME,
+									name: trigger.name,
+									time: 0,
+									cycle: trigger.triggerLimit,
+								});
 							}
 
 							if (
-								this._eventTriggerLimitQueue[trigger.name] !== undefined &&
+								eventTimeInfo.dataSet[trigger.name] &&
 								tick <
-								this._eventTriggerLimitQueue[trigger.name]
+								eventTimeInfo.dataSet[trigger.name].time
 							) {
 								continue;
 							}
 
 							randomSeed.setSeed(gameInfo.seed);
-							const seedNumber = randomSeed.getSeedNumber();
 							const randomBySeed = randomSeed.random();
-							const noise = Perlin.perlin3(randomBySeed, seedNumber, tick);
+							const randomByDate = randomSeed.randomByDate();
+							const noise = Perlin.perlin3(randomBySeed, randomByDate, tick);
 							const chance = ((noise + 1.0) / 2.0).toFixed(2);
 
 							if (trigger.triggerLimit) {
-								this._eventTriggerLimitQueue[trigger.name] =
-									tick + trigger.triggerLimit;
+								await this._store.dispatch({
+									type: RECORD_EVENT_TIME,
+									name: trigger.name,
+									time: tick + trigger.triggerLimit,
+									cycle: trigger.triggerLimit,
+								});
 							}
 
 							if (trigger.rate < chance) {
@@ -158,6 +168,8 @@ class Reactor {
 				this._performanceTicker.now(),
 			);
 		}, 50);
+
+
 	}
 
 	/**
@@ -171,9 +183,18 @@ class Reactor {
 
 			this.syncStoreToDBCore();
 
+			await this._store.dispatch({type: REACTOR_START});
+
 			this._timerId = setTimeout(async () => {
 				await this._update(0, 0);
 			}, 50);
+
+			setTimeout(async () => {
+				await this._dbCore.update(REACTOR_CONTENT, {
+					...REACTOR_CONTENT,
+					value: this._storeData,
+				});
+			}, 5000);
 		} catch (e) {
 			console.error(e);
 		}
