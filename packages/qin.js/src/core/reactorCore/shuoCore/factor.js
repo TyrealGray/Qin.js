@@ -2,7 +2,7 @@ import { CONDITION } from './conditionType';
 import { REACTION } from './reactionType';
 
 export default {
-	characters: [
+	npcs: [
 		{
 			npcType: 'HOUYI',
 			displayName: 'houyi',
@@ -98,11 +98,23 @@ export default {
 			},
 			eventTriggers: [
 				{
-					name: 'LOCATION',
-					type: 'information',
+					name: 'NPC_CHECK_AROUND',
+					type: 'npcAction',
+					priority: 0,
 					conditions: {
-						[CONDITION.INCLUDE]: [{ position: true }],
+						[CONDITION.EQUAL]: [{ moving: false }],
 					},
+					triggerLimit: 5000,
+				},
+				{
+					name: 'NPC_GO_AROUND',
+					type: 'npcAction',
+					priority: 0,
+					conditions: {
+						[CONDITION.EQUAL]: [{ moving: false }],
+					},
+					rate: 0.35,
+					triggerLimit: 5000,
 				},
 			],
 		},

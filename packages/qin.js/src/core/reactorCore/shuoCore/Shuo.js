@@ -30,9 +30,10 @@ class Shuo {
 		// 	});
 		// });
 
-		factor.terrains.forEach((t) => {
+		factor.terrains.forEach((t,i) => {
 			this._content.terrainInfo.dataSet.push({
 				...t.attribute,
+				index: i,
 				eventMap: t.eventMap,
 				qinId: t.attribute.qinId || ulid(),
 			});

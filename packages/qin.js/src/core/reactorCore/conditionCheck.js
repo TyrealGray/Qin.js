@@ -15,10 +15,9 @@ export const checkCondition = (
 				matched++;
 				props.push(prop);
 			}
-
-			if (matched === Object.entries(expectConditionProps).length) {
-				return { props, condition };
-			}
+		}
+		if (matched === Object.entries(expectConditionProps).length) {
+			return { props, condition };
 		}
 	}
 

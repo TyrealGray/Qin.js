@@ -97,6 +97,7 @@ class Reactor {
 
 		[terrainInfo].forEach(async (statusInfo) => {
 			for (const data of statusInfo.dataSet) {
+				const eventQueue = [];
 				for (const rule of rules) {
 					if (data.type === rule.attribute.type) {
 						for (const trigger of rule.eventTriggers) {
@@ -155,10 +156,16 @@ class Reactor {
 								conditionInfo,
 							};
 
-							await this._store.dispatch(dispatchData);
+							eventQueue.push(dispatchData);
 						}
 					}
 				}
+
+				//TODO: check rules priority
+				eventQueue.forEach(async (event) => {
+					await this._store.dispatch(event);
+				});
+
 			}
 		});
 
