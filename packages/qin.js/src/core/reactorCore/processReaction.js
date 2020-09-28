@@ -37,6 +37,9 @@ export const processReaction = (stamp: {seed: string, time: number}, reactions:O
 					data[reaction.attribute] = reaction.value;
 				}
 				break;
+			case REACTION.DYNAMIC_ATTR_SET:
+
+				break;
 		}
 	}
 	return data;

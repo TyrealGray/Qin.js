@@ -4,6 +4,26 @@ import { REACTION } from './reactionType';
 export default {
 	npcs: [
 		{
+			attribute: {
+				type: 'npc',
+			},
+			eventMap: {
+				NPC_GO_AROUND: {
+					onlyDirect: false,
+					isAny: true,
+					types: [],
+					triggers: [],
+					blockers: [],
+					reactions: [
+						{
+							type: REACTION.DYNAMIC_ATTR_SET,
+							//TODO: need a dynamic flag to let processReaction.js create a dynamic case for npc to walk around a grid system object
+							attribute: 'temperature',
+							value: -0.5,
+						},
+					],
+				},
+			},
 			npcType: 'HOUYI',
 			displayName: 'houyi',
 			renderSet: {
