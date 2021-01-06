@@ -1,9 +1,9 @@
 //@flow
 import Perlin from 'perlin.js';
-import { REACTION } from './shuoCore/reactionType';
+import { NPC_REACTION, REACTION } from './shuoCore/reactionType';
 import randomSeed from './shuoCore/randomSeed';
 
-export const checkChance = (data: Object, stamp: Object, reaction: Object):boolean => {
+export const checkChance = (data: Object, stamp: {seed: string, time: number}, reaction: Object):boolean => {
 	randomSeed.setSeed(stamp.seed);
 	const randomBySeed = randomSeed.random();
 	const randomByDate = randomSeed.randomByDate();
@@ -15,6 +15,10 @@ export const checkChance = (data: Object, stamp: Object, reaction: Object):boole
 	const chance = ((noise + 1.0) / 2.0).toFixed(2);
 
 	return (chance <= reaction.rate);
+};
+
+const walk = (data: Object):Object => {
+	return data;
 };
 
 export const processReaction = (stamp: {seed: string, time: number}, reactions:Object, data: Object):Object => {
@@ -37,7 +41,7 @@ export const processReaction = (stamp: {seed: string, time: number}, reactions:O
 					data[reaction.attribute] = reaction.value;
 				}
 				break;
-			case REACTION.DYNAMIC_ATTR_SET:
+			case NPC_REACTION.WALK:
 
 				break;
 		}
