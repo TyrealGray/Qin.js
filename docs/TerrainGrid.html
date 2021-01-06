@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Class: QinPawn</title>
+    <title>Class: TerrainGrid</title>
     
     
     
@@ -676,7 +676,7 @@
 </div>
 
     <div class="main">
-        <h1 class="page-title" data-filename="QinPawn.html">Class: QinPawn</h1>
+        <h1 class="page-title" data-filename="TerrainGrid.html">Class: TerrainGrid</h1>
         
 
 
@@ -685,10 +685,10 @@
     
 <header>
     <div class="header content-size">
-        <h2>QinPawn
+        <h2>TerrainGrid
         </h2>
         
-            <div class="class-description">a class for pawn in game that player could control</div>
+            <div class="class-description">class of terrain grid which provide navigation algorithm for terrain</div>
         
     </div>
 </header>  
@@ -702,10 +702,10 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="QinPawn">
-            <a class="share-icon" href="#QinPawn"><span class="glyphicon glyphicon-link"></span></a>
+        <h4 class="name" id="TerrainGrid">
+            <a class="share-icon" href="#TerrainGrid"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
-                new QinPawn
+                new TerrainGrid
             </span>
             <span class="signature">(props)</span>
             
@@ -723,7 +723,7 @@
     
     
     <div class="description">
-        create a pawn in game
+        create a terrain grid
     </div>
     
 
@@ -759,13 +759,63 @@
             
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
             
             
             
             <td class="description last">
                 
-                </td>
+                
+                
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>point</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Coordinates.html">Coordinates</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                position on terrain</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+            </td>
         </tr>
 	
 	
@@ -815,6 +865,12 @@
     
     
     
+        <h3 class="subsection-title">Extends</h3>
+        
+        <ul>
+            <li><a href="Grid.html">Grid</a></li>
+        </ul>
+    
     
     
     
@@ -835,12 +891,12 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="getCharacter">
-            <a class="share-icon" href="#getCharacter"><span class="glyphicon glyphicon-link"></span></a>
+        <h4 class="name" id="convertToCube">
+            <a class="share-icon" href="#convertToCube"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
-                getCharacter
+                convertToCube
             </span>
-            <span class="signature">()</span><span class="type-signature"><a href="QinActor.html">QinActor</a></span>
+            <span class="signature">()</span><span class="type-signature"><a href="Cube.html">Cube</a></span>
             
             
             
@@ -856,7 +912,7 @@
     
     
     <div class="description">
-        get the character instance
+        convert to cube Coordinates system
     </div>
     
 
@@ -917,7 +973,258 @@
             
             <td class="type">
             
-                        <a href="QinActor.html">QinActor</a>
+                        <a href="Cube.html">Cube</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="distanceTo">
+            <a class="share-icon" href="#distanceTo"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                distanceTo
+            </span>
+            <span class="signature">(grid)</span><span class="type-signature">number</span>
+            
+            
+            
+            
+                <span class="access-signature overrides"><a href="Grid.html#distanceTo">overrides</a></span>
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        get distance to cube
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>grid</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Grid.html">Grid</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getNeighbors">
+            <a class="share-icon" href="#getNeighbors"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                getNeighbors
+            </span>
+            <span class="signature">()</span><span class="type-signature">Array</span>
+            
+            
+            
+            
+                <span class="access-signature overrides"><a href="Grid.html#getNeighbors">overrides</a></span>
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        get neighbor grid
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Array
                         
                     
             </td>

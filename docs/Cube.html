@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Class: QinPawn</title>
+    <title>Class: Cube</title>
     
     
     
@@ -676,7 +676,7 @@
 </div>
 
     <div class="main">
-        <h1 class="page-title" data-filename="QinPawn.html">Class: QinPawn</h1>
+        <h1 class="page-title" data-filename="Cube.html">Class: Cube</h1>
         
 
 
@@ -685,10 +685,10 @@
     
 <header>
     <div class="header content-size">
-        <h2>QinPawn
+        <h2>Cube
         </h2>
         
-            <div class="class-description">a class for pawn in game that player could control</div>
+            <div class="class-description">class of a Cube which provide a better navigation algorithm for grids</div>
         
     </div>
 </header>  
@@ -702,12 +702,12 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="QinPawn">
-            <a class="share-icon" href="#QinPawn"><span class="glyphicon glyphicon-link"></span></a>
+        <h4 class="name" id="Cube">
+            <a class="share-icon" href="#Cube"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
-                new QinPawn
+                new Cube
             </span>
-            <span class="signature">(props)</span>
+            <span class="signature">(x, y, z)</span>
             
             
             
@@ -723,7 +723,7 @@
     
     
     <div class="description">
-        create a pawn in game
+        create a cube coordinates system
     </div>
     
 
@@ -754,7 +754,43 @@
 	
         <tr>
             
-                <td class="name"><code>props</code></td>
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>z</code></td>
             
             
             <td class="type">
@@ -835,12 +871,12 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="getCharacter">
-            <a class="share-icon" href="#getCharacter"><span class="glyphicon glyphicon-link"></span></a>
+        <h4 class="name" id="convertToGridCoordinates">
+            <a class="share-icon" href="#convertToGridCoordinates"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
-                getCharacter
+                convertToGridCoordinates
             </span>
-            <span class="signature">()</span><span class="type-signature"><a href="QinActor.html">QinActor</a></span>
+            <span class="signature">()</span><span class="type-signature"><a href="Coordinates.html">Coordinates</a></span>
             
             
             
@@ -856,7 +892,7 @@
     
     
     <div class="description">
-        get the character instance
+        convert self to the offset coordinates system
     </div>
     
 
@@ -917,7 +953,153 @@
             
             <td class="type">
             
-                        <a href="QinActor.html">QinActor</a>
+                        <a href="Coordinates.html">Coordinates</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="distanceTo">
+            <a class="share-icon" href="#distanceTo"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                distanceTo
+            </span>
+            <span class="signature">(cube)</span><span class="type-signature">number</span>
+            
+            
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        get distance to cube
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>cube</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Cube.html">Cube</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
                         
                     
             </td>

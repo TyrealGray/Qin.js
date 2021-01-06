@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Class: QinPawn</title>
+    <title>Class: Grid</title>
     
     
     
@@ -676,7 +676,7 @@
 </div>
 
     <div class="main">
-        <h1 class="page-title" data-filename="QinPawn.html">Class: QinPawn</h1>
+        <h1 class="page-title" data-filename="Grid.html">Class: Grid</h1>
         
 
 
@@ -685,10 +685,10 @@
     
 <header>
     <div class="header content-size">
-        <h2>QinPawn
+        <h2>Grid
         </h2>
         
-            <div class="class-description">a class for pawn in game that player could control</div>
+            <div class="class-description">class of a Grid which provide a navigation algorithm</div>
         
     </div>
 </header>  
@@ -702,10 +702,10 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="QinPawn">
-            <a class="share-icon" href="#QinPawn"><span class="glyphicon glyphicon-link"></span></a>
+        <h4 class="name" id="Grid">
+            <a class="share-icon" href="#Grid"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
-                new QinPawn
+                new Grid
             </span>
             <span class="signature">(props)</span>
             
@@ -723,7 +723,7 @@
     
     
     <div class="description">
-        create a pawn in game
+        Grid's constructor function
     </div>
     
 
@@ -758,6 +758,11 @@
             
             
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
             
@@ -835,12 +840,12 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="getCharacter">
-            <a class="share-icon" href="#getCharacter"><span class="glyphicon glyphicon-link"></span></a>
+        <h4 class="name" id="distanceTo">
+            <a class="share-icon" href="#distanceTo"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
-                getCharacter
+                distanceTo
             </span>
-            <span class="signature">()</span><span class="type-signature"><a href="QinActor.html">QinActor</a></span>
+            <span class="signature">(grid)</span><span class="type-signature">number</span>
             
             
             
@@ -856,7 +861,153 @@
     
     
     <div class="description">
-        get the character instance
+        get distance to cube
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>grid</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Grid.html">Grid</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        number
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getNeighbors">
+            <a class="share-icon" href="#getNeighbors"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                getNeighbors
+            </span>
+            <span class="signature">()</span><span class="type-signature">Array</span>
+            
+            
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        get neighbor grid
     </div>
     
 
@@ -917,7 +1068,7 @@
             
             <td class="type">
             
-                        <a href="QinActor.html">QinActor</a>
+                        Array
                         
                     
             </td>
