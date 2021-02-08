@@ -3,8 +3,5 @@ export const REACTION = {
 	MAYBE_ADD: 'MAYBE_ADD',
 	SET: 'SET',
 	MAYBE_SET: 'MAYBE_SET',
-};
-
-export const NPC_REACTION = {
-	WALK:'WALK',
+	DYNAMIC: 'DYNAMIC',
 };

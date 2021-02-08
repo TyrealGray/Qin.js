@@ -1,6 +1,6 @@
 //@flow
 import Perlin from 'perlin.js';
-import { NPC_REACTION, REACTION } from './shuoCore/reactionType';
+import { REACTION } from './shuoCore/reactionType';
 import randomSeed from './shuoCore/randomSeed';
 
 export const checkChance = (data: Object, stamp: {seed: string, time: number}, reaction: Object):boolean => {
@@ -17,8 +17,10 @@ export const checkChance = (data: Object, stamp: {seed: string, time: number}, r
 	return (chance <= reaction.rate);
 };
 
-const walk = (data: Object):Object => {
-	return data;
+const dynamicReact = (data: Object, reaction):Object => {
+	for(const dynamic of reaction.value){
+		data[reaction.dynamic](data[dynamic]);
+	}
 };
 
 export const processReaction = (stamp: {seed: string, time: number}, reactions:Object, data: Object):Object => {
@@ -41,8 +43,10 @@ export const processReaction = (stamp: {seed: string, time: number}, reactions:O
 					data[reaction.attribute] = reaction.value;
 				}
 				break;
-			case NPC_REACTION.WALK:
-
+			case REACTION.DYNAMIC:
+				if(checkChance(data, stamp, reaction)){
+					dynamicReact(data, reaction, stamp);
+				}
 				break;
 		}
 	}

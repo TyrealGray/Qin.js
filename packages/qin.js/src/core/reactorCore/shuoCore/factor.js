@@ -1,11 +1,15 @@
 import { CONDITION } from './conditionType';
-import { NPC_REACTION, REACTION } from './reactionType';
+import { REACTION } from './reactionType';
 
 export default {
 	npcs: [
 		{
 			attribute: {
 				type: 'npc',
+				relationship:{
+					player:'good',
+					npcs:[{name:'jack', value:'bad'}],
+				},
 			},
 			eventMap: {
 				NPC_GO_AROUND: {
@@ -16,7 +20,8 @@ export default {
 					blockers: [],
 					reactions: [
 						{
-							type: NPC_REACTION.WALK,
+							type: REACTION.DYNAMIC,
+							dynamic:[],
 							//TODO: need a dynamic flag to let processReaction.js create a dynamic case for npc to walk around a grid system object
 							value: -0.5,
 						},
