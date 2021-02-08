@@ -30,7 +30,7 @@
   "homepage": "https://github.com/TyrealGray/Qin.js#readme",
   "dependencies": {
     "analysis.js": "1.1.0",
-    "immer": "^6.0.3",
+    "immer": "^8.0.1",
     "nedb": "^1.8.0",
     "perlin.js": "^1.0.0",
     "redux": "4.0.5",
