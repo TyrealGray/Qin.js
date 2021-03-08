@@ -12,7 +12,7 @@ export default {
 				},
 			},
 			eventMap: {
-				NPC_GO_AROUND: {
+				NPC_CHECK_AROUND: {
 					onlyDirect: false,
 					isAny: true,
 					types: [],
@@ -21,9 +21,13 @@ export default {
 					reactions: [
 						{
 							type: REACTION.DYNAMIC,
-							dynamic:[],
+							dynamic:['testCB','testNewCB'],
 							//TODO: need a dynamic flag to let processReaction.js create a dynamic case for npc to walk around a grid system object
-							value: -0.5,
+							value: {
+								'testCB': ['relationship.player&player'],
+								'testNewCB': ['relationship.npcs&npc'],
+							},
+							rate: 0.5,
 						},
 					],
 				},
@@ -100,7 +104,7 @@ export default {
 					duration: 5000,
 					discardOthers: true,
 					rate: 0.4,
-					triggerLimit: 5000,
+					triggerLimit: 5000, // must have unless we want this event trigger all the time
 				},
 			],
 		},

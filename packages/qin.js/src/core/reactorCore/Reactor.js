@@ -161,7 +161,7 @@ class Reactor {
 					}
 				}
 
-				//TODO: check rules priority
+				//TODO: check rules priority & discardOthers bool to discard same type trigger
 				eventQueue.forEach(async (event) => {
 					await this._store.dispatch(event);
 				});

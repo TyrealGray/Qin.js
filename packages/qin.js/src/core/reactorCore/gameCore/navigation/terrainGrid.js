@@ -3,7 +3,7 @@ import Cube from './cube';
 import Coordinates from './coordinates';
 import Grid from './grid';
 
-import TerrainChain from '../../chain/terrainChain';
+import TerrainChain from './terrainChain';
 
 type TerrainGridPropsType = {
 	point: Coordinates,

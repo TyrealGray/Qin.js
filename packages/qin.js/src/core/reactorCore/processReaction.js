@@ -17,9 +17,28 @@ export const checkChance = (data: Object, stamp: {seed: string, time: number}, r
 	return (chance <= reaction.rate);
 };
 
-const dynamicReact = (data: Object, reaction):Object => {
-	for(const dynamic of reaction.value){
-		data[reaction.dynamic](data[dynamic]);
+const peelPropsStringToAccessor = (propString/* format e.g. xxx.xxx.xx&damage */):Object => {
+	return {
+		paramsName: propString.split('&')[1],
+		peeledPropArray:propString.split('&')[0].split('.'),
+	};
+};
+
+const dynamicReact = (data: Object, reaction:Object, stamp: {seed: string, time: number}):void => {
+	for(const dynamic of reaction.dynamic){
+		let accessor = data;
+		const params = {};
+		for(const prop of reaction.value[dynamic]){
+			const {peeledPropArray, paramsName} = peelPropsStringToAccessor(prop);
+			for (let i = 0; i < peeledPropArray.length; i++) {
+				if(i === peeledPropArray.length - 1){
+					params[paramsName] = accessor[peeledPropArray[i]];
+				} else {
+					accessor = accessor[peeledPropArray[i]];
+				}
+			}
+		}
+		data[dynamic](params);
 	}
 };
 
