@@ -21,20 +21,22 @@ class Shuo {
 
 		this._content.gameInfo.seed = randomSeed.getSeed();
 
-		// factor.characters.forEach((c) => {
-		// 	this._content.characterInfo.dataSet.push({
-		// 		qinId: ulid(),
-		// 		type: 'character',
-		// 		name: c.displayName,
-		// 		coordinates: c.coordinates,
-		// 	});
-		// });
+		factor.npcs.forEach((n,i) => {
+			this._content.npcInfo.dataSet.push({
+				...n.attribute,
+				index: i,
+				eventMap: n.eventMap,
+				dynamicFunction: n.dynamicFunction,
+				qinId: n.attribute.qinId || ulid(),
+			});
+		});
 
 		factor.terrains.forEach((t,i) => {
 			this._content.terrainInfo.dataSet.push({
 				...t.attribute,
 				index: i,
 				eventMap: t.eventMap,
+				dynamicFunction: t.dynamicFunction,
 				qinId: t.attribute.qinId || ulid(),
 			});
 		});

@@ -2,7 +2,7 @@
 import { CONDITION_CHECK } from './shuoCore/conditionCheckType';
 
 export const checkCondition = (
-	status: Object,
+	data: Object,
 	conditions: Object,
 	condition: string,
 	checkCallback: (Object, Object) => boolean,
@@ -11,7 +11,7 @@ export const checkCondition = (
 		let matched = 0;
 		let props = [];
 		for (const prop in expectConditionProps) {
-			if (checkCallback(expectConditionProps[prop], status[prop])) {
+			if (checkCallback(expectConditionProps[prop], data[prop])) {
 				matched++;
 				props.push(prop);
 			}
@@ -25,13 +25,13 @@ export const checkCondition = (
 };
 
 export const checkConditions = (
-	status: Object,
+	data: Object,
 	conditions: Object,
 ): Object | null => {
 
 	for (const condition in conditions) {
 		const trigger = checkCondition(
-			status,
+			data,
 			conditions,
 			condition,
 			CONDITION_CHECK[condition],

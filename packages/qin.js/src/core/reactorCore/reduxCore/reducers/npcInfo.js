@@ -3,7 +3,7 @@ import { STORE_CONNECT_REACTOR } from '../actions/actionTypes';
 import { processReaction } from '../../processReaction';
 
 const initialState = {
-	dataSet:[],
+	dataSet: [],
 };
 
 export const npcInfoContent = { npcInfo: initialState };
@@ -12,9 +12,8 @@ export const npcInfo = (state = initialState, action) =>
 	produce(state, draft => {
 		switch (action.type) {
 			case STORE_CONNECT_REACTOR:
-				return action.payload.characterInfo;
+				return action.payload.npcInfo;
 		}
-
 
 		const { type, triggerBy, triggerTo, stamp } = action;
 		draft.dataSet.forEach((data, index) => {

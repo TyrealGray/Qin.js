@@ -1,10 +1,10 @@
 //@flow
 import { version } from '../../../package.json';
 import { Analysis } from 'analysis.js';
-import Perlin from 'perlin.js';
+// import Perlin from 'perlin.js';
 
 import Shuo from './shuoCore/Shuo';
-import randomSeed from './shuoCore/randomSeed';
+// import randomSeed from './shuoCore/randomSeed';
 import DBClient from './dbCore/DBClient';
 import { initStore } from './reduxCore/storeUtil';
 import {
@@ -13,6 +13,7 @@ import {
 } from './reduxCore/actions/storeActions';
 import { checkConditions } from './conditionCheck';
 import { REACTOR_START, RECORD_EVENT_TIME } from './reduxCore/actions/actionTypes';
+import { checkChanceByTicker } from './processReaction';
 
 const QINJS_Version = { system: 'QINJS_Version' };
 const REACTOR_CONTENT = { system: 'REACTOR_CONTENT' };
@@ -91,11 +92,11 @@ class Reactor {
 	}
 
 	async _update(delta: number, tick: number): Promise<void> {
-		const { terrainInfo, gameInfo, eventTimeInfo } = this._storeData;
+		const { terrainInfo, npcInfo, gameInfo, eventTimeInfo } = this._storeData;
 
 		const rules = await this.getRules();
 
-		[terrainInfo].forEach(async (statusInfo) => {
+		[terrainInfo, npcInfo].forEach(async (statusInfo) => {
 			for (const data of statusInfo.dataSet) {
 				const eventQueue = [];
 				for (const rule of rules) {
@@ -121,11 +122,6 @@ class Reactor {
 								continue;
 							}
 
-							randomSeed.setSeed(gameInfo.seed);
-							const randomBySeed = randomSeed.random();
-							const randomByDate = randomSeed.randomByDate();
-							const noise = Perlin.perlin3(randomBySeed, randomByDate, tick);
-							const chance = ((noise + 1.0) / 2.0).toFixed(2);
 
 							if (trigger.triggerLimit) {
 								await this._store.dispatch({
@@ -136,7 +132,7 @@ class Reactor {
 								});
 							}
 
-							if (trigger.rate < chance) {
+							if(trigger.rate && !checkChanceByTicker({seed: gameInfo.seed, time: tick}, trigger.rate)){
 								continue;
 							}
 

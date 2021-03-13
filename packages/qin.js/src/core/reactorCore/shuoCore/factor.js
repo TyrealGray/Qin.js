@@ -11,6 +11,19 @@ export default {
 					npcs:[{name:'jack', value:'bad'}],
 				},
 			},
+			dynamicFunction:{
+				testCB:`
+				this.relationship.player = params.player;
+				`,
+				testNewCB:`
+				for(const npc of this.relationship.npcs){
+					if(npc.name === params.name){
+						npc.value = params.value;
+						break;
+					}
+				}
+				`,
+			},
 			eventMap: {
 				NPC_CHECK_AROUND: {
 					onlyDirect: false,
@@ -21,11 +34,9 @@ export default {
 					reactions: [
 						{
 							type: REACTION.DYNAMIC,
-							dynamic:['testCB','testNewCB'],
-							//TODO: need a dynamic flag to let processReaction.js create a dynamic case for npc to walk around a grid system object
 							value: {
-								'testCB': ['relationship.player&player'],
-								'testNewCB': ['relationship.npcs&npc'],
+								'testCB': ['player&bad'],
+								'testNewCB': ['name&jack','value&good'],
 							},
 							rate: 0.5,
 						},
@@ -56,7 +67,7 @@ export default {
 							type: REACTION.MAYBE_ADD,
 							attribute: 'temperature',
 							value: -0.5,
-							rate: 0.5,
+							rate: 0.1,
 						},
 					],
 				},
@@ -74,7 +85,7 @@ export default {
 					type: 'npcAction',
 					priority: 0,
 					conditions: {
-						[CONDITION.EQUAL]: [{ moving: false }],
+						[CONDITION.EXCLUDE]: [{ moving: false }],
 					},
 					triggerLimit: 5000,
 				},
