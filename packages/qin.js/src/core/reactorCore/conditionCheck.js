@@ -1,6 +1,12 @@
 //@flow
 import { CONDITION_CHECK } from './shuoCore/conditionCheckType';
 
+export const peelPropsString = (propsString:string) => {
+	return {
+		peeledPropArray: propsString.split('-'),
+	};
+};
+
 export const checkCondition = (
 	data: Object,
 	conditions: Object,
@@ -11,7 +17,14 @@ export const checkCondition = (
 		let matched = 0;
 		let props = [];
 		for (const prop in expectConditionProps) {
-			if (checkCallback(expectConditionProps[prop], data[prop])) {
+			const { peeledPropArray } = peelPropsString(prop);
+
+			let value = data;
+			for (let i = 0; i < peeledPropArray.length; i++) {
+				value = value[peeledPropArray[i]];
+			}
+
+			if (checkCallback(expectConditionProps[prop], value)) {
 				matched++;
 				props.push(prop);
 			}

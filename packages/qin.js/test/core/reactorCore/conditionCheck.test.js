@@ -4,10 +4,10 @@ import { CONDITION_CHECK } from '../../../src/core/reactorCore/shuoCore/conditio
 
 describe('conditionCheck', () => {
 	test('should match (MORE_THAN) condition', () => {
-		let isMatched = checkCondition({ height: 1 }, { [CONDITION.MORE_THAN]: [{ height: 0 }] },
+		let isMatched = checkCondition({data: { height: 1 }}, { [CONDITION.MORE_THAN]: [{ 'data-height': 0 }] },
 			CONDITION.MORE_THAN, CONDITION_CHECK[CONDITION.MORE_THAN]);
 
-		expect(isMatched).toEqual({ 'condition': 'MORE_THAN', 'props': ['height'] });
+		expect(isMatched).toEqual({ 'condition': 'MORE_THAN', 'props': ['data-height'] });
 
 		isMatched = checkCondition({ height: 0 }, { [CONDITION.MORE_THAN]: [{ height: -1 }] },
 			CONDITION.MORE_THAN, CONDITION_CHECK[CONDITION.MORE_THAN]);
@@ -33,15 +33,15 @@ describe('conditionCheck', () => {
 	});
 
 	test('should match (MORE_THAN) condition with one group of the props checks passed', () => {
-		let isMatched = checkCondition({ height: -1, width: 1 }, {
+		let isMatched = checkCondition({data:{ height: -1, width: 1 }}, {
 				[CONDITION.MORE_THAN]: [{
-					height: 0,
-					width: 0.5,
-				}, { width: 0 }],
+					'data-height': 0,
+					'data-width': 0.5,
+				}, { 'data-width': 0 }],
 			},
 			CONDITION.MORE_THAN, CONDITION_CHECK[CONDITION.MORE_THAN]);
 
-		expect(isMatched).toEqual({ 'condition': 'MORE_THAN', 'props': ['width'] });
+		expect(isMatched).toEqual({ 'condition': 'MORE_THAN', 'props': ['data-width'] });
 
 		isMatched = checkCondition({ height: 0, width: -0.5 }, {
 				[CONDITION.MORE_THAN]: [{

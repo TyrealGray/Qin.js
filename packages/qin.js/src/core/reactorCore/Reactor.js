@@ -1,10 +1,8 @@
 //@flow
 import { version } from '../../../package.json';
 import { Analysis } from 'analysis.js';
-// import Perlin from 'perlin.js';
 
 import Shuo from './shuoCore/Shuo';
-// import randomSeed from './shuoCore/randomSeed';
 import DBClient from './dbCore/DBClient';
 import { initStore } from './reduxCore/storeUtil';
 import {

@@ -6,16 +6,16 @@ export default {
 		{
 			attribute: {
 				type: 'npc',
-				relationship:{
-					player:'good',
-					npcs:[{name:'jack', value:'bad'}],
+				relationship: {
+					player: 'good',
+					npcs: [{ name: 'jack', value: 'bad' }],
 				},
 			},
-			dynamicFunction:{
-				testCB:`
+			dynamicFunction: {
+				testCB: `
 				this.relationship.player = params.player;
 				`,
-				testNewCB:`
+				testNewCB: `
 				for(const npc of this.relationship.npcs){
 					if(npc.name === params.name){
 						npc.value = params.value;
@@ -36,7 +36,7 @@ export default {
 							type: REACTION.DYNAMIC,
 							value: {
 								'testCB': ['player&bad'],
-								'testNewCB': ['name&jack','value&good'],
+								'testNewCB': ['name&jack', 'value&good'],
 							},
 							rate: 0.5,
 						},
@@ -53,7 +53,7 @@ export default {
 				width: 8,
 				altitudeMax: 99,
 				altitudeMin: 3,
-				temperature: 0,
+				weather: { temperature: 0 },
 			},
 			eventMap: {
 				RAIN_BIG: {
@@ -65,9 +65,9 @@ export default {
 					reactions: [
 						{
 							type: REACTION.MAYBE_ADD,
-							attribute: 'temperature',
+							attribute: 'weather-temperature',
 							value: -0.5,
-							rate: 0.1,
+							rate: 0.5,
 						},
 					],
 				},
@@ -110,7 +110,7 @@ export default {
 					name: 'RAIN_BIG',
 					type: 'weather',
 					conditions: {
-						[CONDITION.EXCLUDE]: [{ none: true }],
+						[CONDITION.MORE_THAN]: [{ 'weather-temperature': -2 }],
 					},
 					duration: 5000,
 					discardOthers: true,

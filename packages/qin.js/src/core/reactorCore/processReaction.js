@@ -35,10 +35,16 @@ const checkChance = (data: Object, stamp: { seed: string, time: number }, reacti
 	return (roundNoise(noise) <= reaction.rate);
 };
 
-const peelPropsStringToAccessor = (propString/* format e.g. xxx.xxx.xx&damage */): Object => {
+const peelParamsString = (propString/* format e.g. xx&damage */): Object => {
 	return {
 		paramsName: propString.split('&')[0],
 		value: propString.split('&')[1],
+	};
+};
+
+export const peelPropsString = (propsString:string) => {
+	return {
+		peeledPropArray: propsString.split('-'),
 	};
 };
 
@@ -53,7 +59,7 @@ const dynamicReact = (data: Object, reaction: Object, stamp: { seed: string, tim
 	const params = {};
 	for (const dynamic in reaction.value) {
 		for (const prop of reaction.value[dynamic]) {
-			const { value, paramsName } = peelPropsStringToAccessor(prop);
+			const { value, paramsName } = peelParamsString(prop);
 			params[paramsName] = value;
 		}
 	}
@@ -63,24 +69,43 @@ const dynamicReact = (data: Object, reaction: Object, stamp: { seed: string, tim
 	}
 };
 
+const commonReact = (data: Object, reaction: Object, stamp: { seed: string, time: number }): void => {
+	const { peeledPropArray } = peelPropsString(reaction.attribute);
+
+	let value = data;
+	for (let i = 0; i < peeledPropArray.length; i++) {
+		if(peeledPropArray.length - 1 === i) {
+			switch (reaction.type) {
+				case REACTION.ADD:
+					value[peeledPropArray[i]] += reaction.value;
+					break;
+				case REACTION.MAYBE_ADD:
+					if (checkChance(data, stamp, reaction)) {
+						value[peeledPropArray[i]] += reaction.value;
+					}
+					break;
+				case REACTION.SET:
+					value[peeledPropArray[i]] = reaction.value;
+					break;
+				case REACTION.MAYBE_SET:
+					if (checkChance(data, stamp, reaction)) {
+						value[peeledPropArray[i]] = reaction.value;
+					}
+					break;
+			}
+		}
+		value = value[peeledPropArray[i]];
+	}
+};
+
 export const processReaction = (stamp: { seed: string, time: number }, reactions: Object, data: Object): Object => {
 	for (const reaction of reactions) {
 		switch (reaction.type) {
 			case REACTION.ADD:
-				data[reaction.attribute] += reaction.value;
-				break;
 			case REACTION.MAYBE_ADD:
-				if (checkChance(data, stamp, reaction)) {
-					data[reaction.attribute] += reaction.value;
-				}
-				break;
 			case REACTION.SET:
-				data[reaction.attribute] = reaction.value;
-				break;
 			case REACTION.MAYBE_SET:
-				if (checkChance(data, stamp, reaction)) {
-					data[reaction.attribute] = reaction.value;
-				}
+				commonReact(data, reaction, stamp);
 				break;
 			case REACTION.DYNAMIC:
 				if (typeof reaction.rate === 'undefined' || checkChance(data, stamp, reaction)) {
