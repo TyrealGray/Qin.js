@@ -15,7 +15,7 @@ export const npcInfo = (state = initialState, action) =>
 				return action.payload.npcInfo;
 		}
 
-		const { type, triggerBy, triggerTo, stamp } = action;
+		const { type, triggerBy, triggerTo } = action;
 		draft.dataSet.forEach((data, index) => {
 			if (data.eventMap[type]) {
 				const { onlyDirect, isAny, types, triggers, blockers } = data.eventMap[type];
@@ -31,7 +31,7 @@ export const npcInfo = (state = initialState, action) =>
 					{type:MAYBE_ADD, attribute:'mp', rate: 0.9 , value: 0 },
 				] */
 				const reactions = data.eventMap[type].reactions;
-				draft.dataSet[index] = processReaction(stamp, reactions, data);
+				draft.dataSet[index] = processReaction(action, reactions, data);
 			}
 		});
 	});

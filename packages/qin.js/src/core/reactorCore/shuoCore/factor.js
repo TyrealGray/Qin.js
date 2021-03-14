@@ -8,37 +8,31 @@ export default {
 				type: 'npc',
 				relationship: {
 					player: 'good',
-					npcs: [{ name: 'jack', value: 'bad' }],
 				},
 			},
 			dynamicFunction: {
-				testCB: `
-				this.relationship.player = params.player;
-				`,
-				testNewCB: `
-				for(const npc of this.relationship.npcs){
-					if(npc.name === params.name){
-						npc.value = params.value;
-						break;
-					}
+				setRelation: `
+				if(_p._tb > -1){
+				this.relationship.player = 'bad';
+				}
+				else{
+				this.relationship.player = 'good';
 				}
 				`,
 			},
 			eventMap: {
-				NPC_CHECK_AROUND: {
+				RAIN_STOP: {
 					onlyDirect: false,
-					isAny: true,
-					types: [],
+					isAny: false,
+					types: ['terrain'],
 					triggers: [],
 					blockers: [],
 					reactions: [
 						{
 							type: REACTION.DYNAMIC,
 							value: {
-								'testCB': ['player&bad'],
-								'testNewCB': ['name&jack', 'value&good'],
+								'setRelation': ['_tb&weather-temperature'],
 							},
-							rate: 0.5,
 						},
 					],
 				},
@@ -55,6 +49,16 @@ export default {
 				altitudeMin: 3,
 				weather: { temperature: 0 },
 			},
+			dynamicFunction: {
+				rainBig: `
+				this.weather.rain = true;
+				`,
+				rainStop: `
+				if(this.weather.rain && this.weather.temperature <= -2){
+				this.weather.rain = false;
+				}
+				`,
+			},
 			eventMap: {
 				RAIN_BIG: {
 					onlyDirect: false,
@@ -68,6 +72,27 @@ export default {
 							attribute: 'weather-temperature',
 							value: -0.5,
 							rate: 0.5,
+						},
+						{
+							type: REACTION.DYNAMIC,
+							value: {
+								'rainBig': [''],
+							},
+						},
+					],
+				},
+				RAIN_STOP: {
+					onlyDirect: false,
+					isAny: true,
+					types: [],
+					triggers: [],
+					blockers: [],
+					reactions: [
+						{
+							type: REACTION.DYNAMIC,
+							value: {
+								'rainStop': [''],
+							},
 						},
 					],
 				},
@@ -115,6 +140,16 @@ export default {
 					duration: 5000,
 					discardOthers: true,
 					rate: 0.4,
+					triggerLimit: 5000, // must have unless we want this event trigger all the time
+				},
+				{
+					name: 'RAIN_STOP',
+					type: 'weather',
+					conditions: {
+						[CONDITION.EQUAL]: [{ 'weather-rain': true }],
+					},
+					duration: 5000,
+					discardOthers: true,
 					triggerLimit: 5000, // must have unless we want this event trigger all the time
 				},
 			],

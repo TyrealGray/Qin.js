@@ -35,10 +35,49 @@ const checkChance = (data: Object, reaction: Object, stamp: { seed: string, time
 	return (roundNoise(noise) <= reaction.rate);
 };
 
-const peelParamsString = (propString/* format e.g. xx&damage */): Object => {
+const checkDynamicParamFlag = (param: string): boolean => {
+
+	switch (param) {
+		case '_tb':
+			return true;
+	}
+
+	return false;
+};
+
+const getDynamicParamValueByFlag = (param: string, value:string, action:{type: string, triggerBy: any, triggerTo: any, stamp: { seed: string, time: number }}): any => {
+	const { peeledPropArray } = peelPropsString(value);
+
+	switch (param) {
+		case '_tb':
+			return getObjectValueByPeeledPropArray(action.triggerBy, peeledPropArray);
+	}
+
+	return value;
+};
+
+const getObjectValueByPeeledPropArray = (object: any, peeledPropArray: string[]): any => {
+	let value = object;
+	for (let i = 0; i < peeledPropArray.length; i++) {
+		value = value[peeledPropArray[i]];
+	}
+
+	return value;
+};
+
+const peelParamsString = (propString/* format e.g. xx&damage */, action:{type: string, triggerBy: any, triggerTo: any, stamp: { seed: string, time: number }}): Object => {
+
+	const paramsName = propString.split('&')[0];
+
+	let value = propString.split('&')[1];
+	if (checkDynamicParamFlag(paramsName)) {
+		value = getDynamicParamValueByFlag(paramsName, value, action);
+	}
+
+
 	return {
-		paramsName: propString.split('&')[0],
-		value: propString.split('&')[1],
+		paramsName,
+		value,
 	};
 };
 
@@ -50,20 +89,20 @@ export const peelPropsString = (propsString: string) => {
 
 const getConstructDynamic = (callback) => {
 	if (!dynamicFunctionCache[callback]) {
-		dynamicFunctionCache[callback] = eval(`(() => {return function(params){${callback}};})()`);
+		dynamicFunctionCache[callback] = eval(`(() => {return function(_p){${callback}};})()`);
 	}
 	return dynamicFunctionCache[callback];
 };
 
-const dynamicReact = (data: Object, reaction: Object, stamp: { seed: string, time: number }): void => {
-	if (typeof reaction.rate !== 'undefined' && !checkChance(data, reaction, stamp)) {
+const dynamicReact = (data: Object, reaction: Object, action:{type: string, triggerBy: any, triggerTo: any, stamp: { seed: string, time: number }}): void => {
+	if (typeof reaction.rate !== 'undefined' && !checkChance(data, reaction, action.stamp)) {
 		return;
 	}
 
 	const params = {};
 	for (const dynamic in reaction.value) {
 		for (const prop of reaction.value[dynamic]) {
-			const { value, paramsName } = peelParamsString(prop);
+			const { value, paramsName } = peelParamsString(prop, action);
 			params[paramsName] = value;
 		}
 	}
@@ -73,7 +112,7 @@ const dynamicReact = (data: Object, reaction: Object, stamp: { seed: string, tim
 	}
 };
 
-const commonReact = (data: Object, reaction: Object, stamp: { seed: string, time: number }): void => {
+const commonReact = (data: Object, reaction: Object, action:{type: string, triggerBy: any, triggerTo: any, stamp: { seed: string, time: number }}): void => {
 	const { peeledPropArray } = peelPropsString(reaction.attribute);
 
 	let value = data;
@@ -91,7 +130,7 @@ const commonReact = (data: Object, reaction: Object, stamp: { seed: string, time
 			value[accessProp] += reaction.value;
 			break;
 		case REACTION.MAYBE_ADD:
-			if (checkChance(data, reaction, stamp)) {
+			if (checkChance(data, reaction, action.stamp)) {
 				value[accessProp] += reaction.value;
 			}
 			break;
@@ -99,24 +138,24 @@ const commonReact = (data: Object, reaction: Object, stamp: { seed: string, time
 			value[accessProp] = reaction.value;
 			break;
 		case REACTION.MAYBE_SET:
-			if (checkChance(data, reaction, stamp)) {
+			if (checkChance(data, reaction, action.stamp)) {
 				value[accessProp] = reaction.value;
 			}
 			break;
 	}
 };
 
-export const processReaction = (stamp: { seed: string, time: number }, reactions: Object, data: Object): Object => {
+export const processReaction = (action: {type: string, triggerBy: any, triggerTo: any, stamp: { seed: string, time: number }}, reactions: Object, data: Object): Object => {
 	for (const reaction of reactions) {
 		switch (reaction.type) {
 			case REACTION.ADD:
 			case REACTION.MAYBE_ADD:
 			case REACTION.SET:
 			case REACTION.MAYBE_SET:
-				commonReact(data, reaction, stamp);
+				commonReact(data, reaction, action);
 				break;
 			case REACTION.DYNAMIC:
-				dynamicReact(data, reaction, stamp);
+				dynamicReact(data, reaction, action);
 				break;
 		}
 	}
