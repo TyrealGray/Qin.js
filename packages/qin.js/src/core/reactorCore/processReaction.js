@@ -26,7 +26,7 @@ export const checkChanceByTicker = (stamp: { seed: string, time: number }, rate:
 	return (roundNoise(noise) <= rate);
 };
 
-const checkChance = (data: Object, stamp: { seed: string, time: number }, reaction: Object): boolean => {
+const checkChance = (data: Object, reaction: Object, stamp: { seed: string, time: number }): boolean => {
 	const { randomBySeed, randomByDate } = getRandomDataSets(stamp.seed);
 
 	Perlin.seed(getRandomDataSets(data.qinId).randomBySeed);
@@ -42,20 +42,24 @@ const peelParamsString = (propString/* format e.g. xx&damage */): Object => {
 	};
 };
 
-export const peelPropsString = (propsString:string) => {
+export const peelPropsString = (propsString: string) => {
 	return {
 		peeledPropArray: propsString.split('-'),
 	};
 };
 
 const getConstructDynamic = (callback) => {
-	if(!dynamicFunctionCache[callback]) {
+	if (!dynamicFunctionCache[callback]) {
 		dynamicFunctionCache[callback] = eval(`(() => {return function(params){${callback}};})()`);
 	}
 	return dynamicFunctionCache[callback];
 };
 
 const dynamicReact = (data: Object, reaction: Object, stamp: { seed: string, time: number }): void => {
+	if (typeof reaction.rate !== 'undefined' && !checkChance(data, reaction, stamp)) {
+		return;
+	}
+
 	const params = {};
 	for (const dynamic in reaction.value) {
 		for (const prop of reaction.value[dynamic]) {
@@ -63,7 +67,7 @@ const dynamicReact = (data: Object, reaction: Object, stamp: { seed: string, tim
 			params[paramsName] = value;
 		}
 	}
-	for(const funcName in data.dynamicFunction){
+	for (const funcName in data.dynamicFunction) {
 		const func = getConstructDynamic(data.dynamicFunction[funcName]);
 		func.call(data, params);
 	}
@@ -73,28 +77,32 @@ const commonReact = (data: Object, reaction: Object, stamp: { seed: string, time
 	const { peeledPropArray } = peelPropsString(reaction.attribute);
 
 	let value = data;
+	let accessProp = null;
 	for (let i = 0; i < peeledPropArray.length; i++) {
-		if(peeledPropArray.length - 1 === i) {
-			switch (reaction.type) {
-				case REACTION.ADD:
-					value[peeledPropArray[i]] += reaction.value;
-					break;
-				case REACTION.MAYBE_ADD:
-					if (checkChance(data, stamp, reaction)) {
-						value[peeledPropArray[i]] += reaction.value;
-					}
-					break;
-				case REACTION.SET:
-					value[peeledPropArray[i]] = reaction.value;
-					break;
-				case REACTION.MAYBE_SET:
-					if (checkChance(data, stamp, reaction)) {
-						value[peeledPropArray[i]] = reaction.value;
-					}
-					break;
-			}
+		if (peeledPropArray.length - 1 === i) {
+			accessProp = peeledPropArray[i];
+			break;
 		}
 		value = value[peeledPropArray[i]];
+	}
+
+	switch (reaction.type) {
+		case REACTION.ADD:
+			value[accessProp] += reaction.value;
+			break;
+		case REACTION.MAYBE_ADD:
+			if (checkChance(data, reaction, stamp)) {
+				value[accessProp] += reaction.value;
+			}
+			break;
+		case REACTION.SET:
+			value[accessProp] = reaction.value;
+			break;
+		case REACTION.MAYBE_SET:
+			if (checkChance(data, reaction, stamp)) {
+				value[accessProp] = reaction.value;
+			}
+			break;
 	}
 };
 
@@ -108,9 +116,7 @@ export const processReaction = (stamp: { seed: string, time: number }, reactions
 				commonReact(data, reaction, stamp);
 				break;
 			case REACTION.DYNAMIC:
-				if (typeof reaction.rate === 'undefined' || checkChance(data, stamp, reaction)) {
-					dynamicReact(data, reaction, stamp);
-				}
+				dynamicReact(data, reaction, stamp);
 				break;
 		}
 	}

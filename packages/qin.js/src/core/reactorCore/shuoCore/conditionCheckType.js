@@ -1,19 +1,20 @@
+//@flow
 import { CONDITION } from './conditionType';
 
 export const CONDITION_CHECK = {
-	[CONDITION.MORE_THAN]: (expectCondition: Object, actualData: Object) => {
+	[CONDITION.MORE_THAN]: (expectCondition: any, actualData: any) => {
 		return expectCondition < actualData;
 	},
-	[CONDITION.EQUAL]: (expectCondition: Object, actualData: Object) => {
+	[CONDITION.EQUAL]: (expectCondition: any, actualData: any) => {
 		return expectCondition === actualData;
 	},
-	[CONDITION.LESS_THAN]: (expectCondition: Object, actualData: Object) => {
+	[CONDITION.LESS_THAN]: (expectCondition: any, actualData: any) => {
 		return expectCondition > actualData;
 	},
-	[CONDITION.INCLUDE]: (expectCondition: Object, actualData: Object) => {
+	[CONDITION.INCLUDE]: (expectCondition: any, actualData: any) => {
 		return typeof actualData !== 'undefined' && actualData !== null;
 	},
-	[CONDITION.EXCLUDE]: (expectCondition: Object, actualData: Object) => {
+	[CONDITION.EXCLUDE]: (expectCondition: any, actualData: any) => {
 		return typeof actualData === 'undefined' || actualData === null;
 	},
 };
