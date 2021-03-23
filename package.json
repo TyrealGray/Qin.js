@@ -18,6 +18,7 @@
     "jsdoc": "jsdoc",
     "linkall": "lerna exec -- npm i && lerna link",
     "lint": "lerna exec -- npm run lint",
+    "lint:fix": "lerna exec -- npm run lint:fix",
     "qin": "cd packages/qin.js && npm run dev-core",
     "renderer": "cd packages/qin-renderer.js && npm run dev",
     "test": "lerna exec -- npm run test",

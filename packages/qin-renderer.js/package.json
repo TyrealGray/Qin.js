@@ -9,7 +9,7 @@
     "download-assets": "node script/downloadAssets.js",
     "flow": "flow",
     "lint": "eslint ./src",
-    "lint-fix": "eslint ./src --fix",
+    "lint:fix": "eslint ./src --fix",
     "postinstall": "npm run download-assets",
     "prepublishOnly": "npm run build",
     "test": "npm run unit-testing && npm run lint && npm run build",
